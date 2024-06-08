@@ -1,0 +1,186 @@
+body {
+  background: #212121 !important;
+  font-family: "Open Sans", sans-serif !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* Bg */
+.bg-primary-grad {
+  background: linear-gradient(180deg, #fc155c 0%, #4e14a5 100%);
+}
+.bg-seconder-grad {
+  background: linear-gradient(
+    127deg,
+    #fc155c 19.41%,
+    rgba(109, 20, 152, 0.3) 45.05%,
+    rgba(207, 21, 111, 0.75) 74.26%
+  );
+}
+.bg-seconder-grad-performance {
+  background: linear-gradient(180deg, #8b0046 0%, #323031 72.29%);
+}
+
+.bg-third-grad {
+  background: linear-gradient(
+    127deg,
+    rgba(6, 11, 40, 0.94) 19.41%,
+    rgba(10, 14, 35, 0.49) 76.65%
+  );
+}
+
+.bg-black-primary {
+  border-radius: 20px;
+  background: #333031;
+  backdrop-filter: blur(20px);
+}
+
+.bg-super-grey {
+  background-color: #d9d9d9 !important;
+  color: black !important;
+}
+.bg-custom-gray {
+  background-color: #525252 !important;
+}
+
+.bg-purple {
+  background-color: #fc155c !important;
+}
+
+.bg-banfsagi {
+  background-color: #4e14a5 !important;
+}
+
+.bg-green {
+  background-color: #01b574;
+}
+
+.bg-delete {
+  background-color: #ff1733 !important;
+}
+.bg-custom-warning {
+  background-color: #afc13d !important;
+}
+
+.bg-very-red {
+  background-color: #e31a1a;
+}
+.bg-purple-2 {
+  background-color: #7437d0 !important;
+}
+
+/* raduios */
+.rounded-40 {
+  border-radius: 40px !important;
+  -webkit-border-radius: 40px !important;
+  -moz-border-radius: 40px !important;
+  -ms-border-radius: 40px !important;
+  -o-border-radius: 40px !important;
+}
+
+.rounded-20 {
+  border-radius: 20px !important;
+  -webkit-border-radius: 20px !important;
+  -moz-border-radius: 20px !important;
+  -ms-border-radius: 20px !important;
+  -o-border-radius: 20px !important;
+}
+
+.rounded-right-20 {
+  border-radius: 0px 20px 20px 0 !important;
+  -webkit-border-radius: 0px 20px 20px 0 !important;
+  -moz-border-radius: 0px 20px 20px 0 !important;
+  -ms-border-radius: 0px 20px 20px 0 !important;
+  -o-border-radius: 0px 20px 20px 0 !important;
+}
+.rounded-left-20 {
+  border-radius: 20px 0px 0px 20px !important;
+  -webkit-border-radius: 20px 0px 0px 20px !important;
+  -moz-border-radius: 20px 0px 0px 20px !important;
+  -ms-border-radius: 20px 0px 0px 20px !important;
+  -o-border-radius: 20px 0px 0px 20px !important;
+}
+/* Text */
+.text-green {
+  color: #01b574;
+}
+
+.text-bronz {
+  color: #d18030;
+}
+
+.text-grey {
+  color: #a0aec0;
+}
+.text-selver {
+  color: #bfbebe;
+}
+
+.text-purple {
+  color: #fc155c;
+}
+.text-custom-delete {
+  color: #ff1733;
+}
+.text-red {
+  color: #ff0000 !important;
+}
+
+.text-banfsagi {
+  color: #4e14a5;
+}
+.text-banfsagi-2 {
+  color: #a96fff;
+}
+.text-seconde-color {
+  color: #7575ff;
+}
+.text-purple-2 {
+  color: #7437d0;
+}
+
+.text-very-red {
+  color: #e31a1a;
+}
+.text-gold {
+  color: #ffab00;
+}
+.text-custom-yellow {
+  color: #dbff00;
+}
+
+/* Height */
+
+.min-vh-100 {
+  min-height: 100vh;
+}
+/* Width */
+
+.w-fit-content {
+  width: fit-content;
+}
+
+/* Cursor */
+.pointer {
+  cursor: pointer;
+}
+
+.apexcharts-toolbar {
+  display: none !important;
+}
+
+
+
+
+#SvgjsSvg1365{
+  overflow: visible !important;
+}
+
+
+foreignObject{
+  overflow: visible !important;
+
+}

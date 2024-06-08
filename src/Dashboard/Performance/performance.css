@@ -1,0 +1,144 @@
+.performance {
+  border-radius: 20px;
+  backdrop-filter: blur(60px);
+}
+/* Add Gifts */
+.add-gift {
+  position: absolute;
+  font-size: 64px;
+  font-weight: bold;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border: 3px dashed #fff;
+  color: #fff;
+  background: rgb(144, 87, 229, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  border-radius: 10px;
+}
+
+.performance-btns button {
+  background: #323031;
+  width: 356.9px;
+  height: 76px;
+  border-radius: 20px;
+  color: white;
+  font-family: Open Sans;
+  font-size: 20px;
+  font-weight: 700;
+  transition: all 0.3s linear;
+  border: none;
+}
+
+.performance-btns button.active-performance-btn {
+  background: linear-gradient(180deg, #9057e5 0%, #cc475d 100%) !important;
+}
+
+.top-users-streaming {
+  width: 479px;
+  height: 254px;
+  border-radius: 20px;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    rgba(144, 87, 229, 0.5) 0%,
+    rgba(204, 71, 93, 0.5) 100%
+  );
+}
+.top-users-streaming.coins {
+  background: linear-gradient(
+    180deg,
+    rgba(244, 209, 52, 0.5) 0%,
+    rgba(228, 186, 86, 0.5) 100%
+  );
+}
+.top-users-streaming h5 {
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+.top-users-streaming span {
+  font-weight: 700;
+  font-size: 10px;
+  display: block;
+}
+
+.user-details h6 {
+  margin-bottom: 0;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.user-details span {
+  font-weight: 700;
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.users-images {
+  position: relative;
+  height: 88px;
+}
+
+.users-images .first-img {
+  position: absolute;
+  left: 0;
+  z-index: 1;
+}
+.users-images .second-img {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+.users-images .third-img {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
+.bottom-sec {
+  width: 479px;
+  height: 358px;
+  border-radius: 20px;
+  background: #323031;
+}
+
+.bottom-sec h4 {
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 4rem;
+}
+
+.core-bottom .first-core {
+  width: 179px;
+  height: 77px;
+  padding: 16px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fc155c 0%, #4e14a5 100%);
+  color: white;
+}
+.core-bottom .first-core.coins {
+background: linear-gradient(180deg, #EFC627 0%, #BB9A1A 100%);
+
+}
+
+.core-bottom .first-core div {
+  font-size: 14px;
+  font-weight: 600;
+  color: #a0aec0;
+}
+.core-bottom .first-core.coins div {
+  color: white;
+}
+.core-bottom .first-core span {
+  font-size: 18px;
+  font-weight: 700;
+}

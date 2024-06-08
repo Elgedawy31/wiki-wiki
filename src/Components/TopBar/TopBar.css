@@ -1,0 +1,13 @@
+.top-bar{
+  background-color: rgba(55, 55, 55, 0.7);
+}
+.search input::placeholder{
+  color: #fff;
+}
+.search input{
+  color: #fff;
+}
+.search input:valid{
+  border: none;
+  outline: none;
+}

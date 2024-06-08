@@ -1,0 +1,49 @@
+.categories-section {
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 20px;
+  background-color: #00000050;
+}
+
+.categories-section button {
+  width: 244.2px;
+  height: 52px;
+  border-radius: 20px;
+  color: white;
+  background: #323031;
+  border: none;
+  font-size: 20px;
+  font-weight: 700;
+  transition: all 0.3s linear;
+}
+
+.categories-section button:hover {
+  opacity: 0.8;
+}
+
+.logo span {
+  width: 78px;
+  height: 78px;
+  display: block;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+}
+.logo h6 {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.categories-section .collapse-icons img {
+  transition: all 0.3s linear;
+}
+
+.collapse-head {
+  transition: all 0.3s linear;
+  height: 104px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.collapse-content {
+  transition: all 0.3s linear;
+}

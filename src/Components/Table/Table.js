@@ -1,0 +1,129 @@
+import { Button } from "react-bootstrap";
+import "./Table.css";
+import { Link, useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import userAvatar from "../../Assets/UserPage/avatar.png";
+import { ImgsUrl } from "../../Api/Api";
+export default function Table(props) {
+  const navigation = useNavigate();
+  return (
+    <div>
+      {props.showSpotted && (
+        <h5 className="text-white fw-bold mb-0">
+          Spotted by WIKI WIKI Machines
+        </h5>
+      )}
+      <div
+        className="text-white text-start custom-table"
+        style={{ overflowX: "scroll" }}
+      >
+        <div
+          className="d-flex align-items-center justify-content-between mt-5 "
+          style={{ borderBottom: "#56577A 1px solid" }}
+        >
+          <h6 className="col-md-3 text-grey">User</h6>
+          {props.report !== "" && (
+            <h6 className="col-md-3 text-center text-grey">{props.report}</h6>
+          )}
+          {props.reportedUser !== "" && (
+            <h6 className="col-md-3 text-center text-grey">
+              {props.reportedUser}
+            </h6>
+          )}
+          <h6 className="col-md-3 text-center text-grey">{props.secondCol}</h6>
+          <h6 className="col-md-2 text-center text-grey">{props.date}</h6>
+          <h6 className="col-md-2 text-center text-grey">{props.action}</h6>
+        </div>
+
+        {props.data?.length > 0 && (
+          <>
+            {props?.data.map((ele) => (
+              <div
+                key={ele.id}
+                className="d-flex align-items-center text-decoration-none text-white w-100 justify-content-between mt-3 pb-2 text-center"
+                style={{ borderBottom: "#56577A 1px solid" }}
+              >
+                <div className="col-md-3 gap-2 text-start d-flex ga-2 align-items-center">
+                  <img
+                    className="col-md-2"
+                    src={
+                      ele?.img
+                        ? `${ImgsUrl}/${ele?.img}`
+                        : userAvatar
+                    }
+                    alt=""
+                    style={{
+                      height: "63.8px",
+                      width: "36.39px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <div>
+                    <p className="m-0">{ele?.name || "unKnown"}</p>
+                    <p className="text-grey m-0">
+                      {ele?.nickName || "unKnown"}
+                    </p>
+                  </div>
+                </div>
+                {props.report && (
+                  <div className="col-md-3">
+                    <h6
+                      className="col-12 "
+                      style={{
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                      }}
+                    >
+                      Lorem ipsum dolor sit ame...
+                    </h6>
+                  </div>
+                )}
+                {props.reportedUser !== "" && (
+                  <div className="col-md-3 justify-content-center text-start d-flex ga-2 align-items-center">
+                    <img
+                      className="col-md-2"
+                      src={require("../../Assets/Table/Image.png")}
+                      alt=""
+                    />
+                    <div>
+                      <p className="m-0">Esthera Jackson</p>
+                      <p className="text-grey m-0">esthera@simmmple.com</p>
+                    </div>
+                  </div>
+                )}
+                <div className="col-md-3">
+                  <h6
+                    className="col-12 "
+                    style={{
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {props.secondCol === "Post ID"
+                      ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor..."
+                      : ele?.followers || 0}
+                  </h6>
+                </div>
+                <h6 className="col-md-2 text-center">
+                  {dayjs(ele?.created_at).format("DD/MM/YYYY")}
+                </h6>
+                <div className="col-md-2 d-flex align-items-center justify-content-center gap-3">
+                  <Button
+                    onClick={() =>
+                      navigation(`/dashboard/user-management/${ele?.id}`)
+                    }
+                    className="border-0 text-uppercase text-white rounded bg-custom-gray "
+                  >
+                    Open
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
