@@ -1,10 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./performance.css";
 import LiveDetails from "./components/LiveDetails";
 import TargetDetails from "./components/TargetDetails";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  adminLives,
+  getAllCategories,
+} from "../../store/actions/performanceSlice";
+import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
 
 export default function Performance() {
   const [type, setType] = useState(0);
+
+  const {
+    livesDetails: liveData,
+    allCategories,
+    loading,
+  } = useSelector((state) => state.performance);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (type === 0) {
+      dispatch(adminLives());
+    } else if (type === 1) {
+      dispatch(getAllCategories());
+    }
+  }, [type]);
+
+  console.log(allCategories)
+
   return (
     <div className="my-4 position-relative">
       <div
@@ -25,8 +49,14 @@ export default function Performance() {
           Target
         </button>
       </div>
-      {type === 0 && <LiveDetails />}
-      {type === 1 && <TargetDetails />}
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          {type === 0 && <LiveDetails liveData={liveData} />}
+          {type === 1 && <TargetDetails allCategories={allCategories} />}
+        </>
+      )}
     </div>
   );
 }

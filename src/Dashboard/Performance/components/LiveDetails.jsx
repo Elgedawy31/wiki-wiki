@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
 import userImg from "../../../Assets/Performance/user.png";
 import userImg2 from "../../../Assets/Performance/user2.png";
-import CircularChart from '../../../Components/charts/CircualChart';
-function LiveDetails() {
+import CircularChart from "../../../Components/charts/CircualChart";
+function LiveDetails({ liveData }) {
+
+  // console.log(liveData)
   return (
     <div>
-         <div className=" gap-5 mb-5 d-flex align-items-center justify-content-center">
+      <div className=" gap-5 mb-5 d-flex align-items-center justify-content-center">
         <div className="top-users-streaming  py-4 px-5">
           <h5 className="text-white">Top Users</h5>
           <span className="text-white mb-4">streaming</span>
@@ -61,19 +63,19 @@ function LiveDetails() {
             <div>
               <div className="first-core mb-3">
                 <div>Live Streamed</div>
-                <span>145.000</span>
+                <span>{liveData?.live?.live_stream ||0}</span>
               </div>
               <div className="first-core">
                 <div>Viewers </div>
-                <span>145.000</span>
+                <span>{liveData?.live?.viwers ||0}</span>
               </div>
             </div>
             <div className="main-circural-chart">
-                <CircularChart colors={['#FC155C']} percent={43} />
+              <CircularChart colors={["#FC155C"]} percent={43} />
             </div>
           </div>
         </div>
-       
+
         <div className="bottom-sec  p-4 ">
           <h4 className="text-white ">Coins</h4>
           <div className="core-bottom  d-flex align-items-center justify-content-between">
@@ -88,14 +90,13 @@ function LiveDetails() {
               </div>
             </div>
             <div className="main-circural-chart">
-                <CircularChart colors={['#F0C727']} percent={54} />
+              <CircularChart colors={["#F0C727"]} percent={54} />
             </div>
           </div>
         </div>
-       
       </div>
     </div>
-  )
+  );
 }
 
-export default LiveDetails
+export default LiveDetails;

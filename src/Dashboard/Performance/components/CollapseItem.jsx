@@ -8,7 +8,7 @@ import marin from "../../../Assets/Performance/martin.png";
 import trash from "../../../Assets/Performance/Trash.png";
 import RequireItem from "./RequireItem";
 import { Button, Modal, Row } from "react-bootstrap";
-function CollapseItem() {
+function CollapseItem({category}) {
   const [open, setOpen] = useState(false);
   const [showCollapse, setShowCollapse] = useState(0);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -21,6 +21,9 @@ function CollapseItem() {
     }
   };
 
+
+  // console.log(category)
+
   return (
     <div className=" mb-5 p-2">
       <div
@@ -31,7 +34,7 @@ function CollapseItem() {
       >
         <div className="logo d-flex align-items-center gap-3">
           <span></span>
-          <h6 className="text-white">Category</h6>
+          <h6 className="text-white">{category?.name}</h6>
         </div>
         <h2 style={{ color: "#ffffff50", opacity: open ? 1 : 0 }}>Users</h2>
         <div
