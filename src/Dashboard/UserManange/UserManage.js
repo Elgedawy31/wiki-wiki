@@ -27,11 +27,11 @@ export default function UserManage() {
       setSearch(false);
     }
     if (changeTable === 3) {
-      dispatch(getUsersVerified({ type: "banned", value }));
+      dispatch(getUsersVerified({ type: "warning", value }));
       setSearch(false);
     }
     if (changeTable === 4) {
-      dispatch(getUsersVerified({ type: "warning", value }));
+      dispatch(getUsersVerified({ type: "banned", value }));
       setSearch(false);
     }
   }, [changeTable, search]);
