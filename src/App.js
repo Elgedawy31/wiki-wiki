@@ -18,6 +18,7 @@ import BalanceUser from "./Dashboard/Balance/BalanceUser";
 import Notfication from "./Dashboard/Notfication/Notfication";
 import RequireAuth from "./Dashboard/Auth/RequireAuth";
 import Landing from "./Website/Landing";
+import Ads from "./Dashboard/Ads/Ads";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
           <Route path="/dashboard/balance" element={<Balance />} />
           <Route path="/dashboard/balance/:id" element={<BalanceUser />} />
           <Route path="/dashboard/notfication/" element={<Notfication />} />
+          <Route path="/dashboard/ads/" element={<Ads />} />
         </Route>
         </Route>
       </Routes>

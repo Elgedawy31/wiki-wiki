@@ -1,7 +1,7 @@
 export const links = [
   {
     url: "/dashboard/home",
-    icon: (
+    icon:() => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="50"
@@ -24,7 +24,7 @@ export const links = [
   },
   {
     url: "/dashboard/content-management-system",
-    icon: (
+    icon:() => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="50"
@@ -45,7 +45,7 @@ export const links = [
   },
   {
     url: "/dashboard/performance",
-    icon: (
+    icon:() => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="50"
@@ -78,7 +78,7 @@ export const links = [
   },
   {
     url: "/dashboard/notfication",
-    icon: (
+    icon:() => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="50"
@@ -115,7 +115,7 @@ export const links = [
   },
   {
     url: "/dashboard/user-management",
-    icon: (
+    icon:() => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="50"
@@ -152,7 +152,7 @@ export const links = [
   },
   {
     url: "/dashboard/balance",
-    icon: (
+    icon:() => (
       <svg
         width="50"
         height="50"
@@ -225,6 +225,15 @@ export const links = [
           </clipPath>
         </defs>
       </svg>
+    ),
+  },
+  {
+    url: "/dashboard/ads",
+    icon:(fill) =>() =>  (
+      <svg width="34" height="36" viewBox="0 0 34 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0.494141 0.899658H33.5051V25.6497H0.494141V0.899658ZM3.22214 3.64966V21.5247H30.7868V3.64966H3.22214ZM4.59714 5.02466H29.4118V20.1497H4.59714V5.02466ZM7.38014 9.14966V16.0247H8.75514V13.2747H11.5051V16.0247H12.8801V9.14966H7.38014ZM14.2551 9.14966V16.0247H19.7551V9.14966H14.2551ZM21.1384 9.14966V13.2747H25.2923V14.6497H21.1274V16.0247H26.6686V11.8997H22.5134V10.5247H26.6494V9.14966H21.1384ZM8.75514 10.5247H11.5051V11.8997H8.75514V10.5247ZM15.6301 10.5247H18.3801V14.6497H15.6301V10.5247ZM16.9996 22.1695C16.2791 22.1695 15.6246 22.824 15.6246 23.5445C15.6246 24.2637 16.2791 24.9195 16.9996 24.9195C17.7201 24.9195 18.3746 24.2637 18.3746 23.5445C18.3746 22.824 17.7201 22.1695 16.9996 22.1695ZM16.3176 27.0247V33.8997H11.5051V35.2747H22.5051V33.8997H17.6926V27.0247H16.3176Z" fill={fill}/>
+      </svg>
+      
     ),
   },
 ];

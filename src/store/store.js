@@ -7,6 +7,7 @@ import { TransactionApi } from './actions/Transaction';
 import performanceReducer from "./actions/performanceSlice";
 import notificationReducer from "./actions/NotificationSlice";
 import managementReducer from "./actions/ManagementSlice";
+import adsReducer from "./actions/AdsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     performance: performanceReducer,
     notifications: notificationReducer,
     management: managementReducer,
+    ads: adsReducer,
     [TransactionApi.reducerPath]: TransactionApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
