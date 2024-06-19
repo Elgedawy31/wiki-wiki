@@ -6,6 +6,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { TransactionApi } from './actions/Transaction';
 import performanceReducer from "./actions/performanceSlice";
 import notificationReducer from "./actions/NotificationSlice";
+import managementReducer from "./actions/ManagementSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     home: homeReducer,
     performance: performanceReducer,
     notifications: notificationReducer,
+    management: managementReducer,
     [TransactionApi.reducerPath]: TransactionApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
