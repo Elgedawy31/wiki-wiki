@@ -16,11 +16,22 @@ export default function Ads() {
 
   useEffect(() => {
     if (changeTable === 0) {
-      dispatch(getAds('all'));
+      dispatch(getAds("all"));
+    }
+    if (changeTable === 1) {
+      dispatch(getAds("active"));
+    }
+    if (changeTable === 2) {
+      dispatch(getAds("pending"));
+    }
+    if (changeTable === 3) {
+      dispatch(getAds("refused"));
+    }
+    if (changeTable === 4) {
+      dispatch(getAds("finished"));
     }
   }, [changeTable]);
 
-  console.log(ads)
 
   return (
     <>
@@ -49,7 +60,7 @@ export default function Ads() {
               changeTable === 2 && "active-table"
             }`}
           >
-           Pending Ads
+            Pending Ads
           </h3>{" "}
           <h3
             onClick={() => setChangeTable(3)}
@@ -57,7 +68,7 @@ export default function Ads() {
               changeTable === 3 && "active-table"
             }`}
           >
-          Refused Ads
+            Refused Ads
           </h3>
           <h3
             onClick={() => setChangeTable(4)}
@@ -72,10 +83,7 @@ export default function Ads() {
           <LoadingSpinner />
         ) : (
           <>
-            <AdsTable
-              data={ads}
-              action="Action"
-            />
+            <AdsTable data={ads} action="Action" />
           </>
         )}
       </div>

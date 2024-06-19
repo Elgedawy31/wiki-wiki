@@ -22,7 +22,7 @@ export default function System() {
             },
           }
         );
-        setReportData(res.data?.data)
+        setReportData(res.data?.data);
       } catch {
         // console.log("dosent wwork");
       }
@@ -30,10 +30,10 @@ export default function System() {
 
     getContent();
   }, []);
-console.log(reportData?.data)
+  console.log(reportData?.data);
   return (
     <>
-      <SecondTopBar />
+      <SecondTopBar title='Content Management System' img={require("../../Assets/TopBar/Laptop.png")} />
       <div className="mt-3 mb-5 d-flex align-items-center justify-content-evenly text-white mb-5">
         <h3
           onClick={() => setChangeTable(0)}

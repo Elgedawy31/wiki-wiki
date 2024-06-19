@@ -6,6 +6,29 @@ import userAvatar from "../../../Assets/UserPage/avatar.png";
 import { ImgsUrl } from "../../../Api/Api";
 export default function AdsTable(props) {
   const navigation = useNavigate();
+
+  const handleStatus = (value) => {
+    switch (value) {
+      case "active":
+        return <div style={{ color: "#24FF01" }}>{value}</div>;
+
+      case "paused":
+        return <div style={{ color: "#FF9C27" }}>{value}</div>;
+
+      case "finished":
+        return <div style={{ color: "#C197FF" }}>{value}</div>;
+
+      case "pending":
+        return <div style={{ color: "#EBFF00" }}>{value}</div>;
+
+      case "refused":
+        return <div style={{ color: "#FF0000" }}>{value}</div>;
+
+      default:
+        return <div style={{ color: "#EBFF00" }}>{value}</div>;
+    }
+  };
+
   return (
     <div>
       <div
@@ -22,7 +45,7 @@ export default function AdsTable(props) {
           <h6 className="col-md-2 text-center text-grey">action</h6>
         </div>
 
-        {props.data?.length > 0 && (
+        {props.data?.length > 0 ? (
           <>
             {props?.data.map((ele) => (
               <div
@@ -33,11 +56,7 @@ export default function AdsTable(props) {
                 <div className="col-md-3 gap-2 text-start d-flex ga-2 align-items-center">
                   <img
                     className="col-md-2"
-                    src={
-                      ele?.user?.img
-                        ? `${ImgsUrl}/${ele?.img}`
-                        : userAvatar
-                    }
+                    src={ele?.user?.img ? `${ImgsUrl}/${ele?.img}` : userAvatar}
                     alt=""
                     style={{
                       height: "63.8px",
@@ -54,14 +73,14 @@ export default function AdsTable(props) {
                 </div>
                 <div className="col-md-3">
                   <h6
-                    className="col-12 "
+                    className="col-12"
                     style={{
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                     }}
                   >
-                active
+                    {handleStatus(ele?.status)}
                   </h6>
                 </div>
                 <h6 className="col-md-2 text-center">
@@ -69,9 +88,7 @@ export default function AdsTable(props) {
                 </h6>
                 <div className="col-md-2 d-flex align-items-center justify-content-center gap-3">
                   <Button
-                    onClick={() =>
-                      navigation(`/dashboard/ads/${ele?.id}`)
-                    }
+                    onClick={() => navigation(`/dashboard/ads/${ele?.id}`)}
                     className="border-0 text-uppercase text-white rounded bg-custom-gray "
                   >
                     Open
@@ -80,7 +97,7 @@ export default function AdsTable(props) {
               </div>
             ))}
           </>
-        )}
+        ) :<h1 className="text-center mt-5">No Data Yet</h1>}
       </div>
     </div>
   );
