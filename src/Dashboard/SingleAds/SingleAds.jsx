@@ -17,7 +17,7 @@ function SingleAds() {
   useEffect(() => {
     dispatch(getAdsDetails(id));
   }, [id]);
-console.log(adsDetails)
+  console.log(adsDetails);
   return (
     <>
       {loading ? (
@@ -29,7 +29,11 @@ console.log(adsDetails)
             title="ADS MANAGER"
             img={require("../../Assets/SideBar/Ads.png")}
           />
-          {showMoreDetails ? <MoreDetails/> : <AdCard setshowMoreDetails={setshowMoreDetails} data={adsDetails} />}
+          {showMoreDetails ? (
+            <MoreDetails data={adsDetails} />
+          ) : (
+            <AdCard setshowMoreDetails={setshowMoreDetails} data={adsDetails} />
+          )}
         </>
       )}
     </>

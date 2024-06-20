@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import message from "../../../Assets/Dashboard/message.png";
 import download from "../../../Assets/Dashboard/Download.png";
 import duet from "../../../Assets/Dashboard/Duet .png";
@@ -7,26 +7,39 @@ import arrow from "../../../Assets/Dashboard/arrow.png";
 import { Col, Row } from "react-bootstrap";
 import account from "../../../Assets/Dashboard/account.png";
 import management from "../../../Assets/Dashboard/Management.png";
-function MoreDetails() {
+function MoreDetails({ data }) {
+  const [spentPercent, setSpentPercent] = useState(0);
+  const [remainingPercent, setRemainingPercent] = useState(0);
+
+  useEffect(() => {
+    if (data?.ad) {
+      setSpentPercent(data?.ad?.spent / data?.ad?.coins);
+
+      setRemainingPercent(100 -( data.ad?.spent / data?.ad?.coins));
+    }
+  }, [data]);
+
+  console.log(remainingPercent)
+
   return (
     <>
       <div className="d-flex align-items-stretch gap-4 mb-5">
         <div className="ad-bg rounded text-white p-4" style={{ flex: 1 }}>
           <div className="flex-main-class mb-4 ">
             <h5>FULL BUDGET</h5>
-            <h5>$20</h5>
+            <h5>${data?.ad?.coins || 0}</h5>
           </div>
           <div className="mb-4">
             <div className="flex-main-class mb-2">
               <h6>SPENT</h6>
-              <h6>$15</h6>
+              <h6>${data?.ad?.spent || 0}</h6>
             </div>
             <div
               style={{ backgroundColor: "#B6B6B6", height: "5px" }}
               className="rounded position-relative"
             >
               <span
-                style={{ width: "75%", backgroundColor: "#FC155C" }}
+                style={{ width: `${spentPercent}%`, backgroundColor: "#FC155C" }}
                 className="position-absolute start-0 top-0 rounded h-100 "
               ></span>
             </div>
@@ -34,14 +47,14 @@ function MoreDetails() {
           <div>
             <div className="flex-main-class mb-2">
               <h6>REMIAINING</h6>
-              <h6>$5</h6>
+              <h6>${data?.ad?.coins - data?.ad?.spent}</h6>
             </div>
             <div
               style={{ backgroundColor: "#B6B6B6", height: "5px" }}
               className="rounded position-relative"
             >
               <span
-                style={{ width: "25%", backgroundColor: "#A263FF" }}
+                style={{ width: `${remainingPercent}%`, backgroundColor: "#A263FF" }}
                 className="position-absolute start-0 top-0 rounded h-100 "
               ></span>
             </div>
@@ -51,7 +64,7 @@ function MoreDetails() {
           <h5 className="mb-4">ENGAGEMENT</h5>
           <div className="flex-main-class">
             <div className="d-flex flex-column align-items-center gap-2">
-              <div>454</div>
+              <div>{data?.content?.Analytics?.comment ||0}</div>
               <div
                 style={{
                   width: "64px",
@@ -66,7 +79,8 @@ function MoreDetails() {
               <div>Comments</div>
             </div>
             <div className="d-flex flex-column align-items-center gap-2">
-              <div>800</div>
+            <div>{data?.content?.Analytics?.share ||0}</div>
+
               <div
                 style={{
                   width: "64px",
@@ -81,7 +95,8 @@ function MoreDetails() {
               <div>Share</div>
             </div>
             <div className="d-flex flex-column align-items-center gap-2">
-              <div>4.531</div>
+            <div>{data?.content?.Analytics?.react ||0}</div>
+
               <div
                 style={{
                   width: "64px",
@@ -96,7 +111,8 @@ function MoreDetails() {
               <div>Like</div>
             </div>
             <div className="d-flex flex-column align-items-center gap-2">
-              <div>55</div>
+            <div>{data?.content?.Analytics?.dowito ||0}</div>
+
               <div
                 style={{
                   width: "64px",
@@ -111,7 +127,8 @@ function MoreDetails() {
               <div>Duet</div>
             </div>
             <div className="d-flex flex-column align-items-center gap-2">
-              <div>3,561</div>
+            <div>{data?.content?.Analytics?.download ||0}</div>
+
               <div
                 style={{
                   width: "64px",
@@ -133,31 +150,32 @@ function MoreDetails() {
             className="mb-3"
             style={{ fontSize: "14px", fontWeight: "normal" }}
           >
-            <span style={{ color: "#A0AEC0" }}>Full Name</span>: Mohamed Gad
+            <span style={{ color: "#A0AEC0" }}>userID:  </span> {data?.content?.user?.id}
           </div>
           <div
             className="mb-3"
             style={{ fontSize: "14px", fontWeight: "normal" }}
           >
-            <span style={{ color: "#A0AEC0" }}>UserName</span>: Elgedawy_31
+            <span style={{ color: "#A0AEC0" }}>Full Name:  </span>{data?.content?.user?.name}
           </div>
           <div
             className="mb-3"
             style={{ fontSize: "14px", fontWeight: "normal" }}
           >
-            <span style={{ color: "#A0AEC0" }}>Mobile</span>: (+20) 01003095940
+            <span style={{ color: "#A0AEC0" }}>UserName:  </span>{data?.content?.user?.nick_name}
+          </div>
+       
+          <div
+            className="mb-3"
+            style={{ fontSize: "14px", fontWeight: "normal" }}
+          >
+            <span style={{ color: "#A0AEC0" }}>followers</span>: {data?.content?.user?.followers}
           </div>
           <div
             className="mb-3"
             style={{ fontSize: "14px", fontWeight: "normal" }}
           >
-            <span style={{ color: "#A0AEC0" }}>Email</span>: mohamedW@gmail.com
-          </div>
-          <div
-            className="mb-3"
-            style={{ fontSize: "14px", fontWeight: "normal" }}
-          >
-            <span style={{ color: "#A0AEC0" }}>Location</span>: Egypt
+            <span style={{ color: "#A0AEC0" }}>Location</span>: {data?.content?.location}
           </div>
         </div>
       </div>
