@@ -172,15 +172,20 @@ code {
   display: none !important;
 }
 
-
-
-
-#SvgjsSvg1365{
+#SvgjsSvg1365 {
   overflow: visible !important;
 }
 
-
-foreignObject{
+foreignObject {
   overflow: visible !important;
+}
 
+.ad-bg {
+  background-color: #d9d9d964;
+}
+
+.flex-main-class {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
