@@ -33,11 +33,43 @@ export const getAds = createAsyncThunk(
     }
   }
 );
+export const getAdsDetails = createAsyncThunk(
+  "ads/getadsdetails",
+  async (id, { rejectWithValue, getState }) => {
+    const { auth } = getState();
+    try {
+      const response = await axios.get(`${baseURL}/Admin-Ads/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth?.token}`,
+        },
+      });
+
+      const data = response.data;
+      if (data.error) {
+        return rejectWithValue(data);
+      }
+
+      return data;
+    } catch (error) {
+      if (error?.response.data?.error) {
+        return rejectWithValue({
+          message: error?.response?.data?.error,
+        });
+      } else if (error?.response?.data?.message) {
+        return rejectWithValue({
+          message: error?.response?.data?.message,
+        });
+      }
+    }
+  }
+);
 
 const initialState = {
   loading: false,
   error: null,
   ads: [],
+  adsDetails:{} ,
 };
 
 const adsSlice = createSlice({
@@ -64,7 +96,20 @@ const adsSlice = createSlice({
       .addCase(getAds.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.payload?.message;
-      });
+      })
+      .addCase(getAdsDetails.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAdsDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.adsDetails = action.payload;
+        state.error = null;
+      })
+      .addCase(getAdsDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.payload?.message;
+      })
   },
 });
 
