@@ -35,15 +35,15 @@ export const adminLives = createAsyncThunk(
 );
 export const addCategory = createAsyncThunk(
   "performance/addCategory",
-  async ({ name }, { rejectWithValue, getState }) => {
+  async (formData, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
       const response = await axios.post(
         `${baseURL}/categories`,
-        { name },
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            // "Content-Type": "application/json",
             Authorization: `Bearer ${auth?.token}`,
           },
         }
