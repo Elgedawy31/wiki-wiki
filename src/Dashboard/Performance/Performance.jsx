@@ -8,9 +8,11 @@ import {
   getAllCategories,
 } from "../../store/actions/performanceSlice";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
+import PerformancePagination from "./components/PerformancePagination";
 
 export default function Performance() {
   const [type, setType] = useState(0);
+  const [activeItem , setActiveItem] = useState(1)
 
   const {
     livesDetails: liveData,
@@ -57,6 +59,9 @@ export default function Performance() {
           {type === 1 && <TargetDetails allCategories={allCategories} />}
         </>
       )}
+
+
+      <PerformancePagination activeItem={activeItem} setActiveItem={setActiveItem} />
     </div>
   );
 }
