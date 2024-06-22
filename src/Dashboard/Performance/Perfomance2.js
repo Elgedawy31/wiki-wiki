@@ -3,7 +3,7 @@ import Card from "../../Components/Card Performance/Card";
 
 export default function Performance2() {
   return (
-    <div>
+    <div style={{width:'90%'}} className="mx-auto">
       <div className="bg-seconder-grad rounded-20 performance py-4 px-5 mt-4">
         <h3 className="text-white my-4">Feedbacks</h3>
         <div>

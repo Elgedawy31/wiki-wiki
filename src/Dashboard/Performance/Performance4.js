@@ -4,7 +4,7 @@ import closeIcon from "../../Assets/Performance/Close.svg";
 
 export default function Performance4() {
   return (
-    <>
+    <div style={{width:'90%' }} className="mx-auto">
       <div className="d-flex align-items-stretch justify-content-between my-4">
         <div className="d-flex flex-column justify-content-between col-8">
           <div className="mt-5">
@@ -37,7 +37,7 @@ export default function Performance4() {
           />
         </div>
       </div>
-      <div className="position-absolute my-3 me-3 bottom-0 end-0 ">
+      {/* <div className="position-absolute my-3 me-3 bottom-0 end-0 ">
         <div className="d-flex align-items-center gap-3">
           <Link to="/performance/3">
             <img src={require("../../Assets/Performance/Arrow.png")} alt="" />
@@ -50,7 +50,7 @@ export default function Performance4() {
             />
           </Link>
         </div>
-      </div>
-    </>
+      </div> */}
+    </div>
   );
 }

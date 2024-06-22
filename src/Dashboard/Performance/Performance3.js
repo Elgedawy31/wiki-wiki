@@ -5,9 +5,9 @@ import star3 from "../../Assets/Performance/Star 3.svg";
 
 export default function Performance3() {
   return (
-    <div>
+    <div style={{width:'90%'}} className="mx-auto">
       <div className="d-flex align-items-center justify-content-center">
-        <div className="col-11 flex-wrap d-flex justify-content-between align-items-center">
+        <div className="col-12 flex-wrap d-flex justify-content-between align-items-center">
           <div className="col-md-5 col-12 bg-black-primary p-3 py-5">
             <div className="d-flex align-items-center justify-content-between">
               <div>

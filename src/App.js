@@ -38,10 +38,6 @@ function App() {
             element={<System />}
           />
           <Route path="/dashboard/performance" element={<Performance />} />
-          <Route path="/dashboard/performance/2" element={<Performance2 />} />
-          <Route path="/dashboard/performance/3" element={<Performance3 />} />
-          <Route path="/dashboard/performance/4" element={<Performance4 />} />
-          <Route path="/dashboard/performance/5" element={<Performance5 />} />
           <Route
             path="/dashboard/content-management-system/1"
             element={<SystemPost />}
