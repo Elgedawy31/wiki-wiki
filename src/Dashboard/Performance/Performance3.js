@@ -128,20 +128,6 @@ export default function Performance3() {
           </div>
         </div>
       </div>
-      <div className="position-absolute my-3 me-3 bottom-0 end-0 ">
-        <div className="d-flex align-items-center gap-3">
-          <Link to="/performance/2">
-            <img src={require("../../Assets/Performance/Arrow.png")} alt="" />
-          </Link>
-          <Link to="/performance/4">
-            <img
-              src={require("../../Assets/Performance/Arrow.png")}
-              style={{ rotate: "180deg" }}
-              alt=""
-            />
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }

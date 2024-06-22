@@ -19,6 +19,7 @@ function UniToast({ setOpen, open, title, message, reset = () => {} }) {
         position: "fixed",
         top: "5%",
         right: "5%",
+        zIndex:1111111111111
       }}
     >
       <Toast.Header closeButton style={{ background: "#555", color: "white" }}>
