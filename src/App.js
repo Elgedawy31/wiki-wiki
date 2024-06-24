@@ -43,7 +43,7 @@ function App() {
             element={<SystemPost />}
           />
           <Route
-            path="/dashboard/content-management-system/2"
+            path="/dashboard/content-management-system/:id"
             element={<SystemReported />}
           />
           <Route path="/dashboard/user-management" element={<UserManage />} />

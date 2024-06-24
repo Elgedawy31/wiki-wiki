@@ -2,6 +2,9 @@ import BarChart from "../charts/BarChart";
 import BarChat from "../charts/BarChart";
 
 export default function Months({ data, labels, mainDetails }) {
+
+  console.log()
+
   return (
     <div className="col-lg-7  col-12">
       <div className="bg-black-primary py-md-4 py-2 px-md-4 px-2  text-white h-100">
@@ -34,7 +37,7 @@ export default function Months({ data, labels, mainDetails }) {
                 </div>
                 <p className="text-grey mb-0">Likes</p>
               </div>
-              <p className="m-0 mt-2">32,984</p>
+              <p className="m-0 mt-2">{mainDetails?.satisfaction_rate_compare}</p>
               <div className="custom-progress"></div>
             </div>
             <div className="col-2">
