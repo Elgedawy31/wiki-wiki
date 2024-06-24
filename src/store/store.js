@@ -9,6 +9,7 @@ import notificationReducer from "./actions/NotificationSlice";
 import managementReducer from "./actions/ManagementSlice";
 import adsReducer from "./actions/AdsSlice";
 import feedbacksReducer from "./actions/FeefBackSlice";
+import interestsReducer from "./actions/InterestsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     management: managementReducer,
     ads: adsReducer,
     feedback: feedbacksReducer,
+    interests: interestsReducer,
     [TransactionApi.reducerPath]: TransactionApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

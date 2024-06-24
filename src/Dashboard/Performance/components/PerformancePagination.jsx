@@ -36,6 +36,14 @@ function PerformancePagination({ activeItem, setActiveItem }) {
         >
           4
         </div>
+        <div
+          onClick={() => setActiveItem(5)}
+          className={`${
+            activeItem === 5 && "active-performance-pagination"
+          } pagination-item`}
+        >
+          5
+        </div>
       </div>
     </div>
   );

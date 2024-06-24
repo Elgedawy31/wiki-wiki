@@ -70,6 +70,7 @@ export default function Performance() {
       {activeItem === 2 && <Performance2 />}
       {activeItem === 3 && <Performance3 />}
       {activeItem === 4 && <Performance4 />}
+      {activeItem === 5 && <Performance5 />}
       <PerformancePagination
         activeItem={activeItem}
         setActiveItem={setActiveItem}
