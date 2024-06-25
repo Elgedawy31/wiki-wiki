@@ -34,7 +34,6 @@ export default function UserPage() {
   useEffect(() => {
     if (isWarning) {
       setOpen(true);
-      dispatch(reset())
     }
   }, [isWarning]);
   return (
@@ -45,6 +44,7 @@ export default function UserPage() {
         <>
           {open && (
             <UniToast
+            reset={reset}
               open={open}
               setOpen={setOpen}
               title={"user Warning"}

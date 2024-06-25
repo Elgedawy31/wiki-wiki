@@ -135,6 +135,41 @@ export const makeUserWarning = createAsyncThunk(
     }
   }
 );
+export const makeUserBanned = createAsyncThunk(
+  "users/makeBanned",
+  async ({ user_id }, { rejectWithValue, getState }) => {
+    const { auth } = getState();
+    try {
+      const response = await axios.post(
+        `${baseURL}/Admin-users-ban`,
+        { user_id, text: "make user warning" },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth?.token}`,
+          },
+        }
+      );
+
+      const data = response.data;
+      if (data.error) {
+        return rejectWithValue(data);
+      }
+
+      return data;
+    } catch (error) {
+      if (error?.response.data?.error) {
+        return rejectWithValue({
+          message: error?.response?.data?.error,
+        });
+      } else if (error?.response?.data?.message) {
+        return rejectWithValue({
+          message: error?.response?.data?.message,
+        });
+      }
+    }
+  }
+);
 
 const initialState = {
   loading: false,
@@ -142,6 +177,7 @@ const initialState = {
   userDetails: {},
   allUsers: [],
   isWarning: false,
+  isBanned: false,
 };
 
 const usersSlice = createSlice({
@@ -152,6 +188,7 @@ const usersSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.isWarning = false;
+      state.isBanned = false;
     },
   },
   extraReducers: (builder) => {
@@ -206,6 +243,19 @@ const usersSlice = createSlice({
         state.error = null;
       })
       .addCase(makeUserWarning.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.payload?.message;
+      })
+      .addCase(makeUserBanned.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(makeUserBanned.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isBanned = true;
+        state.error = null;
+      })
+      .addCase(makeUserBanned.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.payload?.message;
       });

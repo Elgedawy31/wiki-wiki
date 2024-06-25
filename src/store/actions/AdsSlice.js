@@ -64,6 +64,37 @@ export const getAdsDetails = createAsyncThunk(
     }
   }
 );
+export const updateAdDetails = createAsyncThunk(
+  "ads/updateadddetails",
+  async (id, { rejectWithValue, getState }) => {
+    const { auth } = getState();
+    try {
+      const response = await axios.post(`${baseURL}/Admin-Ads/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth?.token}`,
+        },
+      });
+
+      const data = response.data;
+      if (data.error) {
+        return rejectWithValue(data);
+      }
+
+      return data;
+    } catch (error) {
+      if (error?.response.data?.error) {
+        return rejectWithValue({
+          message: error?.response?.data?.error,
+        });
+      } else if (error?.response?.data?.message) {
+        return rejectWithValue({
+          message: error?.response?.data?.message,
+        });
+      }
+    }
+  }
+);
 
 const initialState = {
   loading: false,
