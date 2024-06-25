@@ -13,10 +13,37 @@ import Performance2 from "./Perfomance2";
 import Performance3 from "./Performance3";
 import Performance4 from "./Performance4";
 import Performance5 from "./Performance5";
+import { baseURL } from "../../Api/Api";
+import { Axios } from "axios";
 
 export default function Performance() {
   const [type, setType] = useState(0);
   const [activeItem, setActiveItem] = useState(1);
+  const [data, setData] = useState([]);
+  const [topLoading, setLoading] = useState(false);
+  const { token } = useSelector((state) => state.auth);
+  useEffect(() => {
+    if (activeItem === 3) {
+      const getContent = async () => {
+        try {
+          setLoading(true);
+          const res = await Axios.get(`${baseURL}/admin-searched-tags`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (res?.data) {
+            setLoading(false);
+          }
+        } catch {
+          setLoading(false);
+        }
+      };
+      getContent();
+    }
+  }, [activeItem]);
 
   const {
     livesDetails: liveData,
@@ -68,7 +95,7 @@ export default function Performance() {
         </>
       )}
       {activeItem === 2 && <Performance2 />}
-      {activeItem === 3 && <Performance3 />}
+      {activeItem === 3 && <Performance3 loading={topLoading} data={data} />}
       {activeItem === 4 && <Performance4 />}
       {activeItem === 5 && <Performance5 />}
       <PerformancePagination
