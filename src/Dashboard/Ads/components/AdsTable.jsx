@@ -56,7 +56,7 @@ export default function AdsTable(props) {
                 <div className="col-md-3 gap-2 text-start d-flex ga-2 align-items-center">
                   <img
                     className="col-md-2"
-                    src={ele?.user?.img ? `${ImgsUrl}/${ele?.img}` : userAvatar}
+                    src={ele?.user?.img ? `${ImgsUrl}/${ele?.user?.img}` : userAvatar}
                     alt=""
                     style={{
                       height: "63.8px",

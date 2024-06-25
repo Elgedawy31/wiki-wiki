@@ -39,7 +39,10 @@ export default function UserPage() {
     dispatch(makeUserWarning({ user_id: id }));
   };
   const handleBanned = () => {
-    dispatch(makeUserBanned({ user_id: id, date:dayjs(date).format('YYYY-MM-DD') }));
+    dispatch(
+      makeUserBanned({ user_id: id, date: dayjs(date).format("YYYY-MM-DD") })
+    );
+    setOpenForBanned(false);
   };
 
   useEffect(() => {
@@ -66,7 +69,7 @@ export default function UserPage() {
             <UniToast
               reset={reset}
               open={isBanned}
-              setOpen={() =>{}}
+              setOpen={() => {}}
               title={"user Banned"}
               message={"user Banned Successfully"}
             />
@@ -283,8 +286,8 @@ export default function UserPage() {
           </h5>
 
           <input
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
             style={{
               background: "white",
               border: "1px solid white",

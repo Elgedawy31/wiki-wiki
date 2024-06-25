@@ -44,26 +44,50 @@ export default function Table(props) {
                 style={{ borderBottom: "#56577A 1px solid" }}
               >
                 <div className="col-md-3 gap-2 text-start d-flex ga-2 align-items-center">
-                  <img
-                    className="col-md-2"
-                    src={
-                      ele?.from_user?.img
-                        ? `${ImgsUrl}/${ele?.from_user?.img}`
-                        : userAvatar
-                    }
-                    alt=""
-                    style={{
-                      height: "63.8px",
-                      width: "36.39px",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <div>
+                  {props.isUsersTable ? (
+                    <>
+                      <img
+                        className="col-md-2"
+                        src={ele?.img ? `${ImgsUrl}/${ele?.img}` : userAvatar}
+                        alt=""
+                        style={{
+                          height: "63.8px",
+                          width: "36.39px",
+                          objectFit: "cover",
+                        }}
+                      />
+                        <div>
+                    <p className="m-0">{ele?.name || "unKnown"}</p>
+                    <p className="text-grey m-0">
+                      {ele?.nick_name || "unKnown"}
+                    </p>
+                  </div>
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        className="col-md-2"
+                        src={
+                          ele?.from_user?.img
+                            ? `${ImgsUrl}/${ele?.from_user?.img}`
+                            : userAvatar
+                        }
+                        alt=""
+                        style={{
+                          height: "63.8px",
+                          width: "36.39px",
+                          objectFit: "cover",
+                        }}
+                      />
+                        <div>
                     <p className="m-0">{ele?.from_user?.name || "unKnown"}</p>
                     <p className="text-grey m-0">
                       {ele?.from_user?.nick_name || "unKnown"}
                     </p>
                   </div>
+                    </>
+                  )}
+                
                 </div>
                 {props.report && (
                   <div className="col-md-3">
@@ -75,33 +99,37 @@ export default function Table(props) {
                         overflow: "hidden",
                       }}
                     >
-                    {ele?.report ? ele?.report?.length > 10 ?  ele?.report.split(0,15) : ele?.report : "__"}
+                      {ele?.report
+                        ? ele?.report?.length > 10
+                          ? ele?.report.split(0, 15)
+                          : ele?.report
+                        : "__"}
                     </h6>
                   </div>
                 )}
                 {props.reportedUser !== "" && (
-            <div className="col-md-3 gap-2 text-start d-flex ga-2 align-items-center">
-            <img
-              className="col-md-2"
-              src={
-                ele?.to_user?.img
-                  ? `${ImgsUrl}/${ele?.to_user?.img}`
-                  : userAvatar
-              }
-              alt=""
-              style={{
-                height: "63.8px",
-                width: "36.39px",
-                objectFit: "cover",
-              }}
-            />
-            <div>
-              <p className="m-0">{ele?.to_user?.name || "unKnown"}</p>
-              <p className="text-grey m-0">
-                {ele?.to_user?.nick_name || "unKnown"}
-              </p>
-            </div>
-          </div>
+                  <div className="col-md-3 gap-2 text-start d-flex ga-2 align-items-center">
+                    <img
+                      className="col-md-2"
+                      src={
+                        ele?.to_user?.img
+                          ? `${ImgsUrl}/${ele?.to_user?.img}`
+                          : userAvatar
+                      }
+                      alt=""
+                      style={{
+                        height: "63.8px",
+                        width: "36.39px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <div>
+                      <p className="m-0">{ele?.to_user?.name || "unKnown"}</p>
+                      <p className="text-grey m-0">
+                        {ele?.to_user?.nick_name || "unKnown"}
+                      </p>
+                    </div>
+                  </div>
                 )}
                 <div className="col-md-3">
                   <h6
@@ -121,21 +149,27 @@ export default function Table(props) {
                   {dayjs(ele?.created_at).format("DD/MM/YYYY")}
                 </h6>
                 <div className="col-md-2 d-flex align-items-center justify-content-center gap-3">
-                 {props.isContentManagement ?   <Button
-                    onClick={() =>
-                      navigation(`/dashboard/content-management-system/${ele?.id}`)
-                    }
-                    className="border-0 text-uppercase text-white rounded bg-custom-gray "
-                  >
-                    Open
-                  </Button>  :  <Button
-                    onClick={() =>
-                      navigation(`/dashboard/user-management/${ele?.id}`)
-                    }
-                    className="border-0 text-uppercase text-white rounded bg-custom-gray "
-                  >
-                    Open
-                  </Button>}
+                  {props.isContentManagement ? (
+                    <Button
+                      onClick={() =>
+                        navigation(
+                          `/dashboard/content-management-system/${ele?.id}`
+                        )
+                      }
+                      className="border-0 text-uppercase text-white rounded bg-custom-gray "
+                    >
+                      Open
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() =>
+                        navigation(`/dashboard/user-management/${ele?.id}`)
+                      }
+                      className="border-0 text-uppercase text-white rounded bg-custom-gray "
+                    >
+                      Open
+                    </Button>
+                  )}
                 </div>
               </div>
             ))}

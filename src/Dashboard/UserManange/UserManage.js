@@ -91,6 +91,7 @@ export default function UserManage() {
               action="Action"
               btn
               Ban
+              isUsersTable={true}
               showSpotted={false}
               secondCol="Followers"
               date="Joining Date"
