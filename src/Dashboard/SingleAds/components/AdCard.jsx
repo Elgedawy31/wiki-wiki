@@ -1,9 +1,15 @@
-import React from "react";
-import { Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Modal, Row } from "react-bootstrap";
 import { ImgsUrl } from "../../../Api/Api";
 import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
+import { deleteAd } from "../../../store/actions/AdsSlice";
+import { useParams } from "react-router-dom";
 
-function AdCard({ data ,setshowMoreDetails }) {
+function AdCard({ data, setshowMoreDetails }) {
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { id } = useParams();
   return (
     <div className="post py-4 px-5 d-flex align-items-stretch justify-content-between my-5 ">
       <div className="col-7 d-flex flex-column justify-content-between mb-2">
@@ -65,20 +71,29 @@ function AdCard({ data ,setshowMoreDetails }) {
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-between mt-5">
-          {data?.ad?.status ==='active' && (
+          {data?.ad?.status === "active" && (
             <Button className="bg-secondary text-white rounded py-3 fw-bold text-uppercase fs-5 col-3 border-0">
               Pause
             </Button>
           )}
-          {data?.ad?.status ==='pending' && (
-            <Button style={{backgroundColor:"#24FF01" , color:'black'}} className=" rounded py-3 fw-bold text-uppercase fs-5 col-3 border-0">
+          {data?.ad?.status === "pending" && (
+            <Button
+              style={{ backgroundColor: "#24FF01", color: "black" }}
+              className=" rounded py-3 fw-bold text-uppercase fs-5 col-3 border-0"
+            >
               Accept
             </Button>
           )}
-          <Button className="bg-delete text-white rounded py-3  text-uppercase fs-5 fw-bold col-3 border-0">
+          <Button
+            onClick={() => setOpen(true)}
+            className="bg-delete text-white rounded py-3  text-uppercase fs-5 fw-bold col-3 border-0"
+          >
             Delete
           </Button>
-          <Button onClick={() => setshowMoreDetails(prev => !prev)} className="bg-black text-white rounded py-3  text-uppercase fs-5 fw-bold col-5 border-0">
+          <Button
+            onClick={() => setshowMoreDetails((prev) => !prev)}
+            className="bg-black text-white rounded py-3  text-uppercase fs-5 fw-bold col-5 border-0"
+          >
             View Full Details
           </Button>
         </div>
@@ -89,6 +104,52 @@ function AdCard({ data ,setshowMoreDetails }) {
           alt="mobile"
         />
       </div>
+
+      <Modal centered show={open} className="p-5" onHide={() => setOpen(false)}>
+        <Modal.Body
+          className="rounded d-flex align-items-center justify-content-center gap-4 flex-column"
+          style={{ background: "#000000" }}
+        >
+          <h5 className="text-white text-center">
+            Are you sure you want to delete this Ad ?
+          </h5>
+          <Row className="gap-5">
+            <Button
+              style={{
+                width: "fit-content",
+                borderRadius: "20px",
+                backgroundColor: "#9057E5",
+                border: 0,
+                width: "172px",
+                height: "50px",
+              }}
+              variant="secondary"
+              className="text-white"
+              onClick={() => {
+                dispatch(deleteAd(id));
+                setOpen(false);
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              style={{
+                width: "fit-content",
+                borderRadius: "20px",
+                backgroundColor: "#FC155C",
+                border: 0,
+                width: "172px",
+                height: "50px",
+              }}
+              variant="secondary"
+              className="text-white"
+              onClick={() => setOpen(false)}
+            >
+              No
+            </Button>
+          </Row>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

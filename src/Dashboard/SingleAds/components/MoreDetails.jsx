@@ -7,19 +7,19 @@ import arrow from "../../../Assets/Dashboard/arrow.png";
 import { Col, Row } from "react-bootstrap";
 import account from "../../../Assets/Dashboard/account.png";
 import management from "../../../Assets/Dashboard/Management.png";
+import { useNavigate } from "react-router-dom";
 function MoreDetails({ data }) {
   const [spentPercent, setSpentPercent] = useState(0);
   const [remainingPercent, setRemainingPercent] = useState(0);
-
   useEffect(() => {
     if (data?.ad) {
       setSpentPercent(data?.ad?.spent / data?.ad?.coins);
 
-      setRemainingPercent(100 -( data.ad?.spent / data?.ad?.coins));
+      setRemainingPercent(100 - data.ad?.spent / data?.ad?.coins);
     }
   }, [data]);
 
-  console.log(remainingPercent)
+  const navigation = useNavigate();
 
   return (
     <>
@@ -39,7 +39,10 @@ function MoreDetails({ data }) {
               className="rounded position-relative"
             >
               <span
-                style={{ width: `${spentPercent}%`, backgroundColor: "#FC155C" }}
+                style={{
+                  width: `${spentPercent}%`,
+                  backgroundColor: "#FC155C",
+                }}
                 className="position-absolute start-0 top-0 rounded h-100 "
               ></span>
             </div>
@@ -54,7 +57,10 @@ function MoreDetails({ data }) {
               className="rounded position-relative"
             >
               <span
-                style={{ width: `${remainingPercent}%`, backgroundColor: "#A263FF" }}
+                style={{
+                  width: `${remainingPercent}%`,
+                  backgroundColor: "#A263FF",
+                }}
                 className="position-absolute start-0 top-0 rounded h-100 "
               ></span>
             </div>
@@ -64,7 +70,7 @@ function MoreDetails({ data }) {
           <h5 className="mb-4">ENGAGEMENT</h5>
           <div className="flex-main-class">
             <div className="d-flex flex-column align-items-center gap-2">
-              <div>{data?.content?.Analytics?.comment ||0}</div>
+              <div>{data?.content?.Analytics?.comment || 0}</div>
               <div
                 style={{
                   width: "64px",
@@ -79,7 +85,7 @@ function MoreDetails({ data }) {
               <div>Comments</div>
             </div>
             <div className="d-flex flex-column align-items-center gap-2">
-            <div>{data?.content?.Analytics?.share ||0}</div>
+              <div>{data?.content?.Analytics?.share || 0}</div>
 
               <div
                 style={{
@@ -95,7 +101,7 @@ function MoreDetails({ data }) {
               <div>Share</div>
             </div>
             <div className="d-flex flex-column align-items-center gap-2">
-            <div>{data?.content?.Analytics?.react ||0}</div>
+              <div>{data?.content?.Analytics?.react || 0}</div>
 
               <div
                 style={{
@@ -111,7 +117,7 @@ function MoreDetails({ data }) {
               <div>Like</div>
             </div>
             <div className="d-flex flex-column align-items-center gap-2">
-            <div>{data?.content?.Analytics?.dowito ||0}</div>
+              <div>{data?.content?.Analytics?.dowito || 0}</div>
 
               <div
                 style={{
@@ -127,7 +133,7 @@ function MoreDetails({ data }) {
               <div>Duet</div>
             </div>
             <div className="d-flex flex-column align-items-center gap-2">
-            <div>{data?.content?.Analytics?.download ||0}</div>
+              <div>{data?.content?.Analytics?.download || 0}</div>
 
               <div
                 style={{
@@ -150,47 +156,54 @@ function MoreDetails({ data }) {
             className="mb-3"
             style={{ fontSize: "14px", fontWeight: "normal" }}
           >
-            <span style={{ color: "#A0AEC0" }}>userID:  </span> {data?.content?.user?.id}
+            <span style={{ color: "#A0AEC0" }}>userID: </span>{" "}
+            {data?.content?.user?.id}
           </div>
           <div
             className="mb-3"
             style={{ fontSize: "14px", fontWeight: "normal" }}
           >
-            <span style={{ color: "#A0AEC0" }}>Full Name:  </span>{data?.content?.user?.name}
+            <span style={{ color: "#A0AEC0" }}>Full Name: </span>
+            {data?.content?.user?.name}
           </div>
           <div
             className="mb-3"
             style={{ fontSize: "14px", fontWeight: "normal" }}
           >
-            <span style={{ color: "#A0AEC0" }}>UserName:  </span>{data?.content?.user?.nick_name}
+            <span style={{ color: "#A0AEC0" }}>UserName: </span>
+            {data?.content?.user?.nick_name}
           </div>
-       
+
           <div
             className="mb-3"
             style={{ fontSize: "14px", fontWeight: "normal" }}
           >
-            <span style={{ color: "#A0AEC0" }}>followers</span>: {data?.content?.user?.followers}
+            <span style={{ color: "#A0AEC0" }}>followers</span>:{" "}
+            {data?.content?.user?.followers}
           </div>
           <div
             className="mb-3"
             style={{ fontSize: "14px", fontWeight: "normal" }}
           >
-            <span style={{ color: "#A0AEC0" }}>Location</span>: {data?.content?.location}
+            <span style={{ color: "#A0AEC0" }}>Location</span>:{" "}
+            {data?.content?.location}
           </div>
         </div>
       </div>
 
       <Row className="justify-content-center gap-4">
         <Col
+          onClick={() => navigation("/dashboard/balance")}
           xs={4}
-          className="ad-bg rounded justify-content-center text-white p-4 d-flex align-items-center gap-3"
+          className="ad-bg rounded justify-content-center text-white p-4 d-flex align-items-center gap-3 pointer"
         >
           <h5 className="text-uppercase">Account Balance</h5>
           <img src={account} alt="" />
         </Col>
         <Col
+          onClick={() => navigation("/dashboard/user-management")}
           xs={4}
-          className="ad-bg rounded justify-content-center text-white p-4 d-flex align-items-center gap-3"
+          className="ad-bg rounded justify-content-center text-white p-4 d-flex align-items-center gap-3 pointer"
         >
           <h5 className="text-uppercase">User Management</h5>{" "}
           <img src={management} alt="" />

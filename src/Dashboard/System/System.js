@@ -15,22 +15,24 @@ export default function System() {
   useEffect(() => {
     const getContent = async () => {
       try {
-        setLoading(true);
-        const res = await Axios.get(
-          `https://ahmedroyale.com/api/Admin-Contents?type=${
-            changeTable === 0 ? "spoted" : changeTable === 1 && "reported"
-          }`,
-          {
-            headers: {
-              Host: "<calculated when request is sent>",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        if (changeTable === 0 || changeTable === 1 || changeTable ===2) {
+          setLoading(true);
+          const res = await Axios.get(
+            `https://ahmedroyale.com/api/Admin-Contents?type=${
+              changeTable === 0 ? "spoted" : changeTable === 1 ? "reported":changeTable ===2 &&'requested' 
+            }`,
+            {
+              headers: {
+                Host: "<calculated when request is sent>",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
-        if (res?.data) {
-          setData(res.data?.data);
-          setLoading(false);
+          if (res?.data) {
+            setData(res.data?.data);
+            setLoading(false);
+          }
         }
       } catch {
         setLoading(false);
@@ -73,6 +75,14 @@ export default function System() {
                 changeTable === 2 && "active-table"
               }`}
             >
+              Requeste Review
+            </h3>
+            <h3
+              onClick={() => setChangeTable(3)}
+              className={`fw-bold pointer text-grey ${
+                changeTable === 3 && "active-table"
+              }`}
+            >
               Pick a post
             </h3>
           </div>
@@ -97,6 +107,17 @@ export default function System() {
               date="Date"
               report="Report"
               reportedUser="Reported User"
+            />
+          ) : changeTable === 2 ? (
+            <Table
+              isContentManagement={true}
+              data={data}
+              action="View"
+              path="1"
+              secondCol="Post ID"
+              date="Date"
+              report=""
+              reportedUser=""
             />
           ) : (
             <SearchURL />
