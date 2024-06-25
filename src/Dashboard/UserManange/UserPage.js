@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap";
+import { Button, Modal, Row } from "react-bootstrap";
 import TopBar from "../../Components/TopBar/TopBar";
 import Facebook from "../../Assets/UserPage/Facebook.svg";
 import Instagram from "../../Assets/UserPage/Instagram.svg";
@@ -8,16 +8,24 @@ import PurpleStatic from "../../Assets/UserPage/Purple.svg";
 import Tick from "../../Assets/UserPage/Tick.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getUser, makeUserWarning, reset } from "../../store/actions/UsersSlice";
+import {
+  getUser,
+  makeUserBanned,
+  makeUserWarning,
+  reset,
+} from "../../store/actions/UsersSlice";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
 import userAvatar from "../../Assets/UserPage/avatar.png";
 import { ImgsUrl } from "../../Api/Api";
 import UniToast from "../../Components/UniToast/UniToast";
+import dayjs from "dayjs";
 
 export default function UserPage() {
   const [open, setOpen] = useState(false);
-  const { userDetails, loading, isWarning } = useSelector(
+  const [openForBanned, setOpenForBanned] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const { userDetails, loading, isWarning, isBanned } = useSelector(
     (state) => state.users
   );
   const { id } = useParams();
@@ -29,6 +37,9 @@ export default function UserPage() {
 
   const handleWarning = () => {
     dispatch(makeUserWarning({ user_id: id }));
+  };
+  const handleBanned = () => {
+    dispatch(makeUserBanned({ user_id: id, date:dayjs(date).format('YYYY-MM-DD') }));
   };
 
   useEffect(() => {
@@ -44,13 +55,23 @@ export default function UserPage() {
         <>
           {open && (
             <UniToast
-            reset={reset}
+              reset={reset}
               open={open}
               setOpen={setOpen}
               title={"user Warning"}
               message={"user Warning Successfully"}
             />
           )}
+          {isBanned && (
+            <UniToast
+              reset={reset}
+              open={isBanned}
+              setOpen={() =>{}}
+              title={"user Banned"}
+              message={"user Banned Successfully"}
+            />
+          )}
+
           <TopBar />
           <div className="text-white mt-4">
             <div className="d-flex align-items-center justify-content-between">
@@ -81,7 +102,10 @@ export default function UserPage() {
                 <Button className="border-0 text-uppercase text-white rounded bg-banfsagi">
                   normalize
                 </Button>
-                <Button className="border-0 text-uppercase text-white rounded bg-black">
+                <Button
+                  onClick={() => setOpenForBanned(true)}
+                  className="border-0 text-uppercase text-white rounded bg-black"
+                >
                   BAN
                 </Button>{" "}
                 <Button
@@ -243,6 +267,67 @@ export default function UserPage() {
           </div>
         </>
       )}
+
+      <Modal
+        centered
+        show={openForBanned}
+        className="p-5"
+        onHide={() => openForBanned(false)}
+      >
+        <Modal.Body
+          className="rounded d-flex align-items-center justify-content-center gap-4 flex-column"
+          style={{ background: "#000000" }}
+        >
+          <h5 className="text-white text-center">
+            Are you sure you want to BANNED this user ?
+          </h5>
+
+          <input
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+            style={{
+              background: "white",
+              border: "1px solid white",
+              width: "90%",
+            }}
+            className="rounded  px-4 py-2"
+            type="date"
+          ></input>
+
+          <Row className="gap-5">
+            <Button
+              style={{
+                width: "fit-content",
+                borderRadius: "20px",
+                backgroundColor: "#9057E5",
+                border: 0,
+                width: "172px",
+                height: "50px",
+              }}
+              variant="secondary"
+              className="text-white"
+              onClick={() => handleBanned()}
+            >
+              Yes
+            </Button>
+            <Button
+              style={{
+                width: "fit-content",
+                borderRadius: "20px",
+                backgroundColor: "#FC155C",
+                border: 0,
+                width: "172px",
+                height: "50px",
+              }}
+              variant="secondary"
+              className="text-white"
+              onClick={() => setOpenForBanned(false)}
+            >
+              No
+            </Button>
+          </Row>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

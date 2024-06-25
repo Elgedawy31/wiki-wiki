@@ -137,12 +137,12 @@ export const makeUserWarning = createAsyncThunk(
 );
 export const makeUserBanned = createAsyncThunk(
   "users/makeBanned",
-  async ({ user_id }, { rejectWithValue, getState }) => {
+  async ({ user_id, date }, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
       const response = await axios.post(
         `${baseURL}/Admin-users-ban`,
-        { user_id, text: "make user warning" },
+        { user_id, text: "make user banned" , expiry_date:date },
         {
           headers: {
             "Content-Type": "application/json",
