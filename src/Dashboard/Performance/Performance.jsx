@@ -14,7 +14,7 @@ import Performance3 from "./Performance3";
 import Performance4 from "./Performance4";
 import Performance5 from "./Performance5";
 import { baseURL } from "../../Api/Api";
-import { Axios } from "axios";
+import Axios  from "axios";
 
 export default function Performance() {
   const [type, setType] = useState(0);
@@ -36,6 +36,7 @@ export default function Performance() {
 
           if (res?.data) {
             setLoading(false);
+            setData(res.data)
           }
         } catch {
           setLoading(false);

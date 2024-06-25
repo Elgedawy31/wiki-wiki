@@ -4,7 +4,7 @@ import userImg2 from "../../../Assets/Performance/user2.png";
 import CircularChart from "../../../Components/charts/CircualChart";
 function LiveDetails({ liveData }) {
 
-  // console.log(liveData)
+  console.log(liveData)
   return (
     <div>
       <div className=" gap-5 mb-5 d-flex align-items-center justify-content-center">
@@ -81,12 +81,12 @@ function LiveDetails({ liveData }) {
           <div className="core-bottom  d-flex align-items-center justify-content-between">
             <div>
               <div className="first-core coins mb-3">
-                <div>Live Streamed</div>
-                <span>145.000</span>
+                <div>Coins Collected</div>
+                <span>{liveData?.coins}</span>
               </div>
               <div className="first-core coins">
-                <div>Viewers </div>
-                <span>145.000</span>
+                <div>Coins in dollar </div>
+                <span>{liveData?.dollers}</span>
               </div>
             </div>
             <div className="main-circural-chart">

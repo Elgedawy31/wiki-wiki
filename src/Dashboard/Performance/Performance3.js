@@ -3,17 +3,12 @@ import star1 from "../../Assets/Performance/Star 1.svg";
 import star2 from "../../Assets/Performance/Star 2.svg";
 import star3 from "../../Assets/Performance/Star 3.svg";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { baseURL } from "../../Api/Api";
-import { Axios } from "axios";
-
 export default function Performance3({ data , loading }) {
 
-
+console.log(data)
   return (
     <>
-      {!loading ? (
+      {loading ? (
         <LoadingSpinner />
       ) : (
         <div style={{ width: "90%" }} className="mx-auto">
