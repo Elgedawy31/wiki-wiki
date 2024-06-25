@@ -3,9 +3,8 @@ import star1 from "../../Assets/Performance/Star 1.svg";
 import star2 from "../../Assets/Performance/Star 2.svg";
 import star3 from "../../Assets/Performance/Star 3.svg";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
-export default function Performance3({ data , loading }) {
-
-console.log(data)
+export default function Performance3({ data, loading }) {
+  console.log(data);
   return (
     <>
       {loading ? (
@@ -28,35 +27,44 @@ console.log(data)
                     width={"100px"}
                   />
                 </div>
-                <div className="d-flex align-items-center justify-content-between mt-5">
-                  <div>
-                    <div className="d-flex gap-3">
-                      <img src={star1} alt="" />
-                      <p className="mb-0 text-white">Top search</p>
+                {data?.search?.length > 0 &&
+                  data?.search.map((ele, idx) => (
+                    <div className="d-flex align-items-center justify-content-between mt-2">
+                      <div>
+                        <div className="d-flex gap-3">
+                          <img
+                            style={{ width: "15px" }}
+                            src={
+                              idx === 0
+                                ? star1
+                                : idx === 1
+                                ? star2
+                                : idx === 2
+                                ? star3
+                                : ""
+                            }
+                            alt=""
+                          />
+                          <p className="mb-0 text-white">{ele?.search}</p>
+                        </div>
+                      </div>
+                      <div dir="rtl">
+                        <p
+                          className={`m-0 ${
+                            idx === 0
+                              ? "text-gold"
+                              : idx === 1
+                              ? "text-selver"
+                              : idx === 2
+                              ? "text-bronz"
+                              : "text-white"
+                          }`}
+                        >
+                          {ele?.count}
+                        </p>
+                      </div>
                     </div>
-                    <div className="d-flex gap-3 mt-3">
-                      <img src={star2} alt="" />
-                      <p className="mb-0 text-white">Top search</p>
-                    </div>
-                    <div className="d-flex gap-3 mt-3">
-                      <img src={star3} alt="" />
-                      <p className="mb-0 text-white">Top search</p>
-                    </div>
-                    <div className="d-flex gap-3 justify-content-end mt-3">
-                      <p className="mb-0 text-white ms-3">Top search</p>
-                    </div>
-                    <div className="d-flex justify-content-end gap-3 mt-3">
-                      <p className="mb-0 text-white ms-3">Top search</p>
-                    </div>
-                  </div>
-                  <div dir="rtl">
-                    <p className="mb-0 text-gold">442,250</p>
-                    <p className="mb-0 text-selver mt-3">112,540</p>
-                    <p className="mb-0 text-bronz mt-3">100,211</p>
-                    <p className="mb-0 text-white mt-3">99,222</p>
-                    <p className="mb-0 text-white mt-3">50,112</p>
-                  </div>
-                </div>
+                  ))}
               </div>
               <div className="col-md-5 col-12 bg-black-primary p-3 py-5">
                 <div className="d-flex align-items-center justify-content-between">
@@ -109,24 +117,19 @@ console.log(data)
                     </div>
                     <div className="d-flex align-items-center justify-content-between mt-5">
                       <div>
-                        <div className="d-flex gap-3">
-                          <p className="mb-0 text-white ms-4">1. POST LINK</p>
-                        </div>
-                        <div className="d-flex gap-3 mt-3">
-                          <p className="mb-0 text-white ms-4">2. POST LINK</p>
-                        </div>
-                        <div className="d-flex gap-3 mt-3">
-                          <p className="mb-0 text-white ms-4">3. POST LINK</p>
-                        </div>
-                        <div className="d-flex gap-3  mt-3">
-                          <p className="mb-0 text-white ms-4">4. POST LINK</p>
-                        </div>
-                        <div className="d-flex gap-3 mt-3">
-                          <p className="mb-0 text-white ms-4">5. POST LINK</p>
-                        </div>
-                        <div className="d-flex gap-3 mt-3">
-                          <p className="mb-0 text-white ms-4">6. POST LINK</p>
-                        </div>
+                        {data?.content?.length > 0 &&
+                          data?.content.map((ele, idx) => (
+                            <div className="d-flex gap-3 mb-3">
+                              <p className="mb-0 text-white ms-4">
+                                {idx + 1}.{" "}
+                                {ele?.link ? (
+                                  <a href={ele?.link}></a>
+                                ) : (
+                                  "NO LINK "
+                                )}
+                              </p>
+                            </div>
+                          ))}
                       </div>
                     </div>
                   </div>
