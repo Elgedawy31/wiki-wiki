@@ -2,16 +2,17 @@ import { Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
 import { useDispatch, useSelector } from "react-redux";
-import { loginAction } from "../../store/actions/AuthSlice";
+import { loginAction, reset } from "../../store/actions/AuthSlice";
 import { useNavigate } from "react-router-dom";
+import UniToast from "../../Components/UniToast/UniToast";
 
 export default function Login() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-  const { loading, error , token } = useSelector((state) => state.auth);
+  const { loading, error, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,14 +29,23 @@ export default function Login() {
     if (error) {
       console.log(error);
     }
-    if(token){
-      navigate('/dashboard/home')
+    if (token) {
+      navigate("/dashboard/home");
     }
-  }, [error , token]);
+  }, [error, token]);
 
-  console.log(token)
   return (
     <>
+      {error && (
+        <UniToast
+          reset={reset}
+          open={true}
+          setOpen={() => {}}
+          title="Login Error"
+          message={error}
+        />
+      )}
+
       {loading ? (
         <LoadingSpinner />
       ) : (
