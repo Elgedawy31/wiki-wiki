@@ -210,3 +210,7 @@ foreignObject {
 input:focus{
   outline: none;
 }
+
+#chart svg{
+  background-color: transparent !important;
+}

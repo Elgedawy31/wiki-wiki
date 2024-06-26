@@ -8,6 +8,8 @@ import marin from "../../../Assets/Performance/martin.png";
 import trash from "../../../Assets/Performance/Trash.png";
 import RequireItem from "./RequireItem";
 import { Button, Modal, Row } from "react-bootstrap";
+import avatar from '../../../Assets/UserPage/avatar.png'
+import { ImgsUrl } from "../../../Api/Api";
 function CollapseItem({ category }) {
   const [open, setOpen] = useState(false);
   const [openCat, setOpenCat] = useState(false);
@@ -34,7 +36,8 @@ function CollapseItem({ category }) {
         className="collapse-head d-flex align-items-center justify-content-between px-5 `"
       >
         <div className="logo d-flex align-items-center gap-3">
-          <span></span>
+
+          <img src={category?.img? `${ImgsUrl}/${category?.img}` : avatar} alt="" className="object-fit-contain rounded" style={{width:'78px', height:'78px'}} />
           <h6 className="text-white">{category?.name}</h6>
         </div>
         <h2 style={{ color: "#ffffff50", opacity: open ? 1 : 0 }}>Users</h2>

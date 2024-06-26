@@ -15,7 +15,7 @@ export default function Home() {
     dispatch(HomeData({ type: "year" }));
   }, []);
 
-   console.log(homeDetails);
+  console.log(homeDetails);
 
   return (
     <>
@@ -26,11 +26,13 @@ export default function Home() {
           <TopBar />
           <div className="d-flex align-items-stretch flex-wrap row-gap-3">
             <Statics />
-            <Months
-            mainDetails ={homeDetails}
-              data={homeDetails?.active_users?.data}
-              labels={homeDetails?.active_users?.labels}
-            />
+            {homeDetails?.active_users && (
+              <Months
+                mainDetails={homeDetails}
+                data={homeDetails?.active_users?.data}
+                labels={homeDetails?.active_users?.labels}
+              />
+            )}
           </div>
           <div className="col-12 mt-3">
             <div className="bg-black-primary py-md-4 py-2 px-md-4 px-2  text-white h-100">

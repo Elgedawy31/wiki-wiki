@@ -275,7 +275,7 @@ export default function UserPage() {
         centered
         show={openForBanned}
         className="p-5"
-        onHide={() => openForBanned(false)}
+        onHide={() => setOpenForBanned(false)}
       >
         <Modal.Body
           className="rounded d-flex align-items-center justify-content-center gap-4 flex-column"

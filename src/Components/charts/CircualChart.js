@@ -15,17 +15,19 @@ const CircularChart = ({ colors, percent }) => {
         },
       },
     },
-    fill:{
-        type: 'solid'
+    fill: {
+      type: 'solid',
     },
     stroke: {
-        lineCap: 'round'
-      },
-    colors: colors,
-    theme: {
-      mode: "light",
+      lineCap: 'round',
     },
-    labels: [],
+    colors: colors, // Use the colors you've passed as a prop
+    theme: {
+      mode: "dark",
+    },
+
+    labels:['Coins Collected']
+ 
   });
 
   const [series, setSeries] = useState([percent]);

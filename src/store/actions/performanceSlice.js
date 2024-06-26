@@ -39,7 +39,7 @@ export const addCategory = createAsyncThunk(
     const { auth } = getState();
     try {
       const response = await axios.post(
-        `${baseURL}/categories`,
+        `${baseURL}/Admin-target-categories`,
         formData,
         {
           headers: {
@@ -73,7 +73,7 @@ export const getAllCategories = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.get(`${baseURL}/categories`, {
+      const response = await axios.get(`${baseURL}/Admin-target-categories`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth?.token}`,

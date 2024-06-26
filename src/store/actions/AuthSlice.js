@@ -38,6 +38,10 @@ export const loginAction = createAsyncThunk(
         return rejectWithValue({
           message: error?.response?.data?.message,
         });
+      }else if (error?.response?.data?.errors?.password) {
+        return rejectWithValue({
+          message: error?.response?.data?.errors?.password,
+        });
       }
     }
   }
