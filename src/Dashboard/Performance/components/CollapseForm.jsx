@@ -2,23 +2,14 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import userImg from "../../../Assets/Performance/user.png";
-const CollapseForm = () => {
+const CollapseForm = ({formData , setFormData}) => {
   // State for form fields
-  const [formData, setFormData] = useState({
-    userName: "",
-    NumberOfLives: "",
-    startDate: "",
-    numberOfCoins: "",
-    endDate: "",
-    streamingTime: "",
-  });
+
 
   // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Process form data here
-    formData;
-  };
+    };
 
   // Handle change in form inputs
   const handleChange = (event) => {
@@ -51,18 +42,18 @@ const CollapseForm = () => {
               </Col>
               <Col>
                 <Form.Group className="mb-3" controlId="userName">
-                  <Form.Label className="text-white">userName</Form.Label>
+                  <Form.Label className="text-white">userID</Form.Label>
                   <Form.Control
                     style={{ background: "#D9D9D9", height: "67px" }}
                     type="text"
-                    placeholder="UserName"
+                    placeholder="userID"
                     value={formData.userName}
                     onChange={handleChange}
                   />
                 </Form.Group>
               </Col>
             </Row>
-            <Form.Group className="mb-3" controlId="NumberOfLives">
+            <Form.Group className="mb-3" controlId="numberOfLives">
               <Form.Label className="text-white">Number Of Lives</Form.Label>
               <Form.Control
                 style={{ background: "#D9D9D9", height: "67px" }}

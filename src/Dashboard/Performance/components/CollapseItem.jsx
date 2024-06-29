@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
 import Arrow from "../../../Assets/Performance/collapseArrow.png";
 import info from "../../../Assets/Performance/info.png";
@@ -7,25 +7,74 @@ import CollapseForm from "./CollapseForm";
 import marin from "../../../Assets/Performance/martin.png";
 import trash from "../../../Assets/Performance/Trash.png";
 import RequireItem from "./RequireItem";
-import { Button, Modal, Row } from "react-bootstrap";
+import { Button, Modal, Row, Toast } from "react-bootstrap";
 import avatar from "../../../Assets/UserPage/avatar.png";
 import { ImgsUrl } from "../../../Api/Api";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addTarget,
+  getAllCategories,
+  reset,
+} from "../../../store/actions/performanceSlice";
 function CollapseItem({ category }) {
   const [open, setOpen] = useState(false);
   const [openCat, setOpenCat] = useState(false);
   const [showCollapse, setShowCollapse] = useState(0);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [users , setUsers] = useState([])
+  const [error, setError] = useState(false);
+  const { targetAdded } = useSelector((state) => state.performance);
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    userName: "",
+    numberOfLives: "",
+    startDate: "",
+    numberOfCoins: "",
+    endDate: "",
+    streamingTime: "",
+  });
 
-  const handleChangeInfo = () => {
-    if (showCollapse === 0) {
-      setShowCollapse(1);
-      setOpen(false);
-      setOpenCat(false);
+  useEffect(() => {
+    if (targetAdded) {
+      dispatch(reset());
+      dispatch(getAllCategories());
+      setOpenCat(false)
+    }
+  }, [targetAdded]);
+
+  const handleSubmit = (values) => {
+    if (
+      formData?.userName &&
+      formData.numberOfLives &&
+      formData?.startDate &&
+      formData?.endDate &&
+      formData?.numberOfCoins &&
+      formData.streamingTime
+    ) {
+      dispatch(
+        addTarget({
+          end_time: formData?.endDate,
+          coins: formData?.numberOfCoins,
+          lives: formData?.numberOfLives,
+          hours: formData?.streamingTime,
+          start_time: formData?.startDate,
+          category_target_id:category?.id , 
+          user_id:formData?.userName
+        })
+      );
     } else {
-      setShowCollapse(0);
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
     }
   };
 
+useEffect(() =>{
+  if(category?.targets?.length > 0){
+    console.log(category?.targets)
+  }
+} , [category?.targets])
 
   return (
     <div className=" mb-5 p-2">
@@ -98,7 +147,7 @@ function CollapseItem({ category }) {
               style={{ cursor: "pointer" }}
             >
               <button
-              // onClick={handleSubmit}
+                onClick={handleSubmit}
                 style={{
                   width: "77px",
                   height: "32px",
@@ -140,7 +189,7 @@ function CollapseItem({ category }) {
             }}
             className="py-3 px-4 collapse-content"
           >
-            <CollapseForm />
+            <CollapseForm formData={formData} setFormData={setFormData} />
           </div>
         </Collapse>
       )}
@@ -157,259 +206,6 @@ function CollapseItem({ category }) {
               className="d-flex align-items-center justify-content-between gap-4"
               style={{ flexWrap: "wrap" }}
             >
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
               <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
                 <div
                   style={{

@@ -68,6 +68,41 @@ export const addCategory = createAsyncThunk(
     }
   }
 );
+export const addTarget = createAsyncThunk(
+  "performance/addtarget",
+  async (formData, { rejectWithValue, getState }) => {
+    const { auth } = getState();
+    try {
+      const response = await axios.post(
+        `${baseURL}/Admin-targets`,
+        formData,
+        {
+          headers: {
+            // "Content-Type": "application/json",
+            Authorization: `Bearer ${auth?.token}`,
+          },
+        }
+      );
+
+      const data = response.data;
+      if (data.error) {
+        return rejectWithValue(data);
+      }
+
+      return data;
+    } catch (error) {
+      if (error?.response.data?.error) {
+        return rejectWithValue({
+          message: error?.response?.data?.error,
+        });
+      } else if (error?.response?.data?.message) {
+        return rejectWithValue({
+          message: error?.response?.data?.message,
+        });
+      }
+    }
+  }
+);
 export const getAllCategories = createAsyncThunk(
   "performance/getAllCategories",
   async (_, { rejectWithValue, getState }) => {
@@ -106,6 +141,7 @@ const initialState = {
   livesDetails: {},
   allCategories: [],
   categoryAdded: false,
+  targetAdded: false,
 };
 
 const performanceSlice = createSlice({
@@ -116,6 +152,7 @@ const performanceSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.categoryAdded = false;
+      state.targetAdded= false;
     },
   },
   extraReducers: (builder) => {
@@ -143,6 +180,19 @@ const performanceSlice = createSlice({
         state.error = null;
       })
       .addCase(addCategory.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.payload?.message;
+      })
+      .addCase(addTarget.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addTarget.fulfilled, (state, action) => {
+        state.loading = false;
+        state.targetAdded = true;
+        state.error = null;
+      })
+      .addCase(addTarget.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.payload?.message;
       })

@@ -7,7 +7,6 @@ import { addCategory, reset } from "../../../store/actions/performanceSlice";
 function TargetDetails({ allCategories ,getAllCategories }) {
   const [addNewItem, setAddNewItem] = useState(false);
   const [name, setName] = useState("");
-
   const [photo, setPhoto] = useState(null);
   const [file, setFile] = useState([]);
   const handlePhotoChange = (event) => {
@@ -42,6 +41,8 @@ function TargetDetails({ allCategories ,getAllCategories }) {
     }
   }, [categoryAdded]);
 
+  // console.log(allCategories)
+
   return (
     <div className="categories-section py-5 ">
       <div className="mb-5 px-5">
@@ -57,7 +58,7 @@ function TargetDetails({ allCategories ,getAllCategories }) {
       </div>
       {!addNewItem && (
         <div>
-          {allCategories?.map((ele) => (
+          {allCategories?.data?.map((ele) => (
             <CollapseItem category={ele} />
           ))}
         </div>
