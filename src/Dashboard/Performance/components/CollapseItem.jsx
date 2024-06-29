@@ -21,7 +21,7 @@ function CollapseItem({ category }) {
   const [openCat, setOpenCat] = useState(false);
   const [showCollapse, setShowCollapse] = useState(0);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [users , setUsers] = useState([])
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
   const { targetAdded } = useSelector((state) => state.performance);
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ function CollapseItem({ category }) {
     if (targetAdded) {
       dispatch(reset());
       dispatch(getAllCategories());
-      setOpenCat(false)
+      setOpenCat(false);
     }
   }, [targetAdded]);
 
@@ -58,8 +58,8 @@ function CollapseItem({ category }) {
           lives: formData?.numberOfLives,
           hours: formData?.streamingTime,
           start_time: formData?.startDate,
-          category_target_id:category?.id , 
-          user_id:formData?.userName
+          category_target_id: category?.id,
+          user_id: formData?.userName,
         })
       );
     } else {
@@ -70,11 +70,14 @@ function CollapseItem({ category }) {
     }
   };
 
-useEffect(() =>{
-  if(category?.targets?.length > 0){
-    console.log(category?.targets)
-  }
-} , [category?.targets])
+  useEffect(() => {
+    if (category?.targets?.length > 0) {
+      const users = category?.targets.map((ele) => ele.user);
+      setUsers(users);
+    }
+  }, [category?.targets]);
+
+  // console.log(users)
 
   return (
     <div className=" mb-5 p-2">
@@ -203,20 +206,23 @@ useEffect(() =>{
           >
             {/* <CollapseForm /> */}
             <div
-              className="d-flex align-items-center justify-content-between gap-4"
+              className="d-flex align-items-center  gap-4"
               style={{ flexWrap: "wrap" }}
             >
-              <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                <div
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    borderRadius: "50%",
-                    backgroundColor: "#D9D9D9",
-                  }}
-                ></div>
-                <h4 className="text-white m-0">UserName</h4>
-              </div>
+              {users?.length > 0 ?
+                users.map((ele) => (
+                  <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
+                    <div
+                      style={{
+                        width: "56px",
+                        height: "56px",
+                        borderRadius: "50%",
+                        backgroundColor: "#D9D9D9",
+                      }}
+                    ></div>
+                    <h4 className="text-white m-0">{ele.name ||'Unknown'}</h4>
+                  </div>
+                )) : <h1 className="text-white my-5 text-center w-100"> No Users Here</h1>}
             </div>
           </div>
         </Collapse>
