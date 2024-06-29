@@ -90,7 +90,7 @@ export default function Performance() {
           ) : (
             <>
               {type === 0 && <LiveDetails liveData={liveData} />}
-              {type === 1 && <TargetDetails allCategories={allCategories} />}
+              {type === 1 && <TargetDetails allCategories={allCategories} getAllCategories={getAllCategories} />}
             </>
           )}
         </>
