@@ -42,7 +42,7 @@ function CollapseItem({ category }) {
     }
   }, [targetAdded]);
 
-  const handleSubmit = (values) => {
+  const handleSubmit = () => {
     if (
       formData?.userName &&
       formData.numberOfLives &&
@@ -73,11 +73,23 @@ function CollapseItem({ category }) {
   useEffect(() => {
     if (category?.targets?.length > 0) {
       const users = category?.targets.map((ele) => ele.user);
-      setUsers(users);
+      const filteredUsers = users.reduce((acc, current) => {
+        const x = acc.find((item) => item.id === current.id);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
+      setUsers(filteredUsers);
     }
   }, [category?.targets]);
 
-  // console.log(users)
+  const handleOpenUserDetails = () => {
+    setShowCollapse(1);
+  };
+
+  
 
   return (
     <div className=" mb-5 p-2">
@@ -124,28 +136,28 @@ function CollapseItem({ category }) {
               alt=""
             ></img>
           </div>
-          {/* <div style={{ cursor: "pointer" }} onClick={handleChangeInfo}>
+          <div style={{ cursor: "pointer" }} onClick={() => setShowCollapse(0)}>
             <img
               style={{
-                opacity: showCollapse===1? 1 : 0,
+                opacity: showCollapse === 1 ? 1 : 0,
               }}
               src={showCollapse === 0 ? info : redInfo}
               alt=""
             ></img>
-          </div> */}
+          </div>
           {open ? (
             <h2
-              // onClick={() => {
-              //   setOpenCat(false);
-              //   setShowCollapse(0)
-              //   if (openCat) {
-              //     setTimeout(() => {
-              //       setOpen((prev) => !prev);
-              //     }, 300);
-              //   } else {
-              //     setOpen((prev) => !prev);
-              //   }
-              // }}
+              onClick={() => {
+                setOpenCat(false);
+                setShowCollapse(0);
+                if (openCat) {
+                  setTimeout(() => {
+                    setOpen((prev) => !prev);
+                  }, 300);
+                } else {
+                  setOpen((prev) => !prev);
+                }
+              }}
               className="text-white"
               style={{ cursor: "pointer" }}
             >
@@ -209,20 +221,42 @@ function CollapseItem({ category }) {
               className="d-flex align-items-center  gap-4"
               style={{ flexWrap: "wrap" }}
             >
-              {users?.length > 0 ?
+              {users?.length > 0 ? (
                 users.map((ele) => (
-                  <div className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4">
-                    <div
-                      style={{
-                        width: "56px",
-                        height: "56px",
-                        borderRadius: "50%",
-                        backgroundColor: "#D9D9D9",
-                      }}
-                    ></div>
-                    <h4 className="text-white m-0">{ele.name ||'Unknown'}</h4>
+                  <div
+                    className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4 pointer"
+                    onClick={handleOpenUserDetails}
+                  >
+                    {ele?.img ? (
+                      <img
+                        style={{
+                          width: "56px",
+                          height: "56px",
+                          borderRadius: "50%",
+                          objectFit: "contain",
+                        }}
+                        src={`${ImgsUrl}/${ele?.img}`}
+                      ></img>
+                    ) : (
+                      <div
+                        style={{
+                          width: "56px",
+                          height: "56px",
+                          borderRadius: "50%",
+                          backgroundColor: "#d9d9d9",
+                        }}
+                        src={`${ImgsUrl}/${ele?.img}`}
+                      ></div>
+                    )}
+                    <h4 className="text-white m-0">{ele.name || "Unknown"}</h4>
                   </div>
-                )) : <h1 className="text-white my-5 text-center w-100"> No Users Here</h1>}
+                ))
+              ) : (
+                <h1 className="text-white my-5 text-center w-100">
+                  {" "}
+                  No Users Here
+                </h1>
+              )}
             </div>
           </div>
         </Collapse>
