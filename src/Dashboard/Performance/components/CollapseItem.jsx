@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
 import Arrow from "../../../Assets/Performance/collapseArrow.png";
 import info from "../../../Assets/Performance/info.png";
@@ -24,7 +24,10 @@ function CollapseItem({ category }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [error, setError] = useState(false);
   const [activeTarget, setActiveTarget] = useState(null);
-  const { targetAdded , targetDeleted } = useSelector((state) => state.performance);
+  const { targetAdded, targetDeleted } = useSelector(
+    (state) => state.performance
+  );
+  const [mainTarget, setMainTarget] = useState(null);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     userName: "",
@@ -46,7 +49,7 @@ function CollapseItem({ category }) {
     if (targetDeleted) {
       dispatch(reset());
       dispatch(getAllCategories());
-      setShowCollapse(0)
+      setShowCollapse(0);
     }
   }, [targetDeleted]);
 
@@ -85,28 +88,30 @@ function CollapseItem({ category }) {
 
   console.log(activeTarget);
 
-  const handleDeleteTarget = () =>{
-    dispatch(deleteTargetCat(activeTarget?.id))
-  }
+  const handleDeleteTarget = () => {
+    dispatch(deleteTargetCat(activeTarget?.id));
+  };
 
   function calculateTimePercentage(achievedHours, totalHours) {
     // Helper function to convert time from HH:MM to minutes
     function convertToMinutes(time) {
-      const [hours, minutes] = time.split(':').map(Number);
+      const [hours, minutes] = time.split(":").map(Number);
       return hours * 60 + minutes;
     }
-  
+
     // Convert both time values to minutes
     const achievedMinutes = convertToMinutes(achievedHours);
     const totalMinutes = convertToMinutes(totalHours);
-  
+
     // Calculate the percentage
     const percentage = (achievedMinutes / totalMinutes) * 100;
-  
+
     // Return the percentage, formatted to two decimal places
     return percentage.toFixed(2);
   }
 
+  useMemo(() => setMainTarget(activeTarget), [activeTarget]);
+  console.log(mainTarget);
   return (
     <div className=" mb-5 p-2">
       <div
@@ -292,12 +297,16 @@ function CollapseItem({ category }) {
               className="position-absolute d-flex gap-1  align-items-center justify-content-center"
               style={{ right: "32px", top: "16px", cursor: "pointer" }}
             >
-              <h6 style={{ color: "red", marginBottom: "0" }} >Delete</h6>
+              <h6 style={{ color: "red", marginBottom: "0" }}>Delete</h6>
               <img src={trash} alt="" />
             </div>
             <div className="d-flex gap-2 mb-4 flex-column align-items-center justify-content-center">
               {activeTarget?.user?.img ? (
-                <img height='50px' src={`${ImgsUrl}/${activeTarget?.user?.img}`} alt="" />
+                <img
+                  height="50px"
+                  src={`${ImgsUrl}/${activeTarget?.user?.img}`}
+                  alt=""
+                />
               ) : (
                 <div
                   style={{
@@ -315,30 +324,52 @@ function CollapseItem({ category }) {
 
             <div>
               <RequireItem
-                percent={(activeTarget?.achieved_lives /activeTarget?.lives) * 100}
+                percent={
+                  (activeTarget?.achieved_lives / activeTarget?.lives) * 100
+                }
                 showCheck
-                isCompleted={activeTarget?.achieved_lives === activeTarget?.lives}
+                isCompleted={
+                  activeTarget?.achieved_lives === activeTarget?.lives
+                }
                 firstText="Number Of Lives"
-                mainNum={activeTarget?.lives ||0}
-                secNum={activeTarget?.achieved_lives ||0}
+                mainNum={activeTarget?.lives || 0}
+                secNum={activeTarget?.achieved_lives || 0}
                 secondText="REQUIRED Number of lives"
+                title="lives"
+                mainTarget={mainTarget}
+                setMainTarget={setMainTarget}
               />
               <RequireItem
-                percent={calculateTimePercentage(activeTarget?.achieved_hours, activeTarget?.hours)}
+                percent={calculateTimePercentage(
+                  activeTarget?.achieved_hours,
+                  activeTarget?.hours
+                )}
                 firstText="Time Consumed"
-                isCompleted={activeTarget?.achieved_hours === activeTarget?.hours}
-                mainNum={activeTarget?.hours ||0}
-                secNum={activeTarget?.achieved_hours ||0}
+                isCompleted={
+                  activeTarget?.achieved_hours === activeTarget?.hours
+                }
+                mainNum={activeTarget?.hours || 0}
+                secNum={activeTarget?.achieved_hours || 0}
                 secondText="REQUIRED Time Consumed"
+                title="hours"
+                mainTarget={mainTarget}
+                setMainTarget={setMainTarget}
               />
               <RequireItem
-                percent={(activeTarget?.achieved_coins /activeTarget?.coins) * 100}
+                percent={
+                  (activeTarget?.achieved_coins / activeTarget?.coins) * 100
+                }
                 showCheck
-                isCompleted={activeTarget?.achieved_coins === activeTarget?.coins}
-                mainNum={activeTarget?.coins ||0}
-                secNum={activeTarget?.achieved_coins ||0}
+                isCompleted={
+                  activeTarget?.achieved_coins === activeTarget?.coins
+                }
+                mainNum={activeTarget?.coins || 0}
+                secNum={activeTarget?.achieved_coins || 0}
                 firstText="Coins Collected"
                 secondText="REQUIRED Coins Collected"
+                title="coins"
+                mainTarget={mainTarget}
+                setMainTarget={setMainTarget}
               />
             </div>
           </div>
@@ -359,18 +390,22 @@ function CollapseItem({ category }) {
             Are you sure you want to delete this Target ?
           </h5>
           <div className="d-flex gap-2  flex-column align-items-center justify-content-center">
-          {activeTarget?.user?.img ? (
-                <img height='50px' src={`${ImgsUrl}/${activeTarget?.user?.img}`} alt="" />
-              ) : (
-                <div
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "50%",
-                    backgroundColor: "#d9d9d9",
-                  }}
-                ></div>
-              )}
+            {activeTarget?.user?.img ? (
+              <img
+                height="50px"
+                src={`${ImgsUrl}/${activeTarget?.user?.img}`}
+                alt=""
+              />
+            ) : (
+              <div
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  backgroundColor: "#d9d9d9",
+                }}
+              ></div>
+            )}
             <h6 className="text-white">{activeTarget?.user?.name} </h6>
           </div>
 
