@@ -8,9 +8,13 @@ function RequireItem({
   secondText,
   percent,
   isCompleted = false,
+  mainNum ,
+  secNum
 }) {
   const firstColor = "#C39CFF";
   const secondColor = "#FF2769";
+
+
   return (
     <div className="d-flex align-items-center justify-content-between gap-2 mb-3">
       <div
@@ -25,14 +29,14 @@ function RequireItem({
         {showCheck && <img src={check} alt="" />}
       </div>
 
-      <h6 style={{ color: firstColor, margin: 0 }}>{firstText}</h6>
-      <h6 style={{ color: firstColor, margin: 0 }}>5</h6>
+      <h6 style={{ color: firstColor, margin: 0  , width:"130px"}}>{firstText}</h6>
+      <h6 style={{ color: firstColor, margin: 0 ,width:'50px' }} className="text-center">{secNum}</h6>
       <h6 style={{ margin: "0" }} className="text-white">
         :
       </h6>
-      <h6 style={{ color: secondColor, margin: 0 }}>5</h6>
-      <h6 style={{ color: secondColor, margin: 0 }}>{secondText}</h6>
-      <h6 style={{ color: isCompleted ? firstColor : secondColor, margin: 0 }}>
+      <h6 style={{ color: secondColor, margin: 0 , width:'50px'  }}className="text-center" >{mainNum}</h6>
+      <h6 style={{ color: secondColor, margin: 0  , width:"210px"}}>{secondText}</h6>
+      <h6 style={{ color: isCompleted ? firstColor : secondColor, margin: 0  , width:'101px'}}>
         {isCompleted ? "COMPLETED" : "IN PROCCESS"}
       </h6>
       <div
@@ -53,7 +57,7 @@ function RequireItem({
           }}
         ></span>
       </div>
-      <h6 style={{ color: firstColor, margin: 0, width: "20px" }}>{percent}</h6>
+      <h6 style={{ color: firstColor, margin: 0, width: "20px" }}>{percent}%</h6>
       <img src={editIcon} style={{ cursor: "pointer" }} />
     </div>
   );

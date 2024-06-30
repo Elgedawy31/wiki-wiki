@@ -103,6 +103,40 @@ export const addTarget = createAsyncThunk(
     }
   }
 );
+export const deleteTargetCat = createAsyncThunk(
+  "performance/deleteTarget",
+  async (id, { rejectWithValue, getState }) => {
+    const { auth } = getState();
+    try {
+      const response = await axios.delete(
+        `${baseURL}/Admin-targets/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth?.token}`,
+          },
+        }
+      );
+
+      const data = response.data;
+      if (data.error) {
+        return rejectWithValue(data);
+      }
+
+      return data;
+    } catch (error) {
+      if (error?.response.data?.error) {
+        return rejectWithValue({
+          message: error?.response?.data?.error,
+        });
+      } else if (error?.response?.data?.message) {
+        return rejectWithValue({
+          message: error?.response?.data?.message,
+        });
+      }
+    }
+  }
+);
 export const getAllCategories = createAsyncThunk(
   "performance/getAllCategories",
   async (_, { rejectWithValue, getState }) => {
@@ -142,6 +176,7 @@ const initialState = {
   allCategories: [],
   categoryAdded: false,
   targetAdded: false,
+  targetDeleted: false,
 };
 
 const performanceSlice = createSlice({
@@ -153,6 +188,7 @@ const performanceSlice = createSlice({
       state.error = null;
       state.categoryAdded = false;
       state.targetAdded= false;
+      state.targetDeleted= false;
     },
   },
   extraReducers: (builder) => {
@@ -193,6 +229,19 @@ const performanceSlice = createSlice({
         state.error = null;
       })
       .addCase(addTarget.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.payload?.message;
+      })
+      .addCase(deleteTargetCat.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteTargetCat.fulfilled, (state, action) => {
+        state.loading = false;
+        state.targetDeleted = true;
+        state.error = null;
+      })
+      .addCase(deleteTargetCat.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.payload?.message;
       })

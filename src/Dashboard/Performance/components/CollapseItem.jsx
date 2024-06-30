@@ -13,6 +13,7 @@ import { ImgsUrl } from "../../../Api/Api";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addTarget,
+  deleteTargetCat,
   getAllCategories,
   reset,
 } from "../../../store/actions/performanceSlice";
@@ -21,9 +22,9 @@ function CollapseItem({ category }) {
   const [openCat, setOpenCat] = useState(false);
   const [showCollapse, setShowCollapse] = useState(0);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
-  const { targetAdded } = useSelector((state) => state.performance);
+  const [activeTarget, setActiveTarget] = useState(null);
+  const { targetAdded , targetDeleted } = useSelector((state) => state.performance);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     userName: "",
@@ -41,6 +42,13 @@ function CollapseItem({ category }) {
       setOpenCat(false);
     }
   }, [targetAdded]);
+  useEffect(() => {
+    if (targetDeleted) {
+      dispatch(reset());
+      dispatch(getAllCategories());
+      setShowCollapse(0)
+    }
+  }, [targetDeleted]);
 
   const handleSubmit = () => {
     if (
@@ -70,26 +78,34 @@ function CollapseItem({ category }) {
     }
   };
 
-  useEffect(() => {
-    if (category?.targets?.length > 0) {
-      const users = category?.targets.map((ele) => ele.user);
-      const filteredUsers = users.reduce((acc, current) => {
-        const x = acc.find((item) => item.id === current.id);
-        if (!x) {
-          return acc.concat([current]);
-        } else {
-          return acc;
-        }
-      }, []);
-      setUsers(filteredUsers);
-    }
-  }, [category?.targets]);
-
-  const handleOpenUserDetails = () => {
+  const handleOpenUserDetails = (value) => {
     setShowCollapse(1);
+    setActiveTarget(value);
   };
 
+  console.log(activeTarget);
+
+  const handleDeleteTarget = () =>{
+    dispatch(deleteTargetCat(activeTarget?.id))
+  }
+
+  function calculateTimePercentage(achievedHours, totalHours) {
+    // Helper function to convert time from HH:MM to minutes
+    function convertToMinutes(time) {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    }
   
+    // Convert both time values to minutes
+    const achievedMinutes = convertToMinutes(achievedHours);
+    const totalMinutes = convertToMinutes(totalHours);
+  
+    // Calculate the percentage
+    const percentage = (achievedMinutes / totalMinutes) * 100;
+  
+    // Return the percentage, formatted to two decimal places
+    return percentage.toFixed(2);
+  }
 
   return (
     <div className=" mb-5 p-2">
@@ -141,7 +157,7 @@ function CollapseItem({ category }) {
               style={{
                 opacity: showCollapse === 1 ? 1 : 0,
               }}
-              src={showCollapse === 0 ? info : redInfo}
+              src={redInfo}
               alt=""
             ></img>
           </div>
@@ -221,13 +237,13 @@ function CollapseItem({ category }) {
               className="d-flex align-items-center  gap-4"
               style={{ flexWrap: "wrap" }}
             >
-              {users?.length > 0 ? (
-                users.map((ele) => (
+              {category?.targets?.length > 0 ? (
+                category?.targets.map((ele) => (
                   <div
                     className="cat-user d-flex align-items-center gap-2 justify-content-center mb-4 pointer"
-                    onClick={handleOpenUserDetails}
+                    onClick={() => handleOpenUserDetails(ele)}
                   >
-                    {ele?.img ? (
+                    {ele?.user.img ? (
                       <img
                         style={{
                           width: "56px",
@@ -235,7 +251,7 @@ function CollapseItem({ category }) {
                           borderRadius: "50%",
                           objectFit: "contain",
                         }}
-                        src={`${ImgsUrl}/${ele?.img}`}
+                        src={`${ImgsUrl}/${ele?.user.img}`}
                       ></img>
                     ) : (
                       <div
@@ -245,10 +261,12 @@ function CollapseItem({ category }) {
                           borderRadius: "50%",
                           backgroundColor: "#d9d9d9",
                         }}
-                        src={`${ImgsUrl}/${ele?.img}`}
+                        src={`${ImgsUrl}/${ele?.user.img}`}
                       ></div>
                     )}
-                    <h4 className="text-white m-0">{ele.name || "Unknown"}</h4>
+                    <h4 className="text-white m-0">
+                      {ele?.user?.name || "Unknown"}
+                    </h4>
                   </div>
                 ))
               ) : (
@@ -261,7 +279,7 @@ function CollapseItem({ category }) {
           </div>
         </Collapse>
       )}
-      {showCollapse === 1 && (
+      {showCollapse === 1 && activeTarget && (
         <Collapse in={showCollapse === 1}>
           <div
             style={{
@@ -274,33 +292,53 @@ function CollapseItem({ category }) {
               className="position-absolute d-flex gap-1  align-items-center justify-content-center"
               style={{ right: "32px", top: "16px", cursor: "pointer" }}
             >
-              <h6 style={{ color: "red", marginBottom: "0" }}>Delete</h6>
+              <h6 style={{ color: "red", marginBottom: "0" }} >Delete</h6>
               <img src={trash} alt="" />
             </div>
             <div className="d-flex gap-2 mb-4 flex-column align-items-center justify-content-center">
-              <img src={marin} alt="" />
-              <h6 className="text-white">Martnilli </h6>
+              {activeTarget?.user?.img ? (
+                <img height='50px' src={`${ImgsUrl}/${activeTarget?.user?.img}`} alt="" />
+              ) : (
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    backgroundColor: "#d9d9d9",
+                  }}
+                ></div>
+              )}
+              <h6 className="text-white">
+                {activeTarget?.user?.name || "Unknown"}{" "}
+              </h6>
             </div>
 
             <div>
               <RequireItem
-                percent="100%"
+                percent={(activeTarget?.achieved_lives /activeTarget?.lives) * 100}
                 showCheck
-                isCompleted
+                isCompleted={activeTarget?.achieved_lives === activeTarget?.lives}
                 firstText="Number Of Lives"
+                mainNum={activeTarget?.lives ||0}
+                secNum={activeTarget?.achieved_lives ||0}
                 secondText="REQUIRED Number of lives"
               />
               <RequireItem
-                percent="67%"
-                firstText="Number Of Lives"
-                secondText="REQUIRED Number of lives"
+                percent={calculateTimePercentage(activeTarget?.achieved_hours, activeTarget?.hours)}
+                firstText="Time Consumed"
+                isCompleted={activeTarget?.achieved_hours === activeTarget?.hours}
+                mainNum={activeTarget?.hours ||0}
+                secNum={activeTarget?.achieved_hours ||0}
+                secondText="REQUIRED Time Consumed"
               />
               <RequireItem
-                percent="100%"
+                percent={(activeTarget?.achieved_coins /activeTarget?.coins) * 100}
                 showCheck
-                isCompleted
-                firstText="Number Of Lives"
-                secondText="REQUIRED Number of lives"
+                isCompleted={activeTarget?.achieved_coins === activeTarget?.coins}
+                mainNum={activeTarget?.coins ||0}
+                secNum={activeTarget?.achieved_coins ||0}
+                firstText="Coins Collected"
+                secondText="REQUIRED Coins Collected"
               />
             </div>
           </div>
@@ -318,11 +356,22 @@ function CollapseItem({ category }) {
           style={{ background: "#000000" }}
         >
           <h5 className="text-white text-center">
-            Are you sure you want to delete this User ?
+            Are you sure you want to delete this Target ?
           </h5>
           <div className="d-flex gap-2  flex-column align-items-center justify-content-center">
-            <img src={marin} alt="" />
-            <h6 className="text-white">Martnilli </h6>
+          {activeTarget?.user?.img ? (
+                <img height='50px' src={`${ImgsUrl}/${activeTarget?.user?.img}`} alt="" />
+              ) : (
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    backgroundColor: "#d9d9d9",
+                  }}
+                ></div>
+              )}
+            <h6 className="text-white">{activeTarget?.user?.name} </h6>
           </div>
 
           <Row className="gap-5">
@@ -337,7 +386,7 @@ function CollapseItem({ category }) {
               }}
               variant="secondary"
               className="text-white"
-              onClick={() => setOpenDeleteModal(false)}
+              onClick={() => handleDeleteTarget()}
             >
               Yes
             </Button>
