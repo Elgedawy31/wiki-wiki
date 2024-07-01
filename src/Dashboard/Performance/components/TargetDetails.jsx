@@ -41,7 +41,6 @@ function TargetDetails({ allCategories ,getAllCategories }) {
     }
   }, [categoryAdded]);
 
-  // console.log(allCategories)
 
   return (
     <div className="categories-section py-5 ">

@@ -111,7 +111,6 @@ function CollapseItem({ category }) {
   }
 
   useMemo(() => setMainTarget(activeTarget), [activeTarget]);
-  console.log(mainTarget);
   return (
     <div className=" mb-5 p-2">
       <div
