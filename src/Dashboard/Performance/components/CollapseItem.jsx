@@ -16,6 +16,7 @@ import {
   deleteTargetCat,
   getAllCategories,
   reset,
+  updateTarget,
 } from "../../../store/actions/performanceSlice";
 function CollapseItem({ category }) {
   const [open, setOpen] = useState(false);
@@ -24,7 +25,7 @@ function CollapseItem({ category }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [error, setError] = useState(false);
   const [activeTarget, setActiveTarget] = useState(null);
-  const { targetAdded, targetDeleted } = useSelector(
+  const { targetAdded, targetDeleted ,targetUpdated } = useSelector(
     (state) => state.performance
   );
   const [mainTarget, setMainTarget] = useState(null);
@@ -45,6 +46,13 @@ function CollapseItem({ category }) {
       setOpenCat(false);
     }
   }, [targetAdded]);
+  useEffect(() => {
+    if (targetUpdated) {
+      dispatch(reset());
+      dispatch(getAllCategories());
+      setShowCollapse(0);
+    }
+  }, [targetUpdated]);
   useEffect(() => {
     if (targetDeleted) {
       dispatch(reset());
@@ -86,7 +94,7 @@ function CollapseItem({ category }) {
     setActiveTarget(value);
   };
 
-  console.log(activeTarget);
+  // console.log(activeTarget);
 
   const handleDeleteTarget = () => {
     dispatch(deleteTargetCat(activeTarget?.id));
@@ -111,6 +119,22 @@ function CollapseItem({ category }) {
   }
 
   useMemo(() => setMainTarget(activeTarget), [activeTarget]);
+
+  const handeUpdateTarget = () => {
+    console.log(mainTarget);
+    const formData = {
+      category_target_id: mainTarget?.category_target_id,
+      coins: mainTarget?.coins,
+      lives: mainTarget?.lives,
+      hours: mainTarget?.hours,
+      start_time: mainTarget?.start_time,
+      end_time: mainTarget?.end_time,
+      _method: 'PATCH',
+      user_id:mainTarget?.user?.id
+    };
+    dispatch(updateTarget({ formData, id: mainTarget?.id }));
+  };
+
   return (
     <div className=" mb-5 p-2">
       <div
@@ -370,6 +394,22 @@ function CollapseItem({ category }) {
                 mainTarget={mainTarget}
                 setMainTarget={setMainTarget}
               />
+              <button
+                onClick={handeUpdateTarget}
+                style={{
+                  display: "block",
+                  marginLeft: "auto",
+                  width: "77px",
+                  height: "32px",
+                  textAlign: "center",
+                  borderRadius: "4px",
+                  background:
+                    "linear-gradient(180deg, #9057E5 0%, #CC475D 100%)",
+                }}
+                className="text-white mt-5 "
+              >
+                Save
+              </button>
             </div>
           </div>
         </Collapse>
