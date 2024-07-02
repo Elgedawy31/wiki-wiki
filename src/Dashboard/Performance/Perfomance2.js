@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "../../Components/Card Performance/Card";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
@@ -10,6 +10,9 @@ import {
 } from "../../store/actions/FeefBackSlice";
 import { Button, Modal, Row } from "react-bootstrap";
 import UniToast from "../../Components/UniToast/UniToast";
+import Months from "../../Components/Statics/Months";
+import AreaChart from "../../Components/charts/AreaChart";
+import dayjs from "dayjs";
 
 export default function Performance2() {
   const { error, loading, deleted, feedbacks } = useSelector(
@@ -18,6 +21,7 @@ export default function Performance2() {
   const [open, setOpen] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [activeId, setActiveId] = useState(null);
+  const navigate = useNavigate()
 
   const dispatch = useDispatch();
 
@@ -41,6 +45,7 @@ export default function Performance2() {
     }
   }, [deleted]);
 
+  // console.log(feedbacks)
   return (
     <>
       {openError && (
@@ -69,9 +74,9 @@ export default function Performance2() {
             <h3 className="text-white my-4">Feedbacks</h3>
             <div>
               <>
-                {feedbacks?.length > 0 ? (
+                {feedbacks?.data?.length > 0 ? (
                   <>
-                    {feedbacks?.map((ele) => (
+                    {feedbacks?.data?.map((ele) => (
                       <Card
                         setActiveId={setActiveId}
                         setOpen={setOpen}
@@ -96,77 +101,24 @@ export default function Performance2() {
                   </p>
                 </div>
                 <div className="p-2 d-flex align-item-center gap-5">
-                  <div className="d-flex align-items-center gap-2">
+                  <div className="d-flex align-items-center gap-2 pointer" onClick={() => navigate('/dashboard/content-management-system')}>
                     <img
                       src={require("../../Assets/Performance/lab.png")}
                       alt="lab"
                       width={"25px"}
                     />
-                    <p className="mb-0 text-seconde-color">
+                    <p  className="mb-0 text-seconde-color">
                       Open Content Management System
                     </p>
                   </div>
-                  <p className="mb-0 text-white fw-bold">2023</p>
+                  <p className="mb-0 text-white fw-bold">{dayjs().format('YYYY')}</p>
                 </div>
               </div>
-              <div className="d-flex justify-content-end flex-column p-3 rounded-20 position-relative overflow-hidden">
-                <div className="position-absolute start-0 w-100 overflow-hidden">
-                  <img
-                    style={{ margin: "0 0 35px 80px" }}
-                    width={"100%"}
-                    src={require("../../Assets/Performance/Group 2.png")}
-                    alt="lines"
-                  />
-                </div>
-                <div className="d-flex flex-column col-12 ">
-                  <p>500</p>
-                  <p>400</p>
-                  <p>300</p>
-                  <p>200</p>
-                  <p>100</p>
-                  <p>0</p>
-                </div>
-                <div className=" col-12">
-                  <div
-                    className="d-flex justify-content-between"
-                    style={{ padding: "0 80px" }}
-                  >
-                    <div className="position-relative">
-                      <p>Jan</p>
-                    </div>
-                    <div className="position-relative">
-                      <p>Feb</p>
-                    </div>
-                    <div className="position-relative">
-                      <p>Mar</p>
-                    </div>
-                    <div className="position-relative">
-                      <p>Apr</p>
-                    </div>
-                    <div className="position-relative">
-                      <p>May</p>
-                    </div>
-                    <div className="position-relative">
-                      <p>Jun</p>
-                    </div>
-                    <div className="position-relative">
-                      <p>Jul</p>
-                    </div>
-                    <div className="position-relative">
-                      <p>Sep</p>
-                    </div>
-                    <div className="position-relative">
-                      <p>Oct</p>
-                    </div>
-                    <div className="position-relative">
-                      <p>Nov</p>
-                    </div>
-                    <div className="position-relative">
-                      <p>Dec</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/* {feedbacks?.active_users && (
+              <AreaChart
+                data={feedbacks?.active_users?.data}
+                labels={feedbacks?.active_users?.labels}
+              /> )} */}
             </div>
           </div>
           <div className="position-absolute my-3 me-3 bottom-0 end-0 ">

@@ -1,10 +1,6 @@
 import BarChart from "../charts/BarChart";
-import BarChat from "../charts/BarChart";
 
 export default function Months({ data, labels, mainDetails }) {
-
-  console.log()
-
   return (
     <div className="col-lg-7  col-12">
       <div className="bg-black-primary py-md-4 py-2 px-md-4 px-2  text-white h-100">

@@ -14,7 +14,7 @@ export const getAllFeedBacks = createAsyncThunk(
         },
       });
 
-      const data = response.data;
+      const data = response;
       if (data.error) {
         return rejectWithValue(data);
       }
