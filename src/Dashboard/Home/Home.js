@@ -45,7 +45,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <AreaChart />
+              <AreaChart data={{data:[] , labels:[]}} />
             </div>
           </div>
         </div>

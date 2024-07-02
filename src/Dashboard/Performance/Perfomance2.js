@@ -21,7 +21,7 @@ export default function Performance2() {
   const [open, setOpen] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [activeId, setActiveId] = useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -85,7 +85,9 @@ export default function Performance2() {
                     ))}
                   </>
                 ) : (
-                  <h1 className="my-5 text-center text-white">No Feedbacks Yet</h1>
+                  <h1 className="my-5 text-center text-white">
+                    No Feedbacks Yet
+                  </h1>
                 )}
               </>
             </div>
@@ -96,46 +98,52 @@ export default function Performance2() {
                 <div className="flex-grow-1">
                   <h4>Reports Analyses </h4>
                   <p>
-                    <span className="text-custom-delete"> (+5) more </span>
+                    <span
+                      className={
+                        feedbacks?.last_month_feed_back >
+                        feedbacks?.this_month_feed_back
+                          ? `text-custom-delete`
+                          : "text-green"
+                      }
+                    >
+                      {feedbacks?.last_month_feed_back >
+                      feedbacks?.this_month_feed_back
+                        ? `(+${
+                            feedbacks?.last_month_feed_back -
+                            feedbacks?.this_month_feed_back
+                          }) less`
+                        : `(+${
+                            feedbacks?.this_month_feed_back -
+                            feedbacks?.last_month_feed_back
+                          }) more`}
+                    </span>
                     <span className="text-grey"> Than the last month</span>
                   </p>
                 </div>
                 <div className="p-2 d-flex align-item-center gap-5">
-                  <div className="d-flex align-items-center gap-2 pointer" onClick={() => navigate('/dashboard/content-management-system')}>
+                  <div
+                    className="d-flex align-items-center gap-2 pointer"
+                    onClick={() =>
+                      navigate("/dashboard/content-management-system")
+                    }
+                  >
                     <img
                       src={require("../../Assets/Performance/lab.png")}
                       alt="lab"
                       width={"25px"}
                     />
-                    <p  className="mb-0 text-seconde-color">
+                    <p className="mb-0 text-seconde-color">
                       Open Content Management System
                     </p>
                   </div>
-                  <p className="mb-0 text-white fw-bold">{dayjs().format('YYYY')}</p>
+                  <p className="mb-0 text-white fw-bold">
+                    {dayjs().format("YYYY")}
+                  </p>
                 </div>
               </div>
-              {/* {feedbacks?.active_users && (
-              <AreaChart
-                data={feedbacks?.active_users?.data}
-                labels={feedbacks?.active_users?.labels}
-              /> )} */}
-            </div>
-          </div>
-          <div className="position-absolute my-3 me-3 bottom-0 end-0 ">
-            <div className="d-flex align-items-center gap-3">
-              <Link to="/performance/">
-                <img
-                  src={require("../../Assets/Performance/Arrow.png")}
-                  alt=""
-                />
-              </Link>
-              <Link to="/performance/3">
-                <img
-                  src={require("../../Assets/Performance/Arrow.png")}
-                  style={{ rotate: "180deg" }}
-                  alt=""
-                />
-              </Link>
+              {feedbacks?.active_users && (
+                <AreaChart data={feedbacks?.active_users} />
+              )}
             </div>
           </div>
         </div>
