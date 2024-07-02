@@ -68,17 +68,17 @@ export const updateAdDetails = createAsyncThunk(
   "ads/updateadddetails",
   async ({ type, id }, { rejectWithValue, getState }) => {
     const { auth } = getState();
+    const body = {
+      _mothod: "PATCH",
+      status: type,
+    };
     try {
-      const response = await axios.patch(
-        `${baseURL}/Admin-Ads/${id}`,
-        { status: type },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth?.token}`,
-          },
-        }
-      );
+      const response = await axios.patch(`${baseURL}/Admin-Ads/${id}`, body, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth?.token}`,
+        },
+      });
 
       const data = response.data;
       if (data.error) {
@@ -104,15 +104,12 @@ export const deleteAd = createAsyncThunk(
   async (id, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.delete(
-        `${baseURL}/Admin-Ads/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth?.token}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${baseURL}/Admin-Ads/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth?.token}`,
+        },
+      });
 
       const data = response.data;
       if (data.error) {
@@ -140,6 +137,7 @@ const initialState = {
   ads: [],
   adsDetails: {},
   deleted: false,
+  updated: false,
 };
 
 const adsSlice = createSlice({
@@ -151,6 +149,7 @@ const adsSlice = createSlice({
       state.error = null;
       state.isWarning = false;
       state.deleted = false;
+      state.updated = false;
     },
   },
   extraReducers: (builder) => {
@@ -191,6 +190,19 @@ const adsSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteAd.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.payload?.message;
+      })
+      .addCase(updateAdDetails.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateAdDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.updated = true;
+        state.error = null;
+      })
+      .addCase(updateAdDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.payload?.message;
       });

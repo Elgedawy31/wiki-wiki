@@ -29,7 +29,6 @@ export default function Notfication() {
   useEffect(() => {
     if (error) {
       setOpen(true);
-
     }
   }, [error]);
   useEffect(() => {
@@ -40,7 +39,11 @@ export default function Notfication() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(AddNotification({ body, title }));
+    const formData = new FormData();
+    formData.append("body", body);
+    formData.append("title", title);
+    formData.append("img", photo);
+    dispatch(AddNotification(formData));
   };
 
   return (

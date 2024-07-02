@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal, Row } from "react-bootstrap";
 import { ImgsUrl } from "../../../Api/Api";
 import dayjs from "dayjs";
-import { useDispatch } from "react-redux";
-import { deleteAd } from "../../../store/actions/AdsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteAd,
+  getAdsDetails,
+  reset,
+  updateAdDetails,
+} from "../../../store/actions/AdsSlice";
 import { useParams } from "react-router-dom";
 
 function AdCard({ data, setshowMoreDetails }) {
   const [open, setOpen] = useState(false);
+  const { updated } = useSelector((state) => state.ads);
   const dispatch = useDispatch();
   const { id } = useParams();
+
+  useEffect(() => {
+    if (updated) {
+      dispatch(reset());
+      dispatch(getAdsDetails(id));
+    }
+  }, [updated]);
+
   return (
     <div className="post py-4 px-5 d-flex align-items-stretch justify-content-between my-5 ">
       <div className="col-7 d-flex flex-column justify-content-between mb-2">
@@ -72,7 +86,10 @@ function AdCard({ data, setshowMoreDetails }) {
         </div>
         <div className="d-flex align-items-center justify-content-between mt-5">
           {data?.ad?.status === "active" && (
-            <Button className="bg-secondary text-white rounded py-3 fw-bold text-uppercase fs-5 col-3 border-0">
+            <Button
+              onClick={() => dispatch(updateAdDetails({ type: "pending", id }))}
+              className="bg-secondary text-white rounded py-3 fw-bold text-uppercase fs-5 col-3 border-0"
+            >
               Pause
             </Button>
           )}
@@ -80,6 +97,7 @@ function AdCard({ data, setshowMoreDetails }) {
             <Button
               style={{ backgroundColor: "#24FF01", color: "black" }}
               className=" rounded py-3 fw-bold text-uppercase fs-5 col-3 border-0"
+              onClick={() => dispatch(updateAdDetails({ type: "active", id }))}
             >
               Accept
             </Button>

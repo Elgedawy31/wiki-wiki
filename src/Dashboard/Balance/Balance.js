@@ -33,7 +33,7 @@ export default function Balance() {
 
           {transactions.map((item) => (
             <Link
-              to={`/dashboard/balance/${item.user.id}`}
+              to={`/dashboard/balance/${item?.id}`}
               key={item.id}
               className="d-flex align-items-center justify-content-between text-decoration-none mb-4"
             >

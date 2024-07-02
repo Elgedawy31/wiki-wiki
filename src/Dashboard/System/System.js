@@ -75,7 +75,7 @@ export default function System() {
                 changeTable === 2 && "active-table"
               }`}
             >
-              Requeste Review
+              Requested Review
             </h3>
             <h3
               onClick={() => setChangeTable(3)}

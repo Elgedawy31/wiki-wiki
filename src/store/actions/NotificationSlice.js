@@ -7,15 +7,14 @@ export const AddNotification = createAsyncThunk(
   async (values , { rejectWithValue, getState }) => {
     try {
       const { auth } = getState();
-      const body = { body: values.body, title: values.title };
 
       const response = await axios.post(
         `${baseURL}/Admin-send-notifications`,
 
-        body,
+        values,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": 'multipart/form-data',
             Authorization: `Bearer ${auth?.token}`,
           },
         }
