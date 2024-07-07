@@ -17,10 +17,10 @@ export const TransactionApi = createApi({
   baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
     getProductsByName: builder.query({
-      query: (name) => `Admin-Transaction`,
+      query: (name) => `Admin-transaction-history`,
     }),
     getOneTransaction: builder.query({
-      query: ({ id }) => `Admin-Transaction/${id}`,
+      query: ({ id }) => `Admin-transaction-history/${id}`,
     }),
   }),
 });

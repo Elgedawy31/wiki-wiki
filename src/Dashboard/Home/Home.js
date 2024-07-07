@@ -8,14 +8,17 @@ import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { HomeData } from "../../store/actions/HomeSlice";
+import { profile } from "../../store/actions/ProfileSlice";
 export default function Home() {
   const dispatch = useDispatch();
-  const { loading, error, homeDetails } = useSelector((state) => state.home);
+  const { loading, homeDetails } = useSelector((state) => state.home);
   useEffect(() => {
     dispatch(HomeData({ type: "year" }));
   }, []);
 
-  console.log(homeDetails);
+  useEffect(() => {
+    dispatch(profile())
+  } , [])
 
   return (
     <>
@@ -23,7 +26,7 @@ export default function Home() {
         <LoadingSpinner />
       ) : (
         <div>
-          <TopBar />
+          <TopBar showSearch={false} />
           <div className="d-flex align-items-stretch flex-wrap row-gap-3">
             <Statics />
             {homeDetails?.active_users && (

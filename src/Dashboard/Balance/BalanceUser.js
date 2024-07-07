@@ -23,21 +23,6 @@ export default function BalanceUser() {
 
   const { id } = useParams();
   const { data, error, isLoading } = useGetOneTransactionQuery({ id });
-  console.log(data)
-
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>Error: {error.message}</div>;
-  // }
-
-  // if (!data) {
-  //   return <div>No transaction data found</div>;
-  // }
-
-
   const userName = data ? data.user.name : '';
   const dollars = data ? data.dollars : '';
   const date = data ? data.date : '';

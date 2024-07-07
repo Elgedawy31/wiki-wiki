@@ -10,6 +10,7 @@ import managementReducer from "./actions/ManagementSlice";
 import adsReducer from "./actions/AdsSlice";
 import feedbacksReducer from "./actions/FeefBackSlice";
 import interestsReducer from "./actions/InterestsSlice";
+import profileReducer from "./actions/ProfileSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     ads: adsReducer,
     feedback: feedbacksReducer,
     interests: interestsReducer,
+    profile: profileReducer,
     [TransactionApi.reducerPath]: TransactionApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

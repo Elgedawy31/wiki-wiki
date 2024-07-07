@@ -1,5 +1,5 @@
-export const baseURL = "https://ahmedroyale.com/api";
-export const ImgsUrl = "https://ahmedroyale.com";
+export const baseURL = "https://api.wikisocial.net/api";
+export const ImgsUrl = "https://api.wikisocial.net";
 
 // Auth
 export const LOGIN = "loginAdmin";
