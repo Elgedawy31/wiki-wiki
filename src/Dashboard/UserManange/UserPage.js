@@ -1,4 +1,4 @@
-import { Button, Modal, Row } from "react-bootstrap";
+import { Button, Form, Modal, Row } from "react-bootstrap";
 import TopBar from "../../Components/TopBar/TopBar";
 import Facebook from "../../Assets/UserPage/Facebook.svg";
 import Instagram from "../../Assets/UserPage/Instagram.svg";
@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import {
   getUser,
   makeUserBanned,
+  makeUserNormalize,
   makeUserWarning,
   reset,
 } from "../../store/actions/UsersSlice";
@@ -24,10 +25,10 @@ import dayjs from "dayjs";
 export default function UserPage() {
   const [open, setOpen] = useState(false);
   const [openForBanned, setOpenForBanned] = useState(false);
+  const [verified, setVerified] = useState(false);
   const [date, setDate] = useState(new Date());
-  const { userDetails, loading, isWarning, isBanned } = useSelector(
-    (state) => state.users
-  );
+  const { userDetails, loading, isWarning, isBanned, isNormalize } =
+    useSelector((state) => state.users);
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -50,6 +51,14 @@ export default function UserPage() {
       setOpen(true);
     }
   }, [isWarning]);
+  useEffect(() => {
+    setVerified(userDetails?.social?.verified_at);
+  }, [userDetails]);
+
+  const handleVerifiing = (vei) => {
+    dispatch(makeUserNormalize({ id, verified: vei }));
+  };
+
   return (
     <>
       {loading ? (
@@ -72,6 +81,15 @@ export default function UserPage() {
               setOpen={() => {}}
               title={"user Banned"}
               message={"user Banned Successfully"}
+            />
+          )}
+          {isNormalize && (
+            <UniToast
+              reset={reset}
+              open={isNormalize}
+              setOpen={() => {}}
+              title={"user Verify"}
+              message={verified ? "user verified" : "user not verified"}
             />
           )}
 
@@ -102,7 +120,10 @@ export default function UserPage() {
                 </div>
               </div>
               <div className="d-flex align-items-center gap-2">
-                <Button className="border-0 text-uppercase text-white rounded bg-banfsagi">
+                <Button
+                  onClick={() => handleVerifiing(!verified)}
+                  className="border-0 text-uppercase text-white rounded bg-banfsagi"
+                >
                   normalize
                 </Button>
                 <Button
@@ -261,8 +282,17 @@ export default function UserPage() {
                       {userDetails?.social?.reports || 0}{" "}
                     </span>
                   </p>{" "}
-                  <p className="text-white">
-                    Reports: <img className="ms-2" src={Tick} alt="" />
+                  <p className="text-white d-flex align-items-center gap-3">
+                    <span>Verified : </span>{" "}
+                    <Form.Check
+                      type="switch"
+                      checked={verified}
+                      onChange={() => {
+                        setVerified((prev) => !prev);
+                        handleVerifiing(!verified);
+                      }}
+                      id="custom-switch-form"
+                    />
                   </p>
                 </div>
               </div>
@@ -287,7 +317,9 @@ export default function UserPage() {
 
           <input
             value={date}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={(e) => {
+              setDate(e.target.value);
+            }}
             style={{
               background: "white",
               border: "1px solid white",

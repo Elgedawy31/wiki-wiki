@@ -71,12 +71,48 @@ export const addUser = createAsyncThunk(
   async (values, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.post(`${baseURL}/Admin-users` , values, {
+      const response = await axios.post(`${baseURL}/Admin-users`, values, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth?.token}`,
         },
       });
+
+      const data = response.data;
+      if (data.error) {
+        return rejectWithValue(data);
+      }
+
+      return data;
+    } catch (error) {
+      if (error?.response.data?.error) {
+        return rejectWithValue({
+          message: error?.response?.data?.error,
+        });
+      } else if (error?.response?.data?.message) {
+        return rejectWithValue({
+          message: error?.response?.data?.message,
+        });
+      }
+    }
+  }
+);
+export const makeUserNormalize = createAsyncThunk(
+  "users/makeusernormalize",
+  async ({ id, verified }, { rejectWithValue, getState }) => {
+    const { auth } = getState();
+    try {
+      const formData = new FormData();
+      const response = await axios.post(
+        `${baseURL}/Admin-users/${id}`,
+        { _method: "PATCH", status: verified ? 1 : 0 },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth?.token}`,
+          },
+        }
+      );
 
       const data = response.data;
       if (data.error) {
@@ -173,7 +209,7 @@ export const makeUserBanned = createAsyncThunk(
     try {
       const response = await axios.post(
         `${baseURL}/Admin-users-ban`,
-        { user_id, text: "make user banned" , expiry_date:date },
+        { user_id, text: "make user banned", expiry_date: date },
         {
           headers: {
             "Content-Type": "application/json",
@@ -208,6 +244,7 @@ const initialState = {
   userDetails: {},
   allUsers: [],
   isWarning: false,
+  isNormalize: false,
   isBanned: false,
 };
 
@@ -219,6 +256,7 @@ const usersSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.isWarning = false;
+      state.isNormalize = false;
       state.isBanned = false;
     },
   },
@@ -261,6 +299,19 @@ const usersSlice = createSlice({
         state.error = null;
       })
       .addCase(getUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.payload?.message;
+      })
+      .addCase(makeUserNormalize.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(makeUserNormalize.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isNormalize = true;
+        state.error = null;
+      })
+      .addCase(makeUserNormalize.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.payload?.message;
       })

@@ -38,7 +38,7 @@ export default function UserManage() {
 
   return (
     <>
-      <TopBar setValue={setValue} value={value} setSearch={setSearch} />
+      <TopBar showSearch={true} setValue={setValue} value={value} setSearch={setSearch} />
       <div>
         <div className="mt-3  d-flex align-items-center justify-content-evenly text-white mb-5 ">
           <h3

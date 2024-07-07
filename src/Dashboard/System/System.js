@@ -18,7 +18,7 @@ export default function System() {
         if (changeTable === 0 || changeTable === 1 || changeTable ===2) {
           setLoading(true);
           const res = await Axios.get(
-            `https://ahmedroyale.com/api/Admin-Contents?type=${
+            `${baseURL}/Admin-Contents?type=${
               changeTable === 0 ? "spoted" : changeTable === 1 ? "reported":changeTable ===2 &&'requested' 
             }`,
             {
