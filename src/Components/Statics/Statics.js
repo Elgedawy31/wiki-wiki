@@ -2,7 +2,7 @@ import { Button } from "react-bootstrap";
 
 export default function Statics() {
   return (
-    <div className="col-lg-5  col-12 position-relative z-1">
+    <div className="col-lg-5  col-12 position-relative z-1 h-100">
       <div className="bg-black-primary me-lg-3 me-md-2 py-md-4 py-2 px-md-4 px-2  text-white">
         <div className="mb-3">
           <h6>Satisfaction Rate</h6>

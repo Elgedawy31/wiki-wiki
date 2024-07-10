@@ -39,7 +39,7 @@ function App() {
           />
           <Route path="/dashboard/performance" element={<Performance />} />
           <Route
-            path="/dashboard/content-management-system/1"
+            path="/dashboard/content-management-system/post-details"
             element={<SystemPost />}
           />
           <Route
