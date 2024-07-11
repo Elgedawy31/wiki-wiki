@@ -36,6 +36,8 @@ export default function UserManage() {
     }
   }, [changeTable, search]);
 
+  console.log(allUsers)
+
   return (
     <>
       <TopBar showSearch={true} setValue={setValue} value={value} setSearch={setSearch} />

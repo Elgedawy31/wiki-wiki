@@ -62,7 +62,7 @@ export default function SearchURL() {
               className="rounded-pill bg-primary-grad border-0 col-1 fw-bold text-uppercase"
               style={{
                 transform: "translate(-80px)",
-                opacity: loading || name === "" ? 0.7 : 1,
+                opacity:  1,
                 cursor: loading || (name === "" && "not-allowed"),
               }}
             >

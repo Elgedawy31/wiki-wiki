@@ -4,8 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import userAvatar from "../../Assets/UserPage/avatar.png";
 import { ImgsUrl } from "../../Api/Api";
+import { useState } from "react";
 export default function Table(props) {
   const navigation = useNavigate();
+  const [fromUserError, setFromUserError] = useState(false);
+  const [toUserError, setToUserError] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  
   return (
     <div>
       {props.showSpotted && (
@@ -35,7 +40,7 @@ export default function Table(props) {
           <h6 className="col-md-2 text-center text-grey">{props.action}</h6>
         </div>
 
-        {props.data?.length > 0 && (
+        {props.data?.length > 0 ? (
           <>
             {props?.data.map((ele) => (
               <div
@@ -46,48 +51,59 @@ export default function Table(props) {
                 <div className="col-md-3 gap-2 text-start d-flex ga-2 align-items-center">
                   {props.isUsersTable ? (
                     <>
-                      <img
-                        className="col-md-2"
-                        src={ele?.img ? `${ImgsUrl}/${ele?.img}` : userAvatar}
-                        alt=""
-                        style={{
-                          height: "63.8px",
-                          width: "36.39px",
-                          objectFit: "cover",
-                        }}
-                      />
-                        <div>
-                    <p className="m-0">{ele?.name || "unKnown"}</p>
-                    <p className="text-grey m-0">
-                      {ele?.nick_name || "unKnown"}
-                    </p>
-                  </div>
+                      {imgError || !ele?.img  ?  <div className="null-img">{ele?.name?.slice(0 ,1) || 'U'} </div> : 
+                        <img
+                          className="col-md-2"
+                          src={
+                            ele?.img
+                              ? `${ImgsUrl}/${ele?.img}`
+                              : userAvatar
+                          }
+                          alt=""
+                          onError={() => setImgError(true)}
+                          style={{
+                            height: "63.8px",
+                            width: "36.39px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      }
+                      <div>
+                        <p className="m-0">{ele?.name || "unKnown"}</p>
+                        <p className="text-grey m-0">
+                          {ele?.nick_name || "unKnown"}
+                        </p>
+                      </div>
                     </>
                   ) : (
                     <>
-                      <img
-                        className="col-md-2"
-                        src={
-                          ele?.from_user?.img
-                            ? `${ImgsUrl}/${ele?.from_user?.img}`
-                            : userAvatar
-                        }
-                        alt=""
-                        style={{
-                          height: "63.8px",
-                          width: "36.39px",
-                          objectFit: "cover",
-                        }}
-                      />
-                        <div>
-                    <p className="m-0">{ele?.from_user?.name || "unKnown"}</p>
-                    <p className="text-grey m-0">
-                      {ele?.from_user?.nick_name || "unKnown"}
-                    </p>
-                  </div>
+                      {fromUserError || !ele?.from_user?.img  ?  <div className="null-img">{ele?.from_user?.name?.slice(0 ,1) || 'U'}</div> : 
+                        <img
+                          className="col-md-2"
+                          src={
+                            ele?.from_user?.img
+                              ? `${ImgsUrl}/${ele?.from_user?.img}`
+                              : userAvatar
+                          }
+                          alt=""
+                          onError={() => setFromUserError(true)}
+                          style={{
+                            height: "63.8px",
+                            width: "36.39px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      }
+                      <div>
+                        <p className="m-0">
+                          {ele?.from_user?.name || "unKnown"}
+                        </p>
+                        <p className="text-grey m-0">
+                          {ele?.from_user?.nick_name || "unKnown"}
+                        </p>
+                      </div>
                     </>
                   )}
-                
                 </div>
                 {props.report && (
                   <div className="col-md-3">
@@ -109,20 +125,23 @@ export default function Table(props) {
                 )}
                 {props.reportedUser !== "" && (
                   <div className="col-md-3 gap-2 text-start d-flex ga-2 align-items-center">
-                    <img
-                      className="col-md-2"
-                      src={
-                        ele?.to_user?.img
-                          ? `${ImgsUrl}/${ele?.to_user?.img}`
-                          : userAvatar
+                    {toUserError|| !ele?.to_user?.img  ?  <div className="null-img">{ele?.to_user?.name?.slice(0 ,1) || 'U'}</div> : 
+                        <img
+                          className="col-md-2"
+                          src={
+                            ele?.to_user?.img
+                              ? `${ImgsUrl}/${ele?.to_user?.img}`
+                              : userAvatar
+                          }
+                          alt=""
+                          onError={() => setToUserError(true)}
+                          style={{
+                            height: "63.8px",
+                            width: "36.39px",
+                            objectFit: "cover",
+                          }}
+                        />
                       }
-                      alt=""
-                      style={{
-                        height: "63.8px",
-                        width: "36.39px",
-                        objectFit: "cover",
-                      }}
-                    />
                     <div>
                       <p className="m-0">{ele?.to_user?.name || "unKnown"}</p>
                       <p className="text-grey m-0">
@@ -174,6 +193,8 @@ export default function Table(props) {
               </div>
             ))}
           </>
+        ) : (
+          <h1 className="my-5 text-center">NO DATA YET</h1>
         )}
       </div>
     </div>

@@ -7,10 +7,23 @@ import { deleteContent, reset } from "../../store/actions/ManagementSlice";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import UniToast from "../UniToast/UniToast";
+import {
+  makeUserBanned,
+  makeUserWarning,
+  reset as userReset,
+} from "../../store/actions/UsersSlice";
 
 export default function SystemPostComponent({ data }) {
   const [openForDelete, setopenForDelete] = useState(false);
-  const { deleted , error, loading } = useSelector((state) => state.management);
+  const [openForBanned, setOpenForBanned] = useState(false);
+  const [date , setDate] = useState(null)
+  const { deleted, error, loading } = useSelector((state) => state.management);
+  const {
+    loading: userLoading,
+    isWarning,
+    isBanned,
+  } = useSelector((state) => state.users);
+  const [userImg, setUserImg] = useState(false);
   const [reason, setReason] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,6 +38,18 @@ export default function SystemPostComponent({ data }) {
     }
   }, [deleted]);
 
+  const handleWarning = () => {
+    dispatch(makeUserWarning({ user_id: data?.user?.id }));
+  };
+
+  const handleBannedUser = () => {
+    dispatch(
+      makeUserBanned({ user_id: data?.user?.id, date: dayjs(date).format("YYYY-MM-DD") })
+    );
+    setOpenForBanned(false);
+  };
+
+
   return (
     <>
       {error && (
@@ -36,23 +61,50 @@ export default function SystemPostComponent({ data }) {
           message={error}
         />
       )}
-      {loading ? (
+      {isWarning && (
+        <UniToast
+          reset={userReset}
+          open={true}
+          setOpen={() => {}}
+          title={"user Warning"}
+          message={"user Warning Successfully"}
+        />
+      )}
+      {isBanned && (
+        <UniToast
+          reset={userReset}
+          open={true}
+          setOpen={() => {}}
+          title={"user Baned"}
+          message={"user Baned Successfully"}
+        />
+      )}
+      {loading || userLoading ? (
         <LoadingSpinner />
       ) : (
         <div className="post py-4 px-5 d-flex align-items-stretch justify-content-between my-5 mx-4">
           <div className="col-7 d-flex flex-column justify-content-between mb-2">
             <div>
               <div className="d-flex align-items-center gap-4 mb-5">
-                <img
-                  src={
-                    data?.user?.img
-                      ? `${ImgsUrl}/${data?.user?.img}`
-                      : "../../Assets/System/Ellipse 1.png"
-                  }
-                  alt="user"
-                  // onError={(e) => console.log('error')}
-                  width={"150px"}
-                />
+                {userImg ? (
+                  <div
+                    style={{ width: "100px", height: "100px" }}
+                    className="null-img"
+                  >
+                    {data?.user?.name.slice(0, 1)}
+                  </div>
+                ) : (
+                  <img
+                    src={
+                      data?.user?.img
+                        ? `${ImgsUrl}/${data?.user?.img}`
+                        : "../../Assets/System/Ellipse 1.png"
+                    }
+                    alt="user"
+                    onError={(e) => setUserImg(true)}
+                    width={"150px"}
+                  />
+                )}
                 <div>
                   <p className="text-white fs-1 fst-italic">
                     {data?.user?.name || "UNKNOWN"}
@@ -84,10 +136,16 @@ export default function SystemPostComponent({ data }) {
               >
                 Delete
               </Button>
-              <Button className="bg-warning text-white rounded py-3 col-3 border-0">
+              <Button
+                onClick={handleWarning}
+                className="bg-warning text-white rounded py-3 col-3 border-0"
+              >
                 Warning
               </Button>
-              <Button className="bg-dark text-white rounded py-3 col-3 border-0">
+              <Button
+                onClick={() => setOpenForBanned(true)}
+                className="bg-dark text-white rounded py-3 col-3 border-0"
+              >
                 Ban
               </Button>
             </div>
@@ -163,6 +221,69 @@ export default function SystemPostComponent({ data }) {
           </Modal>
         </div>
       )}
+
+      <Modal
+        centered
+        show={openForBanned}
+        className="p-5"
+        onHide={() => setOpenForBanned(false)}
+      >
+        <Modal.Body
+          className="rounded d-flex align-items-center justify-content-center gap-4 flex-column"
+          style={{ background: "#000000" }}
+        >
+          <h5 className="text-white text-center">
+            Are you sure you want to BANNED this user ?
+          </h5>
+
+          <input
+            value={date}
+            onChange={(e) => {
+              setDate(e.target.value);
+            }}
+            style={{
+              background: "white",
+              border: "1px solid white",
+              width: "90%",
+            }}
+            className="rounded  px-4 py-2"
+            type="date"
+          ></input>
+
+          <Row className="gap-5">
+            <Button
+              style={{
+                width: "fit-content",
+                borderRadius: "20px",
+                backgroundColor: "#9057E5",
+                border: 0,
+                width: "172px",
+                height: "50px",
+              }}
+              variant="secondary"
+              className="text-white"
+              onClick={() => handleBannedUser()}
+            >
+              Yes
+            </Button>
+            <Button
+              style={{
+                width: "fit-content",
+                borderRadius: "20px",
+                backgroundColor: "#FC155C",
+                border: 0,
+                width: "172px",
+                height: "50px",
+              }}
+              variant="secondary"
+              className="text-white"
+              onClick={() => setOpenForBanned(false)}
+            >
+              No
+            </Button>
+          </Row>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

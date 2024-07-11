@@ -41,7 +41,7 @@ export const deleteContent = createAsyncThunk(
   async ({ id, reason }, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.get(
+      const response = await axios.delete(
         `${baseURL}/Admin-Contents/${id}?reason=${reason}`,
         {
           headers: {
@@ -70,10 +70,42 @@ export const deleteContent = createAsyncThunk(
     }
   }
 );
+export const getContent = createAsyncThunk(
+  "management/getcontent",
+  async ({ id }, { rejectWithValue, getState }) => {
+    const { auth } = getState();
+    try {
+      const response = await axios.get(`${baseURL}/Admin-Contents/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth?.token}`,
+        },
+      });
+
+      const data = response.data;
+      if (data.error) {
+        return rejectWithValue(data);
+      }
+
+      return data;
+    } catch (error) {
+      if (error?.response.data?.error) {
+        return rejectWithValue({
+          message: error?.response?.data?.error,
+        });
+      } else if (error?.response?.data?.message) {
+        return rejectWithValue({
+          message: error?.response?.data?.message,
+        });
+      }
+    }
+  }
+);
 const initialState = {
   loading: false,
   error: null,
   postDetails: {},
+  contentDetails: {},
   deleted: false,
 };
 
@@ -113,6 +145,19 @@ const managementSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteContent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.payload?.message;
+      })
+      .addCase(getContent.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getContent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.contentDetails = action?.payload;
+        state.error = null;
+      })
+      .addCase(getContent.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.payload?.message;
       });

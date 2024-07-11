@@ -25,6 +25,7 @@ import dayjs from "dayjs";
 export default function UserPage() {
   const [open, setOpen] = useState(false);
   const [openForBanned, setOpenForBanned] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
   const [verified, setVerified] = useState(false);
   const [date, setDate] = useState(new Date());
   const { userDetails, loading, isWarning, isBanned, isNormalize } =
@@ -58,7 +59,6 @@ export default function UserPage() {
   const handleVerifiing = (vei) => {
     dispatch(makeUserNormalize({ id, verified: vei }));
   };
-
   return (
     <>
       {loading ? (
@@ -97,21 +97,28 @@ export default function UserPage() {
           <div className="text-white mt-4">
             <div className="d-flex align-items-center justify-content-between">
               <div className="d-flex align-items-center ">
-                <img
-                  className="col-md-2 rounded  d-block"
-                  src={
-                    userDetails?.profile?.img
-                      ? `${ImgsUrl}/${userDetails?.profile?.img}`
-                      : userAvatar
-                  }
-                  alt=""
-                  style={{
-                    marginRight: "1rem",
-                    height: "88px",
-                    width: "88px",
-                    objectFit: "cover",
-                  }}
-                />
+                {errorMsg || !userDetails?.profile?.img ? (
+                  <div style={{height:"80px" , width:"80px"}} className="null-img mx-3">
+                    {userDetails?.profile?.name?.slice(0, 1)}
+                  </div>
+                ) : (
+                  <img
+                    className="col-md-2 rounded  d-block"
+                    onError={() => setErrorMsg(true)}
+                    src={
+                      userDetails?.profile?.img
+                        ? `${ImgsUrl}/${userDetails?.profile?.img}`
+                        : userAvatar
+                    }
+                    alt=""
+                    style={{
+                      marginRight: "1rem",
+                      height: "88px",
+                      width: "88px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
                 <div>
                   <h4 className="m-0">{userDetails?.profile?.name}</h4>
                   <h4 className="text-grey m-0">
@@ -121,10 +128,13 @@ export default function UserPage() {
               </div>
               <div className="d-flex align-items-center gap-2">
                 <Button
-                  onClick={() => handleVerifiing(!verified)}
+                  onClick={() => {
+                    setVerified((prev) => !prev);
+                    handleVerifiing(!verified);
+                  }}
                   className="border-0 text-uppercase text-white rounded bg-banfsagi"
                 >
-                  normalize
+                  {verified ? "NORMALIZE" : "VERIFIED"}
                 </Button>
                 <Button
                   onClick={() => setOpenForBanned(true)}

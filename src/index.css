@@ -194,7 +194,7 @@ foreignObject {
   background: linear-gradient(180deg, #fc155c 0%, #4e14a5 100%);
 }
 
-.pagination-item{
+.pagination-item {
   width: 38px;
   height: 38px;
   border-radius: 7px;
@@ -206,11 +206,22 @@ foreignObject {
   font-weight: 400;
 }
 
-
-input:focus{
+input:focus {
   outline: none;
 }
 
-#chart svg{
+#chart svg {
   background-color: transparent !important;
+}
+
+.null-img {
+  background: linear-gradient(to bottom, #9057e5, #cc475d);
+  height: 36.39px ;
+  width: 36.39px ;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 25px;
 }
