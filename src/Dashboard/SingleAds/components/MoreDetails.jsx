@@ -23,6 +23,7 @@ function MoreDetails({ data }) {
 
   return (
     <>
+    
       <div className="d-flex align-items-stretch gap-4 mb-5">
         <div className="ad-bg rounded text-white p-4" style={{ flex: 1 }}>
           <div className="flex-main-class mb-4 ">
