@@ -1,4 +1,4 @@
-export default function SecondTopBar({ img, title, status }) {
+export default function SecondTopBar({title, status }) {
   const handleStatus = () => {
     switch (status) {
       case "active":
@@ -66,7 +66,7 @@ export default function SecondTopBar({ img, title, status }) {
         <div>
           <div className="d-flex align-items-center gap-3">
             <h1 className="text-white text-uppercase fw-bold">{title}</h1>
-            <img src={img} alt="laptop" />
+            <img src={require("../../Assets/SideBar/ads.png")} alt="laptop" />
           </div>
           {handleStatus()}
         </div>

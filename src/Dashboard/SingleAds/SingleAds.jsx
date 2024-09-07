@@ -34,7 +34,7 @@ function SingleAds() {
           <SecondTopBar
             status={adsDetails?.ad?.status || "active"}
             title="ADS MANAGER"
-            img={require("../../Assets/SideBar/Ads.png")}
+     
           />
           {showMoreDetails ? (
             <MoreDetails data={adsDetails} />

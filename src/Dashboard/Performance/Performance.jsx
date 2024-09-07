@@ -61,7 +61,6 @@ export default function Performance() {
     }
   }, [type]);
 
-  console.log(allCategories);
 
   return (
     <div className="my-4 position-relative">

@@ -20,6 +20,7 @@ import RequireAuth from "./Dashboard/Auth/RequireAuth";
 import Landing from "./Website/Landing";
 import Ads from "./Dashboard/Ads/Ads";
 import SingleAds from "./Dashboard/SingleAds/SingleAds";
+import NewSection from "./Dashboard/NewSection/NewSection";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         {/* <Route element={<RequireBack />}> */}
           <Route path="/login" element={<Login />} />
+          <Route path="/new-sec" element={<NewSection />} />
         {/* </Route> */}
         <Route element={<RequireAuth />}>
         <Route path="/add-user" element={<AddUser />} />
