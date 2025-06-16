@@ -82,7 +82,7 @@ function LiveDetails({ liveData }) {
             <div>
               <div className="first-core coins mb-3">
                 <div>Coins Collected</div>
-                <span>{liveData?.coins}</span>
+                <span>{liveData?.coins?.this_month_coins}</span>
               </div>
               <div className="first-core coins">
                 <div>Coins in dollar </div>

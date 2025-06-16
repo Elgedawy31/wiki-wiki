@@ -21,17 +21,70 @@ export default function Performance5() {
   const [open, setOpen] = useState(false);
   const [interest, setInterest] = useState("");
   const [img, setImg] = useState(null);
+  const [imgPreview, setImgPreview] = useState(null);
+  const [fileError, setFileError] = useState("");
   const { id } = useParams();
   const dispatch = useDispatch();
 
   const handleAddInterest = () => {
-    if (interest?.length > 0 && img !== null) {
+    if (interest?.length > 0 && img !== null && !fileError) {
       const formData = new FormData();
       formData.append("name[]", interest);
       formData.append("img[]", img);
       dispatch(addSticker(formData));
     }
   };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFileError("");
+    
+    if (!file) {
+      setImg(null);
+      setImgPreview(null);
+      return;
+    }
+
+    // Check if file is an image
+    if (!file.type.startsWith('image/')) {
+      setFileError("Please select only image files (JPG, PNG, GIF, etc.)");
+      setImg(null);
+      setImgPreview(null);
+      e.target.value = ""; // Clear the input
+      return;
+    }
+
+    // Check file size (optional - limit to 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setFileError("Image size should be less than 5MB");
+      setImg(null);
+      setImgPreview(null);
+      e.target.value = ""; // Clear the input
+      return;
+    }
+
+    setImg(file);
+    
+    // Create preview URL safely
+    try {
+      const previewUrl = URL.createObjectURL(file);
+      setImgPreview(previewUrl);
+    } catch (error) {
+      console.error("Error creating object URL:", error);
+      setFileError("Error processing image file");
+      setImg(null);
+      setImgPreview(null);
+    }
+  };
+
+  // Cleanup object URL when component unmounts or image changes
+  useEffect(() => {
+    return () => {
+      if (imgPreview) {
+        URL.revokeObjectURL(imgPreview);
+      }
+    };
+  }, [imgPreview]);
 
   const handleRemoveItem = (id) => {
     dispatch(deleteSticker(id));
@@ -46,7 +99,9 @@ export default function Performance5() {
   useEffect(() => {
     if (StickerAdded) {
       setInterest("");
-      setImg("");
+      setImg(null);
+      setImgPreview(null);
+      setFileError("");
       dispatch(getAllStickers());
       dispatch(reset());
     }
@@ -55,6 +110,8 @@ export default function Performance5() {
   useEffect(() => {
     if (allStickers?.length > 0) {
       setInterestsItems(allStickers);
+    }else{
+      setInterestsItems([]);
     }
   }, [allStickers]);
 
@@ -87,7 +144,7 @@ export default function Performance5() {
           <div className="d-flex align-items-stretch justify-content-between my-4">
             <div className="d-flex flex-column justify-content-between col-8">
               <div className="mt-5">
-                <p className="text-white fw-bold">Add An Sticker</p>
+                <p className="text-white fw-bold">Add An `Sticker</p>
                 <div className="d-flex align-items-stretch mb-5 col-12 ">
                   <input
                     value={interest}
@@ -97,23 +154,28 @@ export default function Performance5() {
                   />
                   <div className="position-relative col-3 border-0 rounded-20">
                     <label htmlFor="add-gift" className="add-gift pointer ">
-                      <img
-                        className="position-absolute w-100 h-100  object-fit-contain"
-                        src={img !== null && URL.createObjectURL(img)}
-                      />
-                      <div style={{ zIndex: 1111 }}>+</div>{" "}
+                      {imgPreview ? (
+                        <img
+                          className="position-absolute w-100 h-100 object-fit-contain"
+                          src={imgPreview}
+                          alt="Preview"
+                        />
+                      ) : (
+                        <div style={{ zIndex: 1111 }}>+</div>
+                      )}
                     </label>
                     <input
-                      onChange={(e) => setImg(e.target.files[0])}
+                      onChange={handleFileChange}
                       className="col-9 border-0 bg-super-grey d-none"
                       id="add-gift"
                       type="file"
+                      accept="image/*"
                     />
                   </div>
                   <Button
                     style={{
                       cursor:
-                        interest?.length > 0 && img !== null
+                        interest?.length > 0 && img !== null && !fileError
                           ? "pointer"
                           : "not-allowed",
                     }}
@@ -123,6 +185,11 @@ export default function Performance5() {
                     Add
                   </Button>
                 </div>
+                {fileError && (
+                  <div className="text-danger mb-3">
+                    {fileError}
+                  </div>
+                )}
                 <div className="d-flex align-items-center gap-5 flex-wrap ">
                   {interestsItems?.map((ele, idx) => (
                     <div

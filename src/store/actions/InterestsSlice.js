@@ -7,7 +7,7 @@ export const getAllInterests = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.get(`${baseURL}/categories`, {
+      const response = await axios.get(`${baseURL}/admin/categories`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth?.token}`,
@@ -38,7 +38,7 @@ export const addInterest = createAsyncThunk(
   async (values, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.post(`${baseURL}/categories`, values, {
+      const response = await axios.post(`${baseURL}/admin/categories`, values, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth?.token}`,
@@ -69,7 +69,7 @@ export const deleteInterest = createAsyncThunk(
   async (id, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.delete(`${baseURL}/categories/${id}`, {
+      const response = await axios.delete(`${baseURL}/admin/categories/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth?.token}`,
@@ -100,7 +100,7 @@ export const deleteSticker = createAsyncThunk(
   async (id, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.delete(`${baseURL}/Stikers/${id}`, {
+      const response = await axios.delete(`${baseURL}/admin/stikers/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth?.token}`,
@@ -131,7 +131,7 @@ export const getAllStickers = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.get(`${baseURL}/Stikers`, {
+      const response = await axios.get(`${baseURL}/admin/stikers`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth?.token}`,
@@ -162,7 +162,7 @@ export const addSticker = createAsyncThunk(
   async (values, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.post(`${baseURL}/Stikers`, values, {
+      const response = await axios.post(`${baseURL}/admin/stikers`, values, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${auth?.token}`,

@@ -45,10 +45,10 @@ export default function Table(props) {
             {props?.data.map((ele) => (
               <div
                 key={ele.id}
-                className="d-flex align-items-center text-decoration-none text-white w-100 justify-content-between mt-3 pb-2 text-center"
+                className="d-flex  align-items-center text-decoration-none text-white bg-primary justify-content-between mt-3 pb-2 text-center"
                 style={{ borderBottom: "#56577A 1px solid" }}
               >
-                <div className="col-md-3 gap-2 text-start d-flex ga-2 align-items-center">
+                <div className="col-md-3 gap-2 text-start d-flex gap-2 align-items-center">
                   {props.isUsersTable ? (
                     <>
                       {imgError || !ele?.img  ?  <div className="null-img">{ele?.name?.slice(0 ,1) || 'U'} </div> : 

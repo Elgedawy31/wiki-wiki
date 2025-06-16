@@ -1,4 +1,7 @@
+import { useSelector } from "react-redux";
+
 export default function SecondTopBar({title, status }) {
+  const {profileDetails} = useSelector((state) => state.profile);
   const handleStatus = () => {
     switch (status) {
       case "active":
@@ -56,7 +59,6 @@ export default function SecondTopBar({title, status }) {
         );
     }
   };
-
   return (
     <>
       <div
@@ -71,7 +73,7 @@ export default function SecondTopBar({title, status }) {
           {handleStatus()}
         </div>
         <div className=" px-5 py-4 rounded d-flex align-items-center bg-black justify-content-around py-1 rounded-end me-3">
-          <p className="mb-0 text-white">Username</p>
+          <p className="mb-0 text-white">{profileDetails.profile?.email}</p>
         </div>
       </div>
     </>

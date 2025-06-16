@@ -10,6 +10,8 @@ export default function SearchURL() {
   const { postDetails, loading } = useSelector((state) => state.management);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const [errorMsg , setErrorMsg] = useState("Pic Post Error");
+  const [errorDesc , setErrorDesc] = useState("No Post Details Found");
   const [name, setName] = useState("");
 
   const dispatch = useDispatch();
@@ -24,11 +26,13 @@ export default function SearchURL() {
         state: postDetails?.data[0],
       });
       dispatch(reset());
-    } else {
-      // setOpen(true);
-      // setTimeout(() => {
-      //   setOpen(false);
-      // }, 2000);
+    } else if (postDetails?.data?.length === 0) {
+      setOpen(true);
+      setTimeout(() => {
+        setErrorMsg("No Post Found");
+        setErrorDesc("Please try a different search term.");
+        setOpen(false);
+      }, 2000);
     }
   }, [postDetails]);
 
@@ -43,18 +47,18 @@ export default function SearchURL() {
               open={open}
               setOpen={setOpen}
               reset={reset}
-              title="Pic Post Error"
-              message="No Post Details"
+              title={errorMsg}
+              message={errorDesc}
             />
           )}
-          <h4>Enter complete ID of the post </h4>
+          <h4>Search By Name </h4>
           <div className="d-flex align-items-stretch justify-content-center col-12">
             <input
               onChange={(e) => setName(e.target.value)}
               className="col-7 border-0 bg-super-grey p-3 rounded-pill"
               id="search"
               type="text"
-              placeholder="Enter complete ID of the post ..."
+              placeholder="Search By Name ..."
             />
             <Button
               disabled={name === ""}

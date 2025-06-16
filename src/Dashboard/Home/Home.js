@@ -8,7 +8,7 @@ import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { HomeData } from "../../store/actions/HomeSlice";
-import { profile } from "../../store/actions/ProfileSlice";
+
 export default function Home() {
   const dispatch = useDispatch();
   const { loading, homeDetails } = useSelector((state) => state.home);
@@ -16,9 +16,7 @@ export default function Home() {
     dispatch(HomeData({ type: "year" }));
   }, []);
 
-  useEffect(() => {
-    dispatch(profile())
-  } , [])
+
 
   return (
     <>
@@ -27,7 +25,7 @@ export default function Home() {
       ) : (
         <div>
           <TopBar showSearch={false} />
-          <div className="d-flex align-items-stretch flex-wrap row-gap-3">
+          <div className="d-flex align-items-stretch  flex-wrap row-gap-3">
             <Statics />
             {homeDetails?.active_users && (
               <Months
@@ -37,7 +35,7 @@ export default function Home() {
               />
             )}
           </div>
-          <div className="col-12 mt-3">
+          {/* <div className="col-12 mt-3">
             <div className="bg-black-primary py-md-4 py-2 px-md-4 px-2  text-white h-100">
               <div className="d-flex align-items-center justify-content-between">
                 <div>
@@ -50,7 +48,7 @@ export default function Home() {
               </div>
               <AreaChart data={{data:[] , labels:[]}} />
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </>

@@ -38,7 +38,7 @@ export default function TopBar({ value, setValue, setSearch, showSearch }) {
             className="mb-0 text-white "
             style={{ height: "74px", fontSize: "20px", fontWeight: "400" }}
           >
-            {profileDetails?.profile?.name || 'admin'}
+            {profileDetails?.profile?.email || 'admin'}
           </p>
         </div>
       </div>

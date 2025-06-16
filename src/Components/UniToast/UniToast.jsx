@@ -24,7 +24,6 @@ function UniToast({ setOpen, open, title, message, reset = () => {} }) {
     >
       <Toast.Header closeButton style={{ background: "#555", color: "white" }}>
         <strong className="me-auto">{title}</strong>
-        <small>11 mins ago</small>
       </Toast.Header>
       <Toast.Body>{message}</Toast.Body>
     </Toast>

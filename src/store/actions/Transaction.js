@@ -20,7 +20,7 @@ export const TransactionApi = createApi({
       query: () => `Admin-transaction-history`,
     }),
     getOneTransaction: builder.query({
-      query: ({ id }) => `Admin-transaction-history/${id}`,
+      query: ({ id }) => `Admin-Transaction/${id}`,
     }),
   }),
 });
