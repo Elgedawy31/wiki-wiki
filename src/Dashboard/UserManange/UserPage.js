@@ -152,7 +152,7 @@ export default function UserPage() {
             </div>
 
             <div className="d-flex align-items-stretch justify-content-center mt-4 row-gap-3">
-              <div className="col-lg-5 col-6 ">
+              <div className="col-lg-8 col-6 ">
                 <div className="rounded-20 bg-third-grad p-3 me-2 h-100">
                   <h5>Profile bio</h5>
                   <p className="text-grey">
@@ -243,19 +243,7 @@ export default function UserPage() {
                   </p>
                 </div>
               </div>
-              <div className="col-lg-5 col-6 d-flex justify-content-between flex-column">
-                <div className="rounded-20 bg-third-grad p-3 me-2">
-                  <h5 className="text-grey">Interaction This Week</h5>
-                  <h5 className="text-white">+20%</h5>
-                  <img className="d-flex ms-auto" src={PinkStatic} alt="" />
-                </div>
-                <div className="rounded-20 bg-third-grad p-3 me-2">
-                  <h5 className="text-grey">Interaction This Month</h5>
-                  <h5 className="text-white">+37%</h5>
-                  <img className="d-flex ms-auto" src={PurpleStatic} alt="" />
-                </div>
-              </div>
-              <div className="col-lg-2 col-6">
+              <div className="col-lg-4 col-6">
                 <div className="rounded-20 bg-third-grad p-3 h-100 d-flex aling-items-center justify-content-center gap-3 flex-column">
                   <p className="text-white">
                     Followers :
