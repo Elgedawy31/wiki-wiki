@@ -17,7 +17,7 @@ export const TransactionApi = createApi({
   baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
     getProductsByName: builder.query({
-      query: () => `Admin-transaction-history`,
+      query: ({ page = 1, limit = 30 } = {}) => `Admin-transaction-history?page=${page}&limit=${limit}`,
     }),
     getOneTransaction: builder.query({
       query: ({ id }) => `Admin-Transaction/${id}`,

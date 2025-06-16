@@ -146,7 +146,7 @@ function CollapseItem({ category }) {
       >
         <div className="logo d-flex align-items-center gap-3">
           <img
-            src={category?.img ? `${ImgsUrl}/${category?.img}` : avatar}
+            src={category?.img ? `${category?.img}` : avatar}
             alt=""
             className="object-fit-contain rounded"
             style={{ width: "78px", height: "78px" }}

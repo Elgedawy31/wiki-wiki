@@ -4,17 +4,38 @@ import { useGetProductsByNameQuery } from '../../store/actions/Transaction';
 import greenIcon from "../../Assets/Balance/Icon-green.png";
 import redIcon from "../../Assets/Balance/icon-red.png";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
+import Pagination from "../../Components/Pagination/Pagination";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 export default function Balance() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(20);
 
-  const { data, error, isLoading } = useGetProductsByNameQuery();
-  const transactions = Array.isArray(data) ? data : [];
-console.log(data)
+  const { data, error, isLoading } = useGetProductsByNameQuery({ 
+    page: currentPage, 
+    limit: itemsPerPage 
+  });
+  
+  const transactions = Array.isArray(data?.data) ? data.data : [];
+  
+  // Create meta object from the API response for pagination
+  const meta = data ? {
+    current_page: data.current_page,
+    last_page: data.last_page,
+    from: data.from,
+    to: data.to,
+    total: data.total,
+    per_page: data.per_page
+  } : null;
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  console.log(data)
   if (isLoading) return <div><LoadingSpinner /></div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (!transactions.length) return <div>No transactions found</div>;
-
 
   const getCurrentDate = () => {
     const now = new Date();
@@ -31,7 +52,7 @@ console.log(data)
             <p className="text-grey">NEWEST</p>
           </div>
 
-          {transactions.map((item) => (
+          {transactions?.map((item) => (
             <Link
               to={`/dashboard/balance/${item?.id}`}
               key={item.id}
@@ -56,6 +77,16 @@ console.log(data)
           ))}
         </div>
       </div>
+      
+      {/* Pagination Component */}
+      {meta && (
+        <Pagination 
+          meta={meta}
+          onPageChange={handlePageChange}
+          loading={isLoading}
+          className="mt-4"
+        />
+      )}
     </div>
   );
 }
