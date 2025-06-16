@@ -1,4 +1,4 @@
-import { Button, Form, Modal, Row } from "react-bootstrap";
+import { Button, Form, Modal, Row, Col, Card } from "react-bootstrap";
 import TopBar from "../../Components/TopBar/TopBar";
 import Facebook from "../../Assets/UserPage/Facebook.svg";
 import Instagram from "../../Assets/UserPage/Instagram.svg";
@@ -6,6 +6,9 @@ import Twitter from "../../Assets/UserPage/Twitter.svg";
 import PinkStatic from "../../Assets/UserPage/PinkStatic.svg";
 import PurpleStatic from "../../Assets/UserPage/Purple.svg";
 import Tick from "../../Assets/UserPage/Tick.svg";
+import editIcon from "../../Assets/UserPage/edit.svg";
+import visaIcon from "../../Assets/UserPage/Visa.svg";
+import masterCardIcon from "../../Assets/UserPage/MasterCard.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
@@ -21,6 +24,7 @@ import userAvatar from "../../Assets/UserPage/avatar.png";
 import { ImgsUrl } from "../../Api/Api";
 import UniToast from "../../Components/UniToast/UniToast";
 import dayjs from "dayjs";
+import "./UserPage.css";
 
 export default function UserPage() {
   const [open, setOpen] = useState(false);
@@ -40,6 +44,7 @@ export default function UserPage() {
   const handleWarning = () => {
     dispatch(makeUserWarning({ user_id: id }));
   };
+  
   const handleBanned = () => {
     dispatch(
       makeUserBanned({ user_id: id, date: dayjs(date).format("YYYY-MM-DD") })
@@ -52,6 +57,7 @@ export default function UserPage() {
       setOpen(true);
     }
   }, [isWarning]);
+  
   useEffect(() => {
     setVerified(userDetails?.social?.verified_at);
   }, [userDetails]);
@@ -59,6 +65,19 @@ export default function UserPage() {
   const handleVerifiing = (vei) => {
     dispatch(makeUserNormalize({ id, verified: vei }));
   };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  const formatNumber = (num) => {
+    return new Intl.NumberFormat('en-US').format(num);
+  };
+
   return (
     <>
       {loading ? (
@@ -70,8 +89,8 @@ export default function UserPage() {
               reset={reset}
               open={open}
               setOpen={setOpen}
-              title={"user Warning"}
-              message={"user Warning Successfully"}
+              title={"User Warning"}
+              message={"User Warning Successfully"}
             />
           )}
           {isBanned && (
@@ -79,8 +98,8 @@ export default function UserPage() {
               reset={reset}
               open={isBanned}
               setOpen={() => {}}
-              title={"user Banned"}
-              message={"user Banned Successfully"}
+              title={"User Banned"}
+              message={"User Banned Successfully"}
             />
           )}
           {isNormalize && (
@@ -88,277 +107,325 @@ export default function UserPage() {
               reset={reset}
               open={isNormalize}
               setOpen={() => {}}
-              title={"user Verify"}
-              message={verified ? "user verified" : "user not verified"}
+              title={"User Verify"}
+              message={verified ? "User verified" : "User not verified"}
             />
           )}
 
           <TopBar />
-          <div className="text-white mt-4">
-            <div className="d-flex align-items-center justify-content-between">
-              <div className="d-flex align-items-center ">
-                {errorMsg || !userDetails?.profile?.img ? (
-                  <div style={{height:"80px" , width:"80px"}} className="null-img mx-3">
-                    {userDetails?.profile?.name?.slice(0, 1)}
+          
+          <div className="user-page-container">
+            {/* Header Section */}
+            <div className="user-header-card">
+              <div className="user-header-content">
+                <div className="user-avatar-section">
+                  {errorMsg || !userDetails?.profile?.img ? (
+                    <div className="user-avatar-placeholder">
+                      {userDetails?.profile?.name?.slice(0, 1)}
+                    </div>
+                  ) : (
+                    <img
+                      className="user-avatar-img"
+                      onError={() => setErrorMsg(true)}
+                      src={
+                        userDetails?.profile?.img
+                          ? `${ImgsUrl}/${userDetails?.profile?.img}`
+                          : userAvatar
+                      }
+                      alt="User Avatar"
+                    />
+                  )}
+                  
+                  <div className="user-basic-info">
+                    <div className="user-name-section">
+                      <h2 className="user-name">{userDetails?.profile?.name}</h2>
+                      {verified && (
+                        <img src={Tick} alt="Verified" className="verified-badge" />
+                      )}
+                    </div>
+                    <p className="user-nickname">@{userDetails?.profile?.nick_name}</p>
+                    <p className="user-email">{userDetails?.profile?.email}</p>
+                    <p className="user-id">ID: {userDetails?.profile?.id}</p>
                   </div>
-                ) : (
-                  <img
-                    className="col-md-2 rounded  d-block"
-                    onError={() => setErrorMsg(true)}
-                    src={
-                      userDetails?.profile?.img
-                        ? `${ImgsUrl}/${userDetails?.profile?.img}`
-                        : userAvatar
-                    }
-                    alt=""
-                    style={{
-                      marginRight: "1rem",
-                      height: "88px",
-                      width: "88px",
-                      objectFit: "cover",
-                    }}
-                  />
-                )}
-                <div>
-                  <h4 className="m-0">{userDetails?.profile?.name}</h4>
-                  <h4 className="text-grey m-0">
-                    {userDetails?.profile?.email}
-                  </h4>
                 </div>
-              </div>
-              <div className="d-flex align-items-center gap-2">
-                <Button
-                  onClick={() => {
-                    setVerified((prev) => !prev);
-                    handleVerifiing(!verified);
-                  }}
-                  className="border-0 text-uppercase text-white rounded bg-banfsagi"
-                >
-                  {verified ? "NORMALIZE" : "VERIFIED"}
-                </Button>
-                <Button
-                  onClick={() => setOpenForBanned(true)}
-                  className="border-0 text-uppercase text-white rounded bg-black"
-                >
-                  BAN
-                </Button>{" "}
-                <Button
-                  onClick={handleWarning}
-                  className="border-0 text-uppercase text-white rounded bg-custom-warning"
-                >
-                  Warning
-                </Button>
+
+                <div className="user-actions">
+                  <Button
+                    onClick={() => {
+                      setVerified((prev) => !prev);
+                      handleVerifiing(!verified);
+                    }}
+                    className={`action-btn ${verified ? 'verified-btn' : 'verify-btn'}`}
+                  >
+                    {verified ? "UNVERIFY" : "VERIFY"}
+                  </Button>
+                  <Button
+                    onClick={() => setOpenForBanned(true)}
+                    className="action-btn ban-btn"
+                  >
+                    BAN USER
+                  </Button>
+                  <Button
+                    onClick={handleWarning}
+                    className="action-btn warning-btn"
+                  >
+                    WARNING
+                  </Button>
+                </div>
               </div>
             </div>
 
-            <div className="d-flex align-items-stretch justify-content-center mt-4 row-gap-3">
-              <div className="col-lg-8 col-6 ">
-                <div className="rounded-20 bg-third-grad p-3 me-2 h-100">
-                  <h5>Profile bio</h5>
-                  <p className="text-grey">
-                    {userDetails?.profile?.bio?.lenght > 200
-                      ? `${userDetails?.profile?.bio.slice(0, 200)}...`
-                      : userDetails?.profile?.bio}
-                  </p>
-                  <div
-                    style={{
-                      background:
-                        "linear-gradient(to left, #E0E1E200, #E0E1E2, #E0E1E228)",
-                      height: "2px",
-                      width: "100%",
-                      display: "block",
-                      margin: "20px 0",
-                    }}
-                  ></div>
-                  <p className="text-grey">
-                    Full Name:{" "}
-                    <span className="text-white fw-bold">
-                      {" "}
-                      {userDetails?.profile?.name}{" "}
-                    </span>
-                  </p>
-                  <p className="text-grey">
-                    Mobile:
-                    <span className="text-white fw-bold">
-                      {" "}
-                      ({userDetails?.country?.code}){" "}
-                      {userDetails?.profile?.phone}
-                    </span>
-                  </p>
-                  <p className="text-grey">
-                    Email:
-                    <span className="text-white fw-bold">
-                      {" "}
-                      {userDetails?.profile?.email}
-                    </span>
-                  </p>
-                  <p className="text-grey">
-                    Location:
-                    <span className="text-white fw-bold">
-                      {" "}
-                      {userDetails?.country?.name}
-                    </span>
-                  </p>
-                  <p className="text-grey">
-                    Social Media:
-                    {userDetails?.profile?.facebook && (
-                      <a
-                        href={`https://${userDetails?.profile?.facebook}`}
-                        target="_blank"
-                      >
-                        <img
-                          width="15px"
-                          className="mx-1"
-                          src={Facebook}
-                          alt=""
-                        />
-                      </a>
-                    )}
-                    {userDetails?.profile?.twitter && (
-                      <a
-                        href={`https://${userDetails?.profile?.twitter}`}
-                        target="_blank"
-                      >
-                        <img
-                          width="15px"
-                          className="mx-1"
-                          src={Twitter}
-                          alt=""
-                        />
-                      </a>
-                    )}
-                    {userDetails?.profile?.instagram && (
-                      <a
-                        href={`https://${userDetails?.profile?.instagram}`}
-                        target="_blank"
-                      >
-                        <img
-                          width="15px"
-                          className="mx-1"
-                          src={Instagram}
-                          alt=""
-                        />
-                      </a>
-                    )}
-                  </p>
-                </div>
-              </div>
-              <div className="col-lg-4 col-6">
-                <div className="rounded-20 bg-third-grad p-3 h-100 d-flex aling-items-center justify-content-center gap-3 flex-column">
-                  <p className="text-white">
-                    Followers :
-                    <span className="text-purple ms-2 ">
-                      {" "}
-                      {userDetails?.social?.followers || 0}{" "}
-                    </span>
-                  </p>
-                  <p className="text-white">
-                    Videos:
-                    <span className="text-purple ms-2 ">
-                      {" "}
-                      {userDetails?.social?.videos || 0}{" "}
-                    </span>
-                  </p>
-                  <p className="text-white">
-                    Images:
-                    <span className="text-purple ms-2 ">
-                      {" "}
-                      {userDetails?.social?.images || 0}{" "}
-                    </span>
-                  </p>
-                  <p className="text-white">
-                    Likes:
-                    <span className="text-purple ms-2 ">
-                      {" "}
-                      {userDetails?.social?.likes || 0}{" "}
-                    </span>
-                  </p>
-                  <p className="text-white">
-                    Reports:{" "}
-                    <span className="text-purple ms-2 ">
-                      {" "}
-                      {userDetails?.social?.reports || 0}{" "}
-                    </span>
-                  </p>{" "}
-                  <p className="text-white d-flex align-items-center gap-3">
-                    <span>Verified : </span>{" "}
-                    <Form.Check
-                      type="switch"
-                      checked={verified}
-                      onChange={() => {
-                        setVerified((prev) => !prev);
-                        handleVerifiing(!verified);
-                      }}
-                      id="custom-switch-form"
-                    />
-                  </p>
-                </div>
-              </div>
-            </div>
+            {/* Main Content Grid */}
+            <Row className="user-content-grid">
+              {/* Profile Information */}
+              <Col lg={8} md={12} className="mb-4">
+                <Card className="profile-info-card">
+                  <Card.Header className="card-header-custom">
+                    <h4>Profile Information</h4>
+                  </Card.Header>
+                  <Card.Body>
+                    <div className="bio-section">
+                      <h5>Bio</h5>
+                      <p className="bio-text">
+                        {userDetails?.profile?.bio?.length > 200
+                          ? `${userDetails?.profile?.bio.slice(0, 200)}...`
+                          : userDetails?.profile?.bio || "No bio available"}
+                      </p>
+                    </div>
+
+                    <div className="profile-details">
+                      <Row>
+                        <Col md={6}>
+                          <div className="detail-item">
+                            <span className="detail-label">Full Name:</span>
+                            <span className="detail-value">{userDetails?.profile?.name}</span>
+                          </div>
+                          <div className="detail-item">
+                            <span className="detail-label">Email:</span>
+                            <span className="detail-value">{userDetails?.profile?.email}</span>
+                          </div>
+                          <div className="detail-item">
+                            <span className="detail-label">Phone:</span>
+                            <span className="detail-value">
+                              {userDetails?.profile?.phone || "Not provided"}
+                            </span>
+                          </div>
+                        </Col>
+                        <Col md={6}>
+                          <div className="detail-item">
+                            <span className="detail-label">Gender:</span>
+                            <span className="detail-value">{userDetails?.profile?.gender}</span>
+                          </div>
+                          <div className="detail-item">
+                            <span className="detail-label">Birthday:</span>
+                            <span className="detail-value">
+                              {userDetails?.profile?.birthday 
+                                ? dayjs(userDetails?.profile?.birthday).format("MMM DD, YYYY")
+                                : "Not provided"}
+                            </span>
+                          </div>
+                          <div className="detail-item">
+                            <span className="detail-label">Location:</span>
+                            <span className="detail-value">
+                              {userDetails?.country?.name || "Not specified"}
+                            </span>
+                          </div>
+                        </Col>
+                      </Row>
+
+                      <div className="social-media-section">
+                        <span className="detail-label">Social Media:</span>
+                        <div className="social-links">
+                          {userDetails?.profile?.facebook && (
+                            <a
+                              href={`https://${userDetails?.profile?.facebook}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="social-link"
+                            >
+                              <img src={Facebook} alt="Facebook" />
+                            </a>
+                          )}
+                          {userDetails?.profile?.twitter && (
+                            <a
+                              href={`https://${userDetails?.profile?.twitter}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="social-link"
+                            >
+                              <img src={Twitter} alt="Twitter" />
+                            </a>
+                          )}
+                          {userDetails?.profile?.instagram && (
+                            <a
+                              href={`https://${userDetails?.profile?.instagram}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="social-link"
+                            >
+                              <img src={Instagram} alt="Instagram" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+
+              {/* Statistics and Wallet */}
+              <Col lg={4} md={12}>
+                {/* Social Statistics */}
+                <Card className="stats-card mb-4">
+                  <Card.Header className="card-header-custom">
+                    <h4>Social Statistics</h4>
+                  </Card.Header>
+                  <Card.Body>
+                    <div className="stats-grid">
+                      <div className="stat-item">
+                        <span className="stat-number">{formatNumber(userDetails?.social?.followers || 0)}</span>
+                        <span className="stat-label">Followers</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-number">{formatNumber(userDetails?.social?.likes || 0)}</span>
+                        <span className="stat-label">Total Likes</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-number">{formatNumber(userDetails?.social?.videos || 0)}</span>
+                        <span className="stat-label">Videos</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-number">{formatNumber(userDetails?.social?.images || 0)}</span>
+                        <span className="stat-label">Images</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-number">{formatNumber(userDetails?.social?.month_likes || 0)}</span>
+                        <span className="stat-label">Month Likes</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-number">{formatNumber(userDetails?.social?.week_likes || 0)}</span>
+                        <span className="stat-label">Week Likes</span>
+                      </div>
+                    </div>
+                    
+                    <div className="verification-toggle">
+                      <span className="toggle-label">Verified Status:</span>
+                      <Form.Check
+                        type="switch"
+                        checked={verified}
+                        onChange={() => {
+                          setVerified((prev) => !prev);
+                          handleVerifiing(!verified);
+                        }}
+                        id="verification-switch"
+                        className="custom-switch"
+                      />
+                    </div>
+                  </Card.Body>
+                </Card>
+
+                {/* Wallet Information */}
+                <Card className="wallet-card">
+                  <Card.Header className="card-header-custom">
+                    <h4>Wallet & Balance</h4>
+                  </Card.Header>
+                  <Card.Body>
+                    <div className="wallet-stats">
+                      <div className="wallet-item">
+                        <div className="wallet-icon coins">💰</div>
+                        <div className="wallet-info">
+                          <span className="wallet-amount">{formatNumber(userDetails?.wallet?.coins || 0)}</span>
+                          <span className="wallet-label">Coins</span>
+                        </div>
+                      </div>
+                      <div className="wallet-item">
+                        <div className="wallet-icon dollars">💵</div>
+                        <div className="wallet-info">
+                          <span className="wallet-amount">{formatCurrency(userDetails?.wallet?.dollars || 0)}</span>
+                          <span className="wallet-label">Balance</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+
+            {/* Account Connections */}
+            <Card className="connections-card">
+              <Card.Header className="card-header-custom">
+                <h4>Account Connections</h4>
+              </Card.Header>
+              <Card.Body>
+                <Row>
+                  <Col md={4}>
+                    <div className="connection-item">
+                      <span className="connection-label">Google Account:</span>
+                      <span className={`connection-status ${userDetails?.accounts?.google_id ? 'connected' : 'not-connected'}`}>
+                        {userDetails?.accounts?.google_id ? 'Connected' : 'Not Connected'}
+                      </span>
+                    </div>
+                  </Col>
+                  <Col md={4}>
+                    <div className="connection-item">
+                      <span className="connection-label">Facebook Account:</span>
+                      <span className={`connection-status ${userDetails?.accounts?.facebook_id ? 'connected' : 'not-connected'}`}>
+                        {userDetails?.accounts?.facebook_id ? 'Connected' : 'Not Connected'}
+                      </span>
+                    </div>
+                  </Col>
+                  <Col md={4}>
+                    <div className="connection-item">
+                      <span className="connection-label">Apple Account:</span>
+                      <span className={`connection-status ${userDetails?.accounts?.apple_id ? 'connected' : 'not-connected'}`}>
+                        {userDetails?.accounts?.apple_id ? 'Connected' : 'Not Connected'}
+                      </span>
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
           </div>
         </>
       )}
 
+      {/* Ban Confirmation Modal */}
       <Modal
         centered
         show={openForBanned}
-        className="p-5"
         onHide={() => setOpenForBanned(false)}
+        className="ban-modal"
       >
-        <Modal.Body
-          className="rounded d-flex align-items-center justify-content-center gap-4 flex-column"
-          style={{ background: "#000000" }}
-        >
-          <h5 className="text-white text-center">
-            Are you sure you want to BANNED this user ?
+        <Modal.Body className="ban-modal-body">
+          <h5 className="ban-modal-title">
+            Are you sure you want to ban this user?
           </h5>
-
+          <p className="ban-modal-subtitle">
+            Select the ban duration:
+          </p>
+          
           <input
             value={date}
-            onChange={(e) => {
-              setDate(e.target.value);
-            }}
-            style={{
-              background: "white",
-              border: "1px solid white",
-              width: "90%",
-            }}
-            className="rounded  px-4 py-2"
+            onChange={(e) => setDate(e.target.value)}
+            className="ban-date-input"
             type="date"
-          ></input>
+          />
 
-          <Row className="gap-5">
+          <div className="ban-modal-actions">
             <Button
-              style={{
-                width: "fit-content",
-                borderRadius: "20px",
-                backgroundColor: "#9057E5",
-                border: 0,
-                width: "172px",
-                height: "50px",
-              }}
-              variant="secondary"
-              className="text-white"
-              onClick={() => handleBanned()}
+              className="ban-confirm-btn"
+              onClick={handleBanned}
             >
-              Yes
+              Confirm Ban
             </Button>
             <Button
-              style={{
-                width: "fit-content",
-                borderRadius: "20px",
-                backgroundColor: "#FC155C",
-                border: 0,
-                width: "172px",
-                height: "50px",
-              }}
-              variant="secondary"
-              className="text-white"
+              className="ban-cancel-btn"
               onClick={() => setOpenForBanned(false)}
             >
-              No
+              Cancel
             </Button>
-          </Row>
+          </div>
         </Modal.Body>
       </Modal>
     </>

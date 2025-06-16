@@ -4,10 +4,10 @@ import { baseURL } from "../../Api/Api";
 
 export const getAds = createAsyncThunk(
   "ads/getadstype",
-  async (type, { rejectWithValue, getState }) => {
+  async ({ type, page = 1, limit = 10 } = {}, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.get(`${baseURL}/Admin-Ads-view/${type}`, {
+      const response = await axios.get(`${baseURL}/Admin-Ads-view/${type}?page=${page}&limit=${limit}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth?.token}`,
@@ -135,6 +135,7 @@ const initialState = {
   loading: false,
   error: null,
   ads: [],
+  meta: null,
   adsDetails: {},
   deleted: false,
   updated: false,
@@ -161,6 +162,7 @@ const adsSlice = createSlice({
       .addCase(getAds.fulfilled, (state, action) => {
         state.loading = false;
         state.ads = action.payload?.data;
+        state.meta = action.payload?.meta;
         state.error = null;
       })
       .addCase(getAds.rejected, (state, action) => {

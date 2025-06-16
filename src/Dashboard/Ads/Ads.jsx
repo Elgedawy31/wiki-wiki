@@ -6,32 +6,36 @@ import { getAllUsers, getUsersVerified } from "../../store/actions/UsersSlice";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
 import AdsTable from "./components/AdsTable";
 import { getAds } from "../../store/actions/AdsSlice";
+import Pagination from "../../Components/Pagination/Pagination";
 
 export default function Ads() {
   const [changeTable, setChangeTable] = useState(0);
   const [value, setValue] = useState("");
   const [search, setSearch] = useState(false);
-  const { ads, loading } = useSelector((state) => state.ads);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const { ads, meta, loading } = useSelector((state) => state.ads);
   const dispatch = useDispatch();
 
+  const getAdsType = () => {
+    const types = ["all", "active", "pending", "refused", "finished"];
+    return types[changeTable];
+  };
+
+  const fetchAds = (page = currentPage) => {
+    const type = getAdsType();
+    dispatch(getAds({ type, page, limit: itemsPerPage }));
+  };
+
   useEffect(() => {
-    if (changeTable === 0) {
-      dispatch(getAds("all"));
-    }
-    if (changeTable === 1) {
-      dispatch(getAds("active"));
-    }
-    if (changeTable === 2) {
-      dispatch(getAds("pending"));
-    }
-    if (changeTable === 3) {
-      dispatch(getAds("refused"));
-    }
-    if (changeTable === 4) {
-      dispatch(getAds("finished"));
-    }
+    setCurrentPage(1); // Reset to first page when changing table type
+    fetchAds(1);
   }, [changeTable]);
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    fetchAds(page);
+  };
 
   return (
     <>
@@ -39,7 +43,10 @@ export default function Ads() {
       <div>
         <div className="mt-3  d-flex align-items-center justify-content-evenly text-white mb-5 ">
           <h3
-            onClick={() => setChangeTable(0)}
+            onClick={() => {
+              setChangeTable(0);
+              setCurrentPage(1);
+            }}
             className={`fw-bold pointer text-grey ${
               changeTable === 0 && "active-table"
             }`}
@@ -47,7 +54,10 @@ export default function Ads() {
             All
           </h3>
           <h3
-            onClick={() => setChangeTable(1)}
+            onClick={() => {
+              setChangeTable(1);
+              setCurrentPage(1);
+            }}
             className={`fw-bold pointer text-grey ${
               changeTable === 1 && "active-table"
             }`}
@@ -55,7 +65,10 @@ export default function Ads() {
             Active Ads
           </h3>
           <h3
-            onClick={() => setChangeTable(2)}
+            onClick={() => {
+              setChangeTable(2);
+              setCurrentPage(1);
+            }}
             className={`fw-bold pointer text-grey ${
               changeTable === 2 && "active-table"
             }`}
@@ -63,7 +76,10 @@ export default function Ads() {
             Pending Ads
           </h3>{" "}
           <h3
-            onClick={() => setChangeTable(3)}
+            onClick={() => {
+              setChangeTable(3);
+              setCurrentPage(1);
+            }}
             className={`fw-bold pointer text-grey ${
               changeTable === 3 && "active-table"
             }`}
@@ -71,7 +87,10 @@ export default function Ads() {
             Refused Ads
           </h3>
           <h3
-            onClick={() => setChangeTable(4)}
+            onClick={() => {
+              setChangeTable(4);
+              setCurrentPage(1);
+            }}
             className={`fw-bold pointer text-grey ${
               changeTable === 4 && "active-table"
             }`}
@@ -84,6 +103,12 @@ export default function Ads() {
         ) : (
           <>
             <AdsTable data={ads} action="Action" />
+            <Pagination 
+              meta={meta}
+              onPageChange={handlePageChange}
+              loading={loading}
+              className="mt-4"
+            />
           </>
         )}
       </div>
