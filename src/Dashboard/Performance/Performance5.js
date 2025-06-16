@@ -205,7 +205,7 @@ export default function Performance5() {
                           objectFit: "contain",
                           objectPosition: "center",
                         }}
-                        src={`${ImgsUrl}/${ele?.img}`}
+                        src={ele.img}
                       ></img>
                       <img
                         style={{

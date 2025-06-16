@@ -23,21 +23,24 @@ export default function Table(props) {
         style={{ overflowX: "scroll" }}
       >
         <div
-          className="d-flex align-items-center justify-content-between mt-5 "
-          style={{ borderBottom: "#56577A 1px solid" }}
+          className="d-flex align-items-center mt-5"
+          style={{ 
+            borderBottom: "#56577A 1px solid",
+            minWidth: "100%"
+          }}
         >
-          <h6 className="col-md-3 text-grey">User</h6>
+          <h6 className="text-grey" style={{ flex: "1", minWidth: "150px" }}>User</h6>
           {props.report !== "" && (
-            <h6 className="col-md-3 text-center text-grey">{props.report}</h6>
+            <h6 className="text-center text-grey" style={{ flex: "1", minWidth: "150px" }}>{props.report}</h6>
           )}
           {props.reportedUser !== "" && (
-            <h6 className="col-md-3 text-center text-grey">
+            <h6 className="text-center text-grey" style={{ flex: "1", minWidth: "150px" }}>
               {props.reportedUser}
             </h6>
           )}
-          <h6 className="col-md-3 text-center text-grey">{props.secondCol}</h6>
-          <h6 className="col-md-2 text-center text-grey">{props.date}</h6>
-          <h6 className="col-md-2 text-center text-grey">{props.action}</h6>
+          <h6 className="text-center text-grey" style={{ flex: "1", minWidth: "150px" }}>{props.secondCol}</h6>
+          <h6 className="text-center text-grey" style={{ flex: "1", minWidth: "120px" }}>{props.date}</h6>
+          <h6 className="text-center text-grey" style={{ flex: "1", minWidth: "100px" }}>{props.action}</h6>
         </div>
 
         {props.data?.length > 0 ? (
@@ -45,15 +48,17 @@ export default function Table(props) {
             {props?.data.map((ele) => (
               <div
                 key={ele.id}
-                className="d-flex  align-items-center text-decoration-none text-white bg-primary justify-content-between mt-3 pb-2 text-center"
-                style={{ borderBottom: "#56577A 1px solid" }}
+                className="d-flex align-items-center text-decoration-none text-white mt-3 pb-2"
+                style={{ 
+                  borderBottom: "#56577A 1px solid",
+                  minWidth: "100%"
+                }}
               >
-                <div className="col-md-3 gap-2 text-start d-flex gap-2 align-items-center">
+                <div className="gap-2 text-start d-flex gap-2 align-items-center" style={{ flex: "1", minWidth: "150px" }}>
                   {props.isUsersTable ? (
                     <>
                       {imgError || !ele?.img  ?  <div className="null-img">{ele?.name?.slice(0 ,1) || 'U'} </div> : 
                         <img
-                          className="col-md-2"
                           src={
                             ele?.img
                               ? `${ImgsUrl}/${ele?.img}`
@@ -65,6 +70,7 @@ export default function Table(props) {
                             height: "63.8px",
                             width: "36.39px",
                             objectFit: "cover",
+                            flexShrink: 0
                           }}
                         />
                       }
@@ -79,7 +85,6 @@ export default function Table(props) {
                     <>
                       {fromUserError || !ele?.from_user?.img  ?  <div className="null-img">{ele?.from_user?.name?.slice(0 ,1) || 'U'}</div> : 
                         <img
-                          className="col-md-2"
                           src={
                             ele?.from_user?.img
                               ? `${ImgsUrl}/${ele?.from_user?.img}`
@@ -91,6 +96,7 @@ export default function Table(props) {
                             height: "63.8px",
                             width: "36.39px",
                             objectFit: "cover",
+                            flexShrink: 0
                           }}
                         />
                       }
@@ -106,9 +112,9 @@ export default function Table(props) {
                   )}
                 </div>
                 {props.report && (
-                  <div className="col-md-3">
+                  <div style={{ flex: "1", minWidth: "150px" }}>
                     <h6
-                      className="col-12 "
+                      className="text-center"
                       style={{
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
@@ -124,10 +130,9 @@ export default function Table(props) {
                   </div>
                 )}
                 {props.reportedUser !== "" && (
-                  <div className="col-md-3 gap-2 text-start d-flex ga-2 align-items-center">
+                  <div className="gap-2 text-start d-flex ga-2 align-items-center" style={{ flex: "1", minWidth: "150px" }}>
                     {toUserError|| !ele?.to_user?.img  ?  <div className="null-img">{ele?.to_user?.name?.slice(0 ,1) || 'U'}</div> : 
                         <img
-                          className="col-md-2"
                           src={
                             ele?.to_user?.img
                               ? `${ImgsUrl}/${ele?.to_user?.img}`
@@ -139,6 +144,7 @@ export default function Table(props) {
                             height: "63.8px",
                             width: "36.39px",
                             objectFit: "cover",
+                            flexShrink: 0
                           }}
                         />
                       }
@@ -150,9 +156,9 @@ export default function Table(props) {
                     </div>
                   </div>
                 )}
-                <div className="col-md-3">
+                <div style={{ flex: "1", minWidth: "150px" }}>
                   <h6
-                    className="col-12 "
+                    className="text-center"
                     style={{
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
@@ -164,10 +170,10 @@ export default function Table(props) {
                       : ele?.followers || 0}
                   </h6>
                 </div>
-                <h6 className="col-md-2 text-center">
+                <h6 className="text-center" style={{ flex: "1", minWidth: "120px" }}>
                   {dayjs(ele?.created_at).format("DD/MM/YYYY")}
                 </h6>
-                <div className="col-md-2 d-flex align-items-center justify-content-center gap-3">
+                <div className="d-flex align-items-center justify-content-center gap-3" style={{ flex: "1", minWidth: "100px" }}>
                   {props.isContentManagement ? (
                     <Button
                       onClick={() =>
