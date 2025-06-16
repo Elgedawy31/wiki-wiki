@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import Table from "../../Components/Table/Table";
 import TopBar from "../../Components/TopBar/TopBar";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers, getUsersVerified } from "../../store/actions/UsersSlice";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
 import AdsTable from "./components/AdsTable";
 import { getAds } from "../../store/actions/AdsSlice";

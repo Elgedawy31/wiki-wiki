@@ -1,7 +1,6 @@
 import { Button } from "react-bootstrap";
 import "../../../Components/Table/Table.css";
 import { Link, useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
 import userAvatar from "../../../Assets/UserPage/avatar.png";
 import { ImgsUrl } from "../../../Api/Api";
 export default function AdsTable(props) {
@@ -84,7 +83,7 @@ export default function AdsTable(props) {
                   </h6>
                 </div>
                 <h6 className="col-md-2 text-center">
-                  {dayjs(ele?.created_at).format("DD/MM/YYYY")}
+                  {new Date(ele.created_at * 1000).toLocaleDateString()}
                 </h6>
                 <div className="col-md-2 d-flex align-items-center justify-content-center gap-3">
                   <Button
