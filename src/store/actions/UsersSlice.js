@@ -6,10 +6,10 @@ const cookie = Cookie();
 
 export const getAllUsers = createAsyncThunk(
   "users/getall",
-  async (value, { rejectWithValue, getState }) => {
+  async ({ name = "", page = 1, limit = 10 } = {}, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
-      const response = await axios.get(`${baseURL}/Admin-users?name=${value}`, {
+      const response = await axios.get(`${baseURL}/Admin-users?name=${name}&page=${page}&limit=${limit}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth?.token}`,
@@ -135,11 +135,11 @@ export const makeUserNormalize = createAsyncThunk(
 );
 export const getUsersVerified = createAsyncThunk(
   "users/verified",
-  async ({ type, value }, { rejectWithValue, getState }) => {
+  async ({ type, value, page = 1, limit = 10 }, { rejectWithValue, getState }) => {
     const { auth } = getState();
     try {
       const response = await axios.get(
-        `${baseURL}/Admin-users?type=${type}&name=${value}`,
+        `${baseURL}/Admin-users?type=${type}&name=${value}&page=${page}&limit=${limit}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -243,6 +243,7 @@ const initialState = {
   error: null,
   userDetails: {},
   allUsers: [],
+  meta: null,
   isWarning: false,
   isNormalize: false,
   isBanned: false,
@@ -269,6 +270,7 @@ const usersSlice = createSlice({
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.loading = false;
         state.allUsers = action.payload?.data;
+        state.meta = action.payload?.meta;
         state.error = null;
       })
       .addCase(getAllUsers.rejected, (state, action) => {
@@ -283,6 +285,7 @@ const usersSlice = createSlice({
       .addCase(getUsersVerified.fulfilled, (state, action) => {
         state.loading = false;
         state.allUsers = action.payload?.data;
+        state.meta = action.payload?.meta;
         state.error = null;
       })
       .addCase(getUsersVerified.rejected, (state, action) => {

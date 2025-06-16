@@ -3,38 +3,50 @@ import Table from "../../Components/Table/Table";
 import TopBar from "../../Components/TopBar/TopBar";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers, getUsersVerified } from "../../store/actions/UsersSlice";
-import { getUserBans } from "../../store/actions/UsersSlice";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
+import Pagination from "../../Components/Pagination/Pagination";
 
 export default function UserManage() {
   const [changeTable, setChangeTable] = useState(0);
   const [value, setValue] = useState("");
   const [search, setSearch] = useState(false);
-  const { allUsers, loading } = useSelector((state) => state.users);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const { allUsers, loading, meta } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (changeTable === 0) {
-      dispatch(getAllUsers(value));
+      dispatch(getAllUsers({ name: value, page: currentPage, limit: itemsPerPage }));
       setSearch(false);
     }
     if (changeTable === 1) {
-      dispatch(getUsersVerified({ type: "verified", value }));
+      dispatch(getUsersVerified({ type: "verified", value, page: currentPage, limit: itemsPerPage }));
       setSearch(false);
     }
     if (changeTable === 2) {
-      dispatch(getUsersVerified({ type: "normal", value }));
+      dispatch(getUsersVerified({ type: "normal", value, page: currentPage, limit: itemsPerPage }));
       setSearch(false);
     }
     if (changeTable === 3) {
-      dispatch(getUsersVerified({ type: "warning", value }));
+      dispatch(getUsersVerified({ type: "warning", value, page: currentPage, limit: itemsPerPage }));
       setSearch(false);
     }
     if (changeTable === 4) {
-      dispatch(getUsersVerified({ type: "banned", value }));
+      dispatch(getUsersVerified({ type: "banned", value, page: currentPage, limit: itemsPerPage }));
       setSearch(false);
     }
-  }, [changeTable, search]);
+  }, [changeTable, search, dispatch, setSearch, value, currentPage, itemsPerPage]);
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Reset to first page when changing table or searching
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [changeTable, value]);
 
   console.log(allUsers)
 
@@ -100,6 +112,15 @@ export default function UserManage() {
               report=""
               reportedUser=""
             />
+            {/* Pagination Component */}
+            {meta && (
+              <Pagination
+                meta={meta}
+                onPageChange={handlePageChange}
+                loading={loading}
+                className="mt-4"
+              />
+            )}
           </>
         )}
       </div>
