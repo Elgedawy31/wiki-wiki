@@ -7,9 +7,17 @@ function UniToast({ setOpen, open, title, message, reset = () => {} }) {
   useEffect(() => {
     setTimeout(() => {
       setOpen(false);
-      dispatch(reset());
+      // Check if reset is a function that returns an action (action creator) or just a regular function
+      if (typeof reset === 'function') {
+        const result = reset();
+        // If reset() returns an object with type property, it's a Redux action
+        if (result && typeof result === 'object' && result.type) {
+          dispatch(result);
+        }
+        // If reset is just a regular function (like setState), it's already executed above
+      }
     }, 2000);
-  }, [open]);
+  }, [open, dispatch, reset]);
 
   return (
     <Toast

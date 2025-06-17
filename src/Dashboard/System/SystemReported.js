@@ -1,31 +1,66 @@
-import { Button } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 import "./System.css";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
 import UniToast from "../../Components/UniToast/UniToast";
-import { getContent, reset } from "../../store/actions/ManagementSlice";
+import { getContent, reset, sendContentWarning } from "../../store/actions/ManagementSlice";
 export default function SystemReported() {
   const [showUser, setShowUser] = useState(0);
+  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [warningText, setWarningText] = useState("");
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  
   const {id} = useParams()
-  const { contentDetails, error, loading } = useSelector(
+  const { contentDetails, error, loading, warningSent } = useSelector(
     (state) => state.management
   );
-const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-useEffect(() => {
-  dispatch(getContent({id}))
-} , [id])
+  useEffect(() => {
+    dispatch(getContent({id}))
+  } , [id])
+
+  useEffect(() => {
+    if (warningSent) {
+      setShowSuccessToast(true);
+      setShowWarningModal(false);
+      setWarningText("");
+      dispatch(reset());
+    }
+  }, [warningSent, dispatch]);
+
+  useEffect(() => {
+    if (error && showWarningModal) {
+      setShowErrorToast(true);
+    }
+  }, [error, showWarningModal]);
+
+  const handleWarningSubmit = (e) => {
+    e.preventDefault();
+    if (warningText.trim()) {
+      dispatch(sendContentWarning({
+        content_id: contentDetails?.data?.id,
+        text: warningText.trim()
+      }));
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowWarningModal(false);
+    setWarningText("");
+  };
 
 
 
   return (
     <div>
-      {error && (
+      {error && !showWarningModal && !showErrorToast && (
         <UniToast
           open={true}
-          reset={reset}
+          reset={() => dispatch(reset())}
           setOpen={() => {}}
           title="Content Management Error"
           message={error}
@@ -184,7 +219,10 @@ useEffect(() => {
               <Button className="bg-delete text-white rounded py-3 col-3 border-0">
                 Delete
               </Button>
-              <Button className="bg-warning text-white rounded py-3 col-3 border-0">
+              <Button 
+                className="bg-warning text-white rounded py-3 col-3 border-0"
+                onClick={() => setShowWarningModal(true)}
+              >
                 Warning
               </Button>
             </div>
@@ -228,6 +266,105 @@ useEffect(() => {
             )}
           </div>
         </div>
+      )}
+
+      {/* Warning Modal */}
+      <Modal 
+        show={showWarningModal} 
+        onHide={handleCloseModal}
+        centered
+        backdrop="static"
+      >
+        <Modal.Header closeButton style={{ backgroundColor: '#000000', }}>
+          <Modal.Title style={{ color: '#f8f9fa', fontWeight: 'bold' }}>
+            <i className="fas fa-exclamation-triangle text-warning me-2"></i>
+            Send Content Warning
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ backgroundColor: '#000000', color: '#f8f9fa' }}>
+          <Form onSubmit={handleWarningSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label style={{ fontWeight: '600', color: '#ecf0f1' }}>
+                Warning Message
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                
+                value={warningText}
+                onChange={(e) => setWarningText(e.target.value)}
+                placeholder="Enter the warning message for this content..."
+                required
+                style={{
+                  backgroundColor: '#000000',
+                  color: '#ecf0f1',
+                  resize: 'vertical',
+                  
+                }}
+                className="form-control"
+              />
+              <Form.Text style={{ color: '#bdc3c7', fontSize: '0.875rem' }}>
+                This warning will be sent to the content owner regarding policy violations.
+              </Form.Text>
+            </Form.Group>
+            
+            <div className="d-flex justify-content-between align-items-center">
+              <small style={{ color: '#95a5a6' }}>
+                Content ID: #{contentDetails?.data?.id || 'N/A'}
+              </small>
+              <div>
+                <Button 
+                  variant="secondary" 
+                  onClick={handleCloseModal}
+                  className="me-2"
+                  style={{ minWidth: '80px' }}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  type="submit"
+                  variant="warning"
+                  disabled={!warningText.trim() || loading}
+                  style={{ minWidth: '100px' }}
+                >
+                  {loading ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <i className="fas fa-paper-plane me-2"></i>
+                      Send Warning
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* Success Toast */}
+      {showSuccessToast && (
+        <UniToast
+          open={showSuccessToast}
+          setOpen={setShowSuccessToast}
+          title="Warning Sent Successfully"
+          message="The content warning has been sent to the user successfully."
+          reset={() => setShowSuccessToast(false)}
+        />
+      )}
+
+      {/* Error Toast */}
+      {showErrorToast && error && (
+        <UniToast
+          open={showErrorToast}
+          setOpen={setShowErrorToast}
+          title="Warning Failed"
+          message={error}
+          reset={() => setShowErrorToast(false)}
+        />
       )}
     </div>
   );

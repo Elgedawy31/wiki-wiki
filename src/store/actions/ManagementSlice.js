@@ -119,18 +119,29 @@ export const sendContentWarning = createAsyncThunk(
 
       const data = response.data;
       if (data.error) {
-        return rejectWithValue(data);
+        return rejectWithValue({
+          message: data.error
+        });
       }
 
-      return data;
+      // Return only serializable data
+      return {
+        status: data.status,
+        message: data.message,
+        success: true
+      };
     } catch (error) {
-      if (error?.response.data?.error) {
+      if (error?.response?.data?.error) {
         return rejectWithValue({
           message: error?.response?.data?.error,
         });
       } else if (error?.response?.data?.message) {
         return rejectWithValue({
           message: error?.response?.data?.message,
+        });
+      } else {
+        return rejectWithValue({
+          message: "An error occurred while sending the warning",
         });
       }
     }
