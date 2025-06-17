@@ -2,7 +2,7 @@ import React from "react";
 
 function PerformancePagination({ activeItem, setActiveItem }) {
   return (
-    <div className="position-absolute end-0 top-0 text-white ">
+    <div className="position-absolute end-0 top-0 text-white  " data-aos="slide-up" data-aos-duration="800" data-aos-delay="300">
       <div  className="d-flex flex-column vh-100 justify-content-around align-items-center ">
         <div
           onClick={() => setActiveItem(1)}

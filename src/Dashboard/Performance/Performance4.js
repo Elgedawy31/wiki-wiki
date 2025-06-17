@@ -59,7 +59,7 @@ export default function Performance4() {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div style={{ width: "90%" }} className="mx-auto">
+        <div style={{ width: "90%" }} className="mx-auto" data-aos="slide-up" data-aos-duration="800" data-aos-delay="300">
           {error && (
             <UniToast
               open={true}

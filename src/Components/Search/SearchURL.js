@@ -41,7 +41,7 @@ export default function SearchURL() {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="text-white d-flex align-items-center justify-content-center gap-3 flex-column">
+        <div  data-aos="slide-up" data-aos-duration="800" data-aos-delay="100" className="text-white d-flex align-items-center justify-content-center gap-3 flex-column">
           {open && (
             <UniToast
               open={open}

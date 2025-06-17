@@ -68,11 +68,17 @@ export default function Performance() {
         <>
           <div
             style={{ marginBottom: "6rem" }}
-            className="performance-btns  gap-5 d-flex align-items-center justify-content-center"
+            className="performance-btns gap-5 d-flex align-items-center justify-content-center"
+            data-aos="fade-up" 
+            data-aos-duration="1000"
+            data-aos-delay="200"
           >
             <button
               className={`${type === 0 && "active-performance-btn"}`}
               onClick={() => setType(0)}
+              data-aos="zoom-in"
+              data-aos-duration="600"
+              data-aos-delay="400"
             >
               LIVE Details
             </button>
@@ -80,6 +86,9 @@ export default function Performance() {
             <button
               className={`${type === 1 && "active-performance-btn"}`}
               onClick={() => setType(1)}
+              data-aos="zoom-in"
+              data-aos-duration="600"
+              data-aos-delay="500"
             >
               Target
             </button>
@@ -87,21 +96,48 @@ export default function Performance() {
           {loading ? (
             <LoadingSpinner />
           ) : (
-            <>
-              {type === 0 && <LiveDetails liveData={liveData} />}
-              {type === 1 && <TargetDetails allCategories={allCategories} getAllCategories={getAllCategories} />}
-            </>
+            <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+              {type === 0 && (
+                <div data-aos="slide-up" data-aos-duration="800" data-aos-delay="800">
+                  <LiveDetails liveData={liveData} />
+                </div>
+              )}
+              {type === 1 && (
+                <div data-aos="slide-up" data-aos-duration="800" data-aos-delay="800">
+                  <TargetDetails allCategories={allCategories} getAllCategories={getAllCategories} />
+                </div>
+              )}
+            </div>
           )}
         </>
       )}
-      {activeItem === 2 && <Performance2 />}
-      {activeItem === 3 && <Performance3 loading={topLoading} data={data} />}
-      {activeItem === 4 && <Performance4 />}
-      {activeItem === 5 && <Performance5 />}
-      <PerformancePagination
-        activeItem={activeItem}
-        setActiveItem={setActiveItem}
-      />
+      {activeItem === 2 && (
+        <div >
+          <Performance2 />
+        </div>
+      )}
+      {activeItem === 3 && (
+        <div >
+          <Performance3 loading={topLoading} data={data} />
+        </div>
+      )}
+      {activeItem === 4 && (
+        <div >
+          <Performance4 />
+        </div>
+      )}
+      {activeItem === 5 && (
+        <div >
+          <Performance5 />
+        </div>
+      )}
+      <div 
+      >
+        <PerformancePagination
+          activeItem={activeItem}
+          setActiveItem={setActiveItem}
+        />
+      </div>
     </div>
   );
 }

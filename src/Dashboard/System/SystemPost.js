@@ -14,8 +14,12 @@ export default function SystemPost() {
   }, [location?.state]);
   return (
     <div>
-      <TopBar showSearch={false} />
-      <SystemPostComponent data={location?.state} />
+      <div data-aos="fade-down" data-aos-duration="800">
+        <TopBar showSearch={false} />
+      </div>
+      <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+        <SystemPostComponent data={location?.state} />
+      </div>
     </div>
   );
 }

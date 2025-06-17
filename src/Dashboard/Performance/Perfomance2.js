@@ -69,7 +69,7 @@ export default function Performance2() {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div style={{ width: "90%" }} className="mx-auto">
+        <div style={{ width: "90%" }} className="mx-auto" data-aos="slide-up" data-aos-duration="800" data-aos-delay="300">
           <div className="bg-seconder-grad rounded-20 performance py-4 px-5 mt-4">
             <h3 className="text-white my-4">Feedbacks</h3>
             <div>

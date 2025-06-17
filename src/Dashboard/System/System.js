@@ -62,16 +62,26 @@ export default function System() {
         <LoadingSpinner />
       ) : (
         <>
-          <SecondTopBar
-            title="Content Management System"
-            img={require("../../Assets/TopBar/Laptop.png")}
-          />
-          <div className="mt-3 mb-5 d-flex align-items-center justify-content-evenly text-white mb-5">
+          <div data-aos="fade-down" data-aos-duration="800">
+            <SecondTopBar
+              title="Content Management System"
+              img={require("../../Assets/TopBar/Laptop.png")}
+            />
+          </div>
+          <div 
+            className="mt-3 mb-5 d-flex align-items-center justify-content-evenly text-white mb-5"
+            data-aos="fade-up" 
+            data-aos-duration="1000"
+            data-aos-delay="200"
+          >
             <h3
               onClick={() => setChangeTable(0)}
               className={`fw-bold pointer text-grey ${
                 changeTable === 0 && "active-table"
               }`}
+              data-aos="zoom-in"
+              data-aos-duration="600"
+              data-aos-delay="400"
             >
               Spotted
             </h3>
@@ -80,6 +90,9 @@ export default function System() {
               className={`fw-bold pointer text-grey ${
                 changeTable === 1 && "active-table"
               }`}
+              data-aos="zoom-in"
+              data-aos-duration="600"
+              data-aos-delay="500"
             >
               Reported by users
             </h3>
@@ -88,6 +101,9 @@ export default function System() {
               className={`fw-bold pointer text-grey ${
                 changeTable === 2 && "active-table"
               }`}
+              data-aos="zoom-in"
+              data-aos-duration="600"
+              data-aos-delay="600"
             >
               Requested Review
             </h3>
@@ -96,51 +112,67 @@ export default function System() {
               className={`fw-bold pointer text-grey ${
                 changeTable === 3 && "active-table"
               }`}
+              data-aos="zoom-in"
+              data-aos-duration="600"
+              data-aos-delay="700"
             >
               Pick a post
             </h3>
           </div>
-          <div>
+          <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
             {changeTable === 0 ? (
-              <Table
-                isContentManagement={true}
-                data={data}
-                action="View"
-                path="1"
-                secondCol="Post ID"
-                date="Date"
-                report=""
-                reportedUser=""
-              />
+              <div data-aos="slide-up" data-aos-duration="800" data-aos-delay="1000">
+                <Table
+                  isContentManagement={true}
+                  data={data}
+                  action="View"
+                  path="1"
+                  secondCol="Post ID"
+                  date="Date"
+                  report=""
+                  reportedUser=""
+                />
+              </div>
             ) : changeTable === 1 ? (
-              <Table
-                isContentManagement={true}
-                data={data}
-                action="View"
-                path="1"
-                secondCol="Post Discerption"
-                date="Date"
-                report="Report"
-                reportedUser="Reported User"
-              />
+              <div data-aos="slide-up" data-aos-duration="800" data-aos-delay="1000">
+                <Table
+                  isContentManagement={true}
+                  data={data}
+                  action="View"
+                  path="1"
+                  secondCol="Post Discerption"
+                  date="Date"
+                  report="Report"
+                  reportedUser="Reported User"
+                />
+              </div>
             ) : changeTable === 2 ? (
-              <Table
-                isContentManagement={true}
-                data={data}
-                action="View"
-                path="1"
-                secondCol="Post ID"
-                date="Date"
-                report=""
-                reportedUser=""
-              />
+              <div data-aos="slide-up" data-aos-duration="800" data-aos-delay="1000">
+                <Table
+                  isContentManagement={true}
+                  data={data}
+                  action="View"
+                  path="1"
+                  secondCol="Post ID"
+                  date="Date"
+                  report=""
+                  reportedUser=""
+                />
+              </div>
             ) : (
-              <SearchURL />
+              <div data-aos="fade-in" data-aos-duration="800" data-aos-delay="1000">
+                <SearchURL />
+              </div>
             )}
             
             {/* Pagination Component - Only show for tables with data */}
             {(changeTable === 0 || changeTable === 1 || changeTable === 2) && meta && (
-              <div className="mt-4">
+              <div 
+                className="mt-4"
+                data-aos="fade-up" 
+                data-aos-duration="600"
+                data-aos-delay="1200"
+              >
                 <Pagination
                   meta={meta}
                   onPageChange={handlePageChange}
