@@ -66,16 +66,34 @@ export default function Notfication() {
         />
       )}
       <div className="text-white">
-        <div className="d-flex gap-3">
+        <div 
+          className="d-flex gap-3"
+          data-aos="fade-down" 
+          data-aos-duration="800"
+        >
           <h1 className="m-0 text-uppercase">notification settings</h1>
           <img src={require("../../Assets/Notfication/Notef..png")} alt="" />
         </div>
-        <div className="d-flex align-items-end justify-content-between mt-5">
+        <div 
+          className="d-flex align-items-end justify-content-between mt-5"
+          data-aos="fade-up" 
+          data-aos-duration="1000"
+          data-aos-delay="200"
+        >
           <Form
             onSubmit={handleSubmit}
             className="col-7 d-flex aling-items-center justify-content-between flex-wrap"
+            data-aos="slide-right" 
+            data-aos-duration="800"
+            data-aos-delay="400"
           >
-            <Form.Group controlId="title" className="mb-3 col-lg-7 col-12 ">
+            <Form.Group 
+              controlId="title" 
+              className="mb-3 col-lg-7 col-12"
+              data-aos="fade-up" 
+              data-aos-duration="600"
+              data-aos-delay="600"
+            >
               <Form.Label className="text-uppercase">
                 Notification Title
               </Form.Label>
@@ -86,7 +104,13 @@ export default function Notfication() {
                 className="bg-super-grey"
               />
             </Form.Group>
-            <Form.Group controlId="title" className="mb-3 col-lg-7 col-12 ">
+            <Form.Group 
+              controlId="title" 
+              className="mb-3 col-lg-7 col-12"
+              data-aos="fade-up" 
+              data-aos-duration="600"
+              data-aos-delay="700"
+            >
               <Form.Label className="text-uppercase">
                 Notification Description
               </Form.Label>
@@ -99,7 +123,13 @@ export default function Notfication() {
               />
             </Form.Group>
             <div className="col-4"></div>
-            <Form.Group controlId="title" className="mb-3">
+            <Form.Group 
+              controlId="title" 
+              className="mb-3"
+              data-aos="zoom-in" 
+              data-aos-duration="600"
+              data-aos-delay="800"
+            >
               <Form.Label className="text-uppercase">
                 Notification PHOTO
               </Form.Label>
@@ -141,7 +171,12 @@ export default function Notfication() {
                 />
               </div>
             </Form.Group>
-            <div className="col-6 mt-auto">
+            <div 
+              className="col-6 mt-auto"
+              data-aos="fade-up" 
+              data-aos-duration="600"
+              data-aos-delay="900"
+            >
               <Button
                 style={{
                   opacity: loading ? 0.7 : 1,
@@ -155,7 +190,11 @@ export default function Notfication() {
               </Button>
             </div>
           </Form>
-          <div>
+          <div
+            data-aos="slide-left" 
+            data-aos-duration="800"
+            data-aos-delay="500"
+          >
             <img src={require("../../Assets/Notfication/mobile.png")} alt="" />
           </div>
         </div>

@@ -112,31 +112,54 @@ export default function UserPage() {
             />
           )}
 
-          <TopBar />
+          <div data-aos="fade-down" data-aos-duration="800">
+            <TopBar />
+          </div>
           
           <div className="user-page-container">
             {/* Header Section */}
-            <div className="user-header-card">
+            <div 
+              className="user-header-card"
+              data-aos="fade-up" 
+              data-aos-duration="1000"
+              data-aos-delay="200"
+            >
               <div className="user-header-content">
-                <div className="user-avatar-section">
-                  {errorMsg || !userDetails?.profile?.img ? (
-                    <div className="user-avatar-placeholder">
-                      {userDetails?.profile?.name?.slice(0, 1)}
-                    </div>
-                  ) : (
-                    <img
-                      className="user-avatar-img"
-                      onError={() => setErrorMsg(true)}
-                      src={
-                        userDetails?.profile?.img
-                          ? `${ImgsUrl}/${userDetails?.profile?.img}`
-                          : userAvatar
-                      }
-                      alt="User Avatar"
-                    />
-                  )}
+                <div 
+                  className="user-avatar-section"
+                  data-aos="fade-right" 
+                  data-aos-duration="800"
+                  data-aos-delay="400"
+                >
+                  <div
+                    data-aos="zoom-in"
+                    data-aos-duration="600"
+                    data-aos-delay="600"
+                  >
+                    {errorMsg || !userDetails?.profile?.img ? (
+                      <div className="user-avatar-placeholder">
+                        {userDetails?.profile?.name?.slice(0, 1)}
+                      </div>
+                    ) : (
+                      <img
+                        className="user-avatar-img"
+                        onError={() => setErrorMsg(true)}
+                        src={
+                          userDetails?.profile?.img
+                            ? `${ImgsUrl}/${userDetails?.profile?.img}`
+                            : userAvatar
+                        }
+                        alt="User Avatar"
+                      />
+                    )}
+                  </div>
                   
-                  <div className="user-basic-info">
+                  <div 
+                    className="user-basic-info"
+                    data-aos="fade-left"
+                    data-aos-duration="800"
+                    data-aos-delay="700"
+                  >
                     <div className="user-name-section">
                       <h2 className="user-name">{userDetails?.profile?.name}</h2>
                       {verified && (
@@ -149,25 +172,39 @@ export default function UserPage() {
                   </div>
                 </div>
 
-                <div className="user-actions">
+                <div 
+                  className="user-actions"
+                  data-aos="fade-left" 
+                  data-aos-duration="800"
+                  data-aos-delay="800"
+                >
                   <Button
                     onClick={() => {
                       setVerified((prev) => !prev);
                       handleVerifiing(!verified);
                     }}
                     className={`action-btn ${verified ? 'verified-btn' : 'verify-btn'}`}
+                    data-aos="zoom-in"
+                    data-aos-duration="600"
+                    data-aos-delay="900"
                   >
                     {verified ? "UNVERIFY" : "VERIFY"}
                   </Button>
                   <Button
                     onClick={() => setOpenForBanned(true)}
                     className="action-btn ban-btn"
+                    data-aos="zoom-in"
+                    data-aos-duration="600"
+                    data-aos-delay="1000"
                   >
                     BAN USER
                   </Button>
                   <Button
                     onClick={handleWarning}
                     className="action-btn warning-btn"
+                    data-aos="zoom-in"
+                    data-aos-duration="600"
+                    data-aos-delay="1100"
                   >
                     WARNING
                   </Button>
@@ -176,10 +213,20 @@ export default function UserPage() {
             </div>
 
             {/* Main Content Grid */}
-            <Row className="user-content-grid">
+            <Row 
+              className="user-content-grid"
+              data-aos="fade-up" 
+              data-aos-duration="1000"
+              data-aos-delay="600"
+            >
               {/* Profile Information */}
               <Col lg={8} md={12} className="mb-4">
-                <Card className="profile-info-card">
+                <Card 
+                  className="profile-info-card"
+                  data-aos="slide-right" 
+                  data-aos-duration="800"
+                  data-aos-delay="800"
+                >
                   <Card.Header className="card-header-custom">
                     <h4>Profile Information</h4>
                   </Card.Header>
@@ -276,7 +323,12 @@ export default function UserPage() {
               {/* Statistics and Wallet */}
               <Col lg={4} md={12}>
                 {/* Social Statistics */}
-                <Card className="stats-card mb-4">
+                <Card 
+                  className="stats-card mb-4"
+                  data-aos="slide-left" 
+                  data-aos-duration="800"
+                  data-aos-delay="1000"
+                >
                   <Card.Header className="card-header-custom">
                     <h4>Social Statistics</h4>
                   </Card.Header>
@@ -325,7 +377,12 @@ export default function UserPage() {
                 </Card>
 
                 {/* Wallet Information */}
-                <Card className="wallet-card">
+                <Card 
+                  className="wallet-card"
+                  data-aos="slide-left" 
+                  data-aos-duration="800"
+                  data-aos-delay="1200"
+                >
                   <Card.Header className="card-header-custom">
                     <h4>Wallet & Balance</h4>
                   </Card.Header>
@@ -353,7 +410,12 @@ export default function UserPage() {
             </Row>
 
             {/* Account Connections */}
-            <Card className="connections-card">
+            <Card 
+              className="connections-card"
+              data-aos="fade-up" 
+              data-aos-duration="800"
+              data-aos-delay="1400"
+            >
               <Card.Header className="card-header-custom">
                 <h4>Account Connections</h4>
               </Card.Header>

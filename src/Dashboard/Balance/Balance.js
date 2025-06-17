@@ -39,19 +39,37 @@ export default function Balance() {
 
   return (
     <div>
-      <h1 className="text-white text-center mb-5">Transactions History</h1>
-      <div className="bg-balance rounded-20 py-5 px-4">
+      <h1 
+        className="text-white text-center mb-5"
+        data-aos="fade-down" 
+        data-aos-duration="800"
+      >
+        Transactions History
+      </h1>
+      <div 
+        className="bg-balance rounded-20 py-5 px-4"
+        data-aos="fade-up" 
+        data-aos-duration="1000"
+        data-aos-delay="200"
+      >
         <div></div>
         <div>
-          <div>
+          <div
+            data-aos="fade-right" 
+            data-aos-duration="600"
+            data-aos-delay="400"
+          >
             <p className="text-grey">NEWEST</p>
           </div>
 
-          {transactions?.map((item) => (
+          {transactions?.map((item, index) => (
             <Link
               to={`/dashboard/balance/${item?.sender?.id}`}
               key={item.id}
               className="d-flex align-items-center justify-content-between text-decoration-none mb-4"
+              data-aos="slide-up" 
+              data-aos-duration="600"
+              data-aos-delay={600 + (index * 100)}
             >
               <div className="d-flex align-items-center gap-4">
                 <img 
@@ -75,12 +93,18 @@ export default function Balance() {
       
       {/* Pagination Component */}
       {meta && (
-        <Pagination 
-          meta={meta}
-          onPageChange={handlePageChange}
-          loading={isLoading}
-          className="mt-4"
-        />
+        <div
+          data-aos="fade-up" 
+          data-aos-duration="600"
+          data-aos-delay="1000"
+        >
+          <Pagination 
+            meta={meta}
+            onPageChange={handlePageChange}
+            loading={isLoading}
+            className="mt-4"
+          />
+        </div>
       )}
     </div>
   );

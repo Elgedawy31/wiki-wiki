@@ -32,13 +32,25 @@ export default function BalanceUser() {
 
   return (
     <>
-      <TopBar />
+      <div data-aos="fade-down" data-aos-duration="800">
+        <TopBar />
+      </div>
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         <div className="text-white mt-4">
-          <div className="d-flex align-items-center justify-content-between">
-            <div className="d-flex align-items-center ">
+          <div 
+            className="d-flex align-items-center justify-content-between"
+            data-aos="fade-up" 
+            data-aos-duration="1000"
+            data-aos-delay="200"
+          >
+            <div 
+              className="d-flex align-items-center"
+              data-aos="fade-right" 
+              data-aos-duration="800"
+              data-aos-delay="400"
+            >
               <img
                 src={
                   data?.user?.profile?.img
@@ -47,8 +59,15 @@ export default function BalanceUser() {
                 }
                 alt="balance user"
                 style={{ width: "70px", height: "70px", marginRight: "1rem" }}
+                data-aos="zoom-in"
+                data-aos-duration="600"
+                data-aos-delay="600"
               />
-              <div>
+              <div
+                data-aos="fade-left"
+                data-aos-duration="600"
+                data-aos-delay="700"
+              >
                 <h4 className="m-0">{data?.user?.profile?.name}</h4>
                 <h6 className="text-grey m-0">
                   {data?.user?.profile?.nick_name}
@@ -61,15 +80,28 @@ export default function BalanceUser() {
                 background:
                   "linear-gradient(96deg, #121327 49.37%, rgba(252, 21, 92, 0.80) 87.11%)",
               }}
+              data-aos="fade-left" 
+              data-aos-duration="800"
+              data-aos-delay="500"
             >
               <img src={require("../../Assets/Balance/coin.png")} alt="" />
               <h4 className="m-0">{data?.user?.wallet?.coins || 0}</h4>
             </div>
           </div>
 
-          <div className="row mt-4">
+          <div 
+            className="row mt-4"
+            data-aos="fade-up" 
+            data-aos-duration="1000"
+            data-aos-delay="600"
+          >
             <div className="col-lg-6 col-12 mb-3">
-              <div className="rounded-20 bg-third-grad p-4 h-100">
+              <div 
+                className="rounded-20 bg-third-grad p-4 h-100"
+                data-aos="slide-right" 
+                data-aos-duration="800"
+                data-aos-delay="800"
+              >
                 <h5 className="mb-3">Profile Information</h5>
                 <p className="text-grey mb-3">{data?.user?.profile?.bio || "No bio available"}</p>
                 <div
@@ -153,7 +185,12 @@ export default function BalanceUser() {
             </div>
 
             <div className="col-lg-6 col-12 mb-3">
-              <div className="rounded-20 bg-third-grad p-4 h-100">
+              <div 
+                className="rounded-20 bg-third-grad p-4 h-100"
+                data-aos="slide-left" 
+                data-aos-duration="800"
+                data-aos-delay="1000"
+              >
                 <h5 className="mb-3">Account Statistics</h5>
                 <div className="row">
                   <div className="col-6 mb-3">
@@ -199,10 +236,21 @@ export default function BalanceUser() {
             </div>
           </div>
 
-          <div className="col-12 mt-3 bg-third-grad p-3 rounded-20 px-5">
+          <div 
+            className="col-12 mt-3 bg-third-grad p-3 rounded-20 px-5"
+            data-aos="fade-up" 
+            data-aos-duration="800"
+            data-aos-delay="1200"
+          >
             {data?.data?.length > 0 ? 
-              data?.data?.map((ele) => (
-                <div key={ele?.id} className="d-flex align-items-center justify-content-between text-decoration-none mb-4">
+              data?.data?.map((ele, index) => (
+                <div 
+                  key={ele?.id} 
+                  className="d-flex align-items-center justify-content-between text-decoration-none mb-4"
+                  data-aos="slide-up" 
+                  data-aos-duration="600"
+                  data-aos-delay={1400 + (index * 100)}
+                >
                   <div className="d-flex align-items-center gap-4">
                     <img
                       src={ele?.coins > 0 ? greenIcon : redIcon}
@@ -229,7 +277,16 @@ export default function BalanceUser() {
                     </p>
                   </div>
                 </div>
-              )) : <h1 className="text-center my-5">No Data Yet</h1>}
+              )) : (
+                <h1 
+                  className="text-center my-5"
+                  data-aos="fade-in"
+                  data-aos-duration="800"
+                  data-aos-delay="1400"
+                >
+                  No Data Yet
+                </h1>
+              )}
           </div>
         </div>
       )}

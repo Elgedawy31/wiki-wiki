@@ -70,42 +70,59 @@ export default function SystemReported() {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="post py-4 px-5 d-flex align-items-stretch justify-content-between my-5 mx-4">
+        <div 
+          className="post py-4 px-5 d-flex align-items-stretch justify-content-between my-5 mx-4"
+          data-aos="fade-up" 
+          data-aos-duration="1000"
+          data-aos-delay="200"
+        >
           <div className="col-7 d-flex flex-column justify-content-between mb-2">
-            <div className="d-flex align-items-center mb-5 gap-3">
+            <div 
+              className="d-flex align-items-center mb-5 gap-3"
+              data-aos="fade-right" 
+              data-aos-duration="800"
+              data-aos-delay="400"
+            >
               <div className="d-flex align-items-center gap-2">
-                {contentDetails?.data?.user?.img ? (
-                  <img
-                    src={contentDetails.data.user.img}
-                    alt="User Avatar"
-                    width={"80px"}
-                    height={"80px"}
-                    style={{ borderRadius: "50%", objectFit: "cover" }}
-                    className="pointer"
-                    onClick={() => setShowUser(0)}
-                  />
-                ) : (
-                  <div
-                    className="d-flex align-items-center justify-content-center pointer"
-                    style={{
-                      width: "80px",
-                      height: "80px",
-                      borderRadius: "50%",
-                      backgroundColor: "#6c757d",
-                      color: "white",
-                      fontSize: "24px",
-                      fontWeight: "bold"
-                    }}
-                    onClick={() => setShowUser(0)}
-                  >
-                    {contentDetails?.data?.user?.name?.charAt(0) || "U"}
-                  </div>
-                )}
+                <div
+                  data-aos="zoom-in"
+                  data-aos-duration="600"
+                  data-aos-delay="600"
+                >
+                  {contentDetails?.data?.user?.img ? (
+                    <img
+                      src={contentDetails.data.user.img}
+                      alt="User Avatar"
+                      width={"80px"}
+                      height={"80px"}
+                      style={{ borderRadius: "50%", objectFit: "cover" }}
+                      className="pointer"
+                      onClick={() => setShowUser(0)}
+                    />
+                  ) : (
+                    <div
+                      className="d-flex align-items-center justify-content-center pointer"
+                      style={{
+                        width: "80px",
+                        height: "80px",
+                        borderRadius: "50%",
+                        backgroundColor: "#6c757d",
+                        color: "white",
+                        fontSize: "24px",
+                        fontWeight: "bold"
+                      }}
+                      onClick={() => setShowUser(0)}
+                    >
+                      {contentDetails?.data?.user?.name?.charAt(0) || "U"}
+                    </div>
+                  )}
+                </div>
                 <Button
                   variant={!showUser ? "secondary" : "outline-light"}
                   size="sm"
                   onClick={() => setShowUser(0)}
                   className="ms-2"
+                
                 >
                   User Info
                 </Button>
@@ -119,7 +136,11 @@ export default function SystemReported() {
               </Button>
             </div>
             {showUser ? (
-              <div>
+              <div 
+                data-aos="slide-up" 
+                data-aos-duration="800"
+                data-aos-delay="600"
+              >
                 <h6 className="text-white fs-3 fw-bold">Report Information</h6>
                 <div className="d-flex align-items-start gap-5">
                   <div>
@@ -171,7 +192,11 @@ export default function SystemReported() {
                 )}
               </div>
             ) : (
-              <div>
+              <div 
+                data-aos="slide-up" 
+                data-aos-duration="800"
+                data-aos-delay="600"
+              >
                 <div className="d-flex align-items-end gap-5 text-white">
                   <div className="d-flex align-items-center gap-5">
                     <div className="text-center">
@@ -215,7 +240,12 @@ export default function SystemReported() {
               </div>
             )}
 
-            <div className="d-flex align-items-center justify-content-between mt-5">
+            <div 
+              className="d-flex align-items-center justify-content-between mt-5"
+              data-aos="fade-up" 
+              data-aos-duration="600"
+              data-aos-delay="1000"
+            >
               <Button className="bg-delete text-white rounded py-3 col-3 border-0">
                 Delete
               </Button>
@@ -227,10 +257,21 @@ export default function SystemReported() {
               </Button>
             </div>
           </div>
-          <div className="col-3 d-flex justify-content-center position-relative">
+          <div 
+            className="col-3 d-flex justify-content-center position-relative"
+            data-aos="fade-left" 
+            data-aos-duration="1000"
+            data-aos-delay="800"
+          >
             <img src={require("../../Assets/System/mobile.png")} alt="mobile" />
             {contentDetails?.data?.media && contentDetails.data.media.length > 0 ? (
-              <div className="position-absolute top-50 start-50 translate-middle" style={{ width: '200px', height: '300px' }}>
+              <div 
+                className="position-absolute top-50 start-50 translate-middle" 
+                style={{ width: '200px', height: '300px' }}
+                data-aos="zoom-in"
+                data-aos-duration="800"
+                data-aos-delay="1200"
+              >
                 {contentDetails.data.file_type === 'video' ? (
                   <div className="text-center">
                     {contentDetails.data.video_img ? (
@@ -260,7 +301,12 @@ export default function SystemReported() {
                 )}
               </div>
             ) : (
-              <h3 className="text-white position-absolute top-50 start-50 translate-middle m-0">
+              <h3 
+                className="text-white position-absolute top-50 start-50 translate-middle m-0"
+                data-aos="fade-in"
+                data-aos-duration="800"
+                data-aos-delay="1200"
+              >
                 No Media
               </h3>
             )}

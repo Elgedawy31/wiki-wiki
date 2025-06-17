@@ -31,15 +31,28 @@ function SingleAds() {
         <LoadingSpinner />
       ) : (
         <>
-          <SecondTopBar
-            status={adsDetails?.ad?.status || "active"}
-            title="ADS MANAGER"
-     
-          />
+          <div data-aos="fade-down" data-aos-duration="800">
+            <SecondTopBar
+              status={adsDetails?.ad?.status || "active"}
+              title="ADS MANAGER"
+            />
+          </div>
           {showMoreDetails ? (
-            <MoreDetails data={adsDetails} />
+            <div 
+              data-aos="fade-up" 
+              data-aos-duration="1000"
+              data-aos-delay="400"
+            >
+              <MoreDetails data={adsDetails} />
+            </div>
           ) : (
-            <AdCard setshowMoreDetails={setshowMoreDetails} data={adsDetails} />
+            <div 
+              data-aos="fade-up" 
+              data-aos-duration="1000"
+              data-aos-delay="400"
+            >
+              <AdCard setshowMoreDetails={setshowMoreDetails} data={adsDetails} />
+            </div>
           )}
         </>
       )}

@@ -52,14 +52,24 @@ export default function UserManage() {
 
   return (
     <>
-      <TopBar showSearch={true} setValue={setValue} value={value} setSearch={setSearch} />
+      <div data-aos="fade-down" data-aos-duration="800">
+        <TopBar showSearch={true} setValue={setValue} value={value} setSearch={setSearch} />
+      </div>
       <div>
-        <div className="mt-3  d-flex align-items-center justify-content-evenly text-white mb-5 ">
+        <div 
+          className="mt-3 d-flex align-items-center justify-content-evenly text-white mb-5"
+          data-aos="fade-up" 
+          data-aos-duration="1000"
+          data-aos-delay="200"
+        >
           <h3
             onClick={() => setChangeTable(0)}
             className={`fw-bold pointer text-grey ${
               changeTable === 0 && "active-table"
             }`}
+            data-aos="zoom-in"
+            data-aos-duration="600"
+            data-aos-delay="400"
           >
             All
           </h3>
@@ -68,6 +78,9 @@ export default function UserManage() {
             className={`fw-bold pointer text-grey ${
               changeTable === 1 && "active-table"
             }`}
+            data-aos="zoom-in"
+            data-aos-duration="600"
+            data-aos-delay="500"
           >
             Verified Users
           </h3>
@@ -76,14 +89,20 @@ export default function UserManage() {
             className={`fw-bold pointer text-grey ${
               changeTable === 2 && "active-table"
             }`}
+            data-aos="zoom-in"
+            data-aos-duration="600"
+            data-aos-delay="600"
           >
             Normal Users
-          </h3>{" "}
+          </h3>
           <h3
             onClick={() => setChangeTable(3)}
             className={`fw-bold pointer text-grey ${
               changeTable === 3 && "active-table"
             }`}
+            data-aos="zoom-in"
+            data-aos-duration="600"
+            data-aos-delay="700"
           >
             Warning
           </h3>
@@ -92,6 +111,9 @@ export default function UserManage() {
             className={`fw-bold pointer text-grey ${
               changeTable === 4 && "active-table"
             }`}
+            data-aos="zoom-in"
+            data-aos-duration="600"
+            data-aos-delay="800"
           >
             Banned
           </h3>
@@ -99,29 +121,37 @@ export default function UserManage() {
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <>
-            <Table
-              data={allUsers}
-              action="Action"
-              btn
-              Ban
-              isUsersTable={true}
-              showSpotted={false}
-              secondCol="Followers"
-              date="Joining Date"
-              report=""
-              reportedUser=""
-            />
+          <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+            <div data-aos="slide-up" data-aos-duration="800" data-aos-delay="800">
+              <Table
+                data={allUsers}
+                action="Action"
+                btn
+                Ban
+                isUsersTable={true}
+                showSpotted={false}
+                secondCol="Followers"
+                date="Joining Date"
+                report=""
+                reportedUser=""
+              />
+            </div>
             {/* Pagination Component */}
             {meta && (
-              <Pagination
-                meta={meta}
-                onPageChange={handlePageChange}
-                loading={loading}
-                className="mt-4"
-              />
+              <div 
+                data-aos="fade-up" 
+                data-aos-duration="600"
+                data-aos-delay="1000"
+              >
+                <Pagination
+                  meta={meta}
+                  onPageChange={handlePageChange}
+                  loading={loading}
+                  className="mt-4"
+                />
+              </div>
             )}
-          </>
+          </div>
         )}
       </div>
     </>
