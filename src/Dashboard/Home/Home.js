@@ -24,15 +24,26 @@ export default function Home() {
         <LoadingSpinner />
       ) : (
         <div>
-          <TopBar showSearch={false} />
-          <div className="d-flex align-items-stretch  flex-wrap row-gap-3">
-            <Statics homeDetails={homeDetails} />
+          <div data-aos="fade-down" data-aos-duration="800">
+            <TopBar showSearch={false} />
+          </div>
+          <div 
+            className="d-flex align-items-stretch  flex-wrap row-gap-3"
+            data-aos="fade-up" 
+            data-aos-duration="1000"
+            data-aos-delay="200"
+          >
+            <div className="col-lg-5  col-12  "  data-aos="slide-right" data-aos-duration="800" data-aos-delay="400">
+              <Statics homeDetails={homeDetails} />
+            </div>
             {homeDetails?.active_users && (
-              <Months
-                mainDetails={homeDetails}
-                data={homeDetails?.active_users?.data}
-                labels={homeDetails?.active_users?.labels}
-              />
+              <div className="col-lg-7 col-12" data-aos="slide-left" data-aos-duration="800" data-aos-delay="600">
+                <Months
+                  mainDetails={homeDetails}
+                  data={homeDetails?.active_users?.data}
+                  labels={homeDetails?.active_users?.labels}
+                />
+              </div>
             )}
           </div>
           {/* <div className="col-12 mt-3">

@@ -2,7 +2,7 @@ import BarChart from "../charts/BarChart";
 
 export default function Months({ data, labels, mainDetails }) {
   return (
-    <div className="col-lg-7  col-12">
+    <div className="">
       <div className="bg-black-primary py-md-4 py-2 px-md-4 px-2  text-white h-100">
         <div className="d-flex justify-content-end flex-column bg-primary-grad p-3 rounded-20">
           <BarChart data={data} labels={labels} />
