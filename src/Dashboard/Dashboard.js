@@ -1,7 +1,12 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import SideBar from "../Components/SideBar/SideBar";
+import { useEffect } from "react";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/dashboard/home");
+  }, [navigate]);
   return (
     <div className="d-flex min-vh-100 position-relative overflow-hidden">
       <img

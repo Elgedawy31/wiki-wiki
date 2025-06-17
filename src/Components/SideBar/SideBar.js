@@ -12,7 +12,7 @@ export default function SideBar() {
   const handleLogout = () => {
     cookie.remove("token");
     dispatch(removeToken());
-    navigate("/login");
+    navigate("/");
   };
   const location = useLocation();
   console.log();

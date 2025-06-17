@@ -9,7 +9,7 @@ export default function RequireAuth() {
  (token)
   useEffect(() => {
     if (token === null) {
-      navigate("/login");
+      navigate("/");
     }
   }, [navigate]);
 

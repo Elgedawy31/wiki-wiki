@@ -22,23 +22,24 @@ import Management from "./Management/Management";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { profile } from "./store/actions/ProfileSlice";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function App() {
   const dispatch = useDispatch();
     useEffect(() => {
-    dispatch(profile())
+    dispatch(profile());
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100,
+    });
   } , [])
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Landing />} />
-        {/* <Route element={<RequireBack />}> */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/new-sec" element={<NewSection />} />
-        {/* </Route> */}
+        <Route path="/" element={<Login />} />
         <Route element={<RequireAuth />}>
-          <Route path="/add-user" element={<AddUser />} />
-          <Route path="/management" element={<Management />} />
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="/dashboard/home" element={<Home />} />
             <Route
