@@ -67,11 +67,11 @@ export default function BalanceUser() {
             </div>
           </div>
 
-          <div className="d-flex align-items-stretch justify-content-center mt-4 row-gap-3">
-            <div className="col-lg-5 col-6">
-              <div className="rounded-20 bg-third-grad p-3 me-2 h-100">
-                <h5>Profile bio</h5>
-                <p className="text-grey">{data?.user?.profile?.bio || "..."}</p>
+          <div className="row mt-4">
+            <div className="col-lg-6 col-12 mb-3">
+              <div className="rounded-20 bg-third-grad p-4 h-100">
+                <h5 className="mb-3">Profile Information</h5>
+                <p className="text-grey mb-3">{data?.user?.profile?.bio || "No bio available"}</p>
                 <div
                   style={{
                     background:
@@ -82,99 +82,119 @@ export default function BalanceUser() {
                     margin: "20px 0",
                   }}
                 ></div>
-                <p className="text-grey">
-                  Full Name:{" "}
-                  <span className="text-white fw-bold">
-                    {" "}
-                    {data?.user?.profile?.name}{" "}
-                  </span>
-                </p>
-                <p className="text-grey">
-                  Mobile:
-                  <span className="text-white fw-bold">
-                    ({data?.user?.country.code}) {data?.user?.profile?.phone}
-                  </span>
-                </p>
-                <p className="text-grey">
-                  Email:
-                  <span className="text-white fw-bold">
-                    {data?.user?.profile?.email}
-                  </span>
-                </p>
-                <p className="text-grey">
-                  Location:
-                  <span className="text-white fw-bold">
-                    {" "}
-                    {data?.user?.country?.name}{" "}
-                  </span>
-                </p>
-                <p className="text-grey">
-                  Social Media:
-                  {data?.user?.profile?.facebook && (
-                    <a href={`https://${data?.user?.profile?.facebook}`}>
-                      {" "}
-                      <img
-                        width="15px"
-                        className="mx-1"
-                        src={Facebook}
-                        alt=""
-                      />
-                    </a>
-                  )}
-                  {data?.user?.profile?.twitter && (
-                    <a href={`https://${data?.user?.profile?.twitter}`}>
-                      {" "}
-                      <img width="15px" className="mx-1" src={Twitter} alt="" />
-                    </a>
-                  )}
-                  {data?.user?.profile?.insagram && (
-                    <a href={`https://${data?.user?.profile?.insagram}`}>
-                      {" "}
-                      <img
-                        width="15px"
-                        className="mx-1"
-                        src={Instagram}
-                        alt=""
-                      />
-                    </a>
-                  )}
-                </p>
+                <div className="row">
+                  <div className="col-12 mb-2">
+                    <p className="text-grey mb-1">
+                      <strong>Full Name:</strong>{" "}
+                      <span className="text-white">
+                        {data?.user?.profile?.name || 'N/A'}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="col-12 mb-2">
+                    <p className="text-grey mb-1">
+                      <strong>Email:</strong>{" "}
+                      <span className="text-white">
+                        {data?.user?.profile?.email || 'N/A'}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="col-12 mb-2">
+                    <p className="text-grey mb-1">
+                      <strong>Mobile:</strong>{" "}
+                      <span className="text-white">
+                        {data?.user?.country?.code ? `(${data?.user?.country?.code}) ` : ''}{data?.user?.profile?.phone || 'N/A'}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="col-12 mb-2">
+                    <p className="text-grey mb-1">
+                      <strong>Location:</strong>{" "}
+                      <span className="text-white">
+                        {data?.user?.country?.name || 'N/A'}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="col-12">
+                    <p className="text-grey mb-1">
+                      <strong>Social Media:</strong>{" "}
+                      {data?.user?.profile?.facebook && (
+                        <a href={`https://${data?.user?.profile?.facebook}`} className="me-2">
+                          <img
+                            width="18px"
+                            className="mx-1"
+                            src={Facebook}
+                            alt="Facebook"
+                          />
+                        </a>
+                      )}
+                      {data?.user?.profile?.twitter && (
+                        <a href={`https://${data?.user?.profile?.twitter}`} className="me-2">
+                          <img width="18px" className="mx-1" src={Twitter} alt="Twitter" />
+                        </a>
+                      )}
+                      {data?.user?.profile?.insagram && (
+                        <a href={`https://${data?.user?.profile?.insagram}`} className="me-2">
+                          <img
+                            width="18px"
+                            className="mx-1"
+                            src={Instagram}
+                            alt="Instagram"
+                          />
+                        </a>
+                      )}
+                      {!data?.user?.profile?.facebook && !data?.user?.profile?.twitter && !data?.user?.profile?.insagram && (
+                        <span className="text-white">N/A</span>
+                      )}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="col-lg-7 col-12">
-              <div className="rounded-20 bg-third-grad p-3 h-100 ">
-                <h5 className="mb-4">Invoices</h5>
-                <Balance
-                  title="March, 01, 2020"
-                  ms="#MS-415646"
-                  balance="$180"
-                  type="PDF"
-                />
-                <Balance
-                  title="February, 10, 2021"
-                  ms="#RV-126749"
-                  balance="$250"
-                  type="PNG"
-                />
-                <Balance
-                  title="April, 05, 2020"
-                  ms="#FB-212562"
-                  balance="$560"
-                  type="PDF"
-                />
-                <Balance
-                  title="June, 25, 2019"
-                  ms="#QW-103578"
-                  balance="$120"
-                  type="PNG"
-                />
-                <Balance
-                  title="March, 01, 2019"
-                  ms="#AR-803481"
-                  balance="$300"
-                  type="PDF"
-                />
+            <div className="col-lg-6 col-12 mb-3">
+              <div className="rounded-20 bg-third-grad p-4 h-100">
+                <h5 className="mb-3">Account Statistics</h5>
+                <div className="row">
+                  <div className="col-6 mb-3">
+                    <div className="text-center p-3 rounded" style={{background: 'rgba(252, 21, 92, 0.1)'}}>
+                      <h4 className="text-white mb-1">{data?.user?.wallet?.coins || 0}</h4>
+                      <p className="text-grey mb-0 small">Total Coins</p>
+                    </div>
+                  </div>
+                  <div className="col-6 mb-3">
+                    <div className="text-center p-3 rounded" style={{background: 'rgba(0, 123, 255, 0.1)'}}>
+                      <h4 className="text-white mb-1">{data?.user?.social?.followers || 0}</h4>
+                      <p className="text-grey mb-0 small">Followers</p>
+                    </div>
+                  </div>
+                  <div className="col-6 mb-3">
+                    <div className="text-center p-3 rounded" style={{background: 'rgba(40, 167, 69, 0.1)'}}>
+                      <h4 className="text-white mb-1">{data?.user?.social?.likes || 0}</h4>
+                      <p className="text-grey mb-0 small">Total Likes</p>
+                    </div>
+                  </div>
+                  <div className="col-6 mb-3">
+                    <div className="text-center p-3 rounded" style={{background: 'rgba(255, 193, 7, 0.1)'}}>
+                      <h4 className="text-white mb-1">{data?.user?.social?.videos || 0}</h4>
+                      <p className="text-grey mb-0 small">Videos</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <p className="text-grey mb-1">
+                    <strong>Account Status:</strong>{" "}
+                    <span className={`${data?.user?.social?.verified_at ? 'text-success' : 'text-warning'}`}>
+                      {data?.user?.social?.verified_at ? 'Verified' : 'Unverified'}
+                    </span>
+                  </p>
+                  <p className="text-grey mb-1">
+                    <strong>Gender:</strong>{" "}
+                    <span className="text-white">
+                      {data?.user?.profile?.gender ? data?.user?.profile?.gender.charAt(0).toUpperCase() + data?.user?.profile?.gender.slice(1) : 'N/A'}
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -182,7 +202,7 @@ export default function BalanceUser() {
           <div className="col-12 mt-3 bg-third-grad p-3 rounded-20 px-5">
             {data?.data?.length > 0 ? 
               data?.data?.map((ele) => (
-                <div className="d-flex align-items-center justify-content-between text-decoration-none mb-4">
+                <div key={ele?.id} className="d-flex align-items-center justify-content-between text-decoration-none mb-4">
                   <div className="d-flex align-items-center gap-4">
                     <img
                       src={ele?.coins > 0 ? greenIcon : redIcon}
@@ -193,11 +213,7 @@ export default function BalanceUser() {
                         {data?.user?.profile?.name}
                       </p>
                       <p className="mb-0 text-grey">
-                        <p className="mb-0 text-grey">
-                          {dayjs(ele?.created_at).format(
-                            "MM-DD-YYYY"
-                          )}
-                        </p>
+                        {dayjs.unix(ele?.created_at).format("MM-DD-YYYY")}
                       </p>
                     </div>
                   </div>

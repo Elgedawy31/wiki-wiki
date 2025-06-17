@@ -37,11 +37,6 @@ export default function Balance() {
   if (isLoading) return <div><LoadingSpinner /></div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const getCurrentDate = () => {
-    const now = new Date();
-    return now.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
-  };
-
   return (
     <div>
       <h1 className="text-white text-center mb-5">Transactions History</h1>
@@ -54,7 +49,7 @@ export default function Balance() {
 
           {transactions?.map((item) => (
             <Link
-              to={`/dashboard/balance/${item?.id}`}
+              to={`/dashboard/balance/${item?.sender?.id}`}
               key={item.id}
               className="d-flex align-items-center justify-content-between text-decoration-none mb-4"
             >
@@ -65,7 +60,7 @@ export default function Balance() {
                 />
                 <div className="d-flex justify-content-center flex-column">
                   <p className="mb-0 text-white fs-4">{item?.user?.name}</p>
-                  <p className="mb-0 text-grey">{dayjs(item?.created_at).format('MMMM D, YYYY at h:mm A')}</p>
+                  <p className="mb-0 text-grey">{dayjs(item?.created_at * 1000).format('MMMM D, YYYY at h:mm A')}</p>
                 </div>
               </div>
               <div>

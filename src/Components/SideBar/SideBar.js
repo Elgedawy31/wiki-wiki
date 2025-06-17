@@ -33,9 +33,9 @@ export default function SideBar() {
         className="mt-5 d-flex align-items-cneter justify-content-center flex-column "
         style={{ textAlign: "center" }}
       >
-        <Link to={"/add-user"} className="text-white text-decoration-none">
+        {/* <Link to={"/add-user"} className="text-white text-decoration-none">
           ADD USER
-        </Link>
+        </Link> */}
         <Button
           className="bg-transparent border-0 text-red"
           onClick={handleLogout}
