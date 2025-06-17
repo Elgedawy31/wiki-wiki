@@ -171,7 +171,7 @@ export default function Table(props) {
                   </h6>
                 </div>
                 <h6 className="text-center" style={{ flex: "1", minWidth: "120px" }}>
-                  {dayjs(ele?.created_at).format("DD/MM/YYYY")}
+                  {dayjs(ele?.created_at * 1000).format("DD/MM/YYYY")}
                 </h6>
                 <div className="d-flex align-items-center justify-content-center gap-3" style={{ flex: "1", minWidth: "100px" }}>
                   {props.isContentManagement ? (

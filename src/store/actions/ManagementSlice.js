@@ -101,9 +101,45 @@ export const getContent = createAsyncThunk(
     }
   }
 );
+export const sendContentWarning = createAsyncThunk(
+  "management/sendWarning",
+  async ({ content_id , text }, { rejectWithValue, getState }) => {
+    const { auth } = getState();
+    try {
+      const response = await axios.post(`${baseURL}/Admin-Contents` , {
+        content_id,
+        text,
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth?.token}`,
+        },
+        
+      });
+
+      const data = response.data;
+      if (data.error) {
+        return rejectWithValue(data);
+      }
+
+      return data;
+    } catch (error) {
+      if (error?.response.data?.error) {
+        return rejectWithValue({
+          message: error?.response?.data?.error,
+        });
+      } else if (error?.response?.data?.message) {
+        return rejectWithValue({
+          message: error?.response?.data?.message,
+        });
+      }
+    }
+  }
+);
 const initialState = {
   loading: false,
   error: null,
+  warningSent: false,
   postDetails: {},
   contentDetails: {},
   deleted: false,
@@ -118,6 +154,7 @@ const managementSlice = createSlice({
       state.error = null;
       state.postDetails = {};
       state.deleted = false;
+      state.warningSent = false;
     },
   },
   extraReducers: (builder) => {
@@ -158,6 +195,19 @@ const managementSlice = createSlice({
         state.error = null;
       })
       .addCase(getContent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.payload?.message;
+      })
+      .addCase(sendContentWarning.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(sendContentWarning.fulfilled, (state, action) => {
+        state.loading = false;
+        state.warningSent = true;
+        state.error = null;
+      })
+      .addCase(sendContentWarning.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.payload?.message;
       });
