@@ -102,7 +102,7 @@ const feedbacksSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteFeedBack.fulfilled, (state, action) => {
-        const NewData = state.feedbacks.filter(
+        const NewData = state?.feedbacks?.filter(
           (ele) => ele?.id !== action.payload?.id
         );
         state.loading = false;
