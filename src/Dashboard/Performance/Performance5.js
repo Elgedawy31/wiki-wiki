@@ -34,7 +34,7 @@ export default function Performance5() {
       dispatch(addSticker(formData));
     }
   };
-
+console.log('error', error)
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFileError("");

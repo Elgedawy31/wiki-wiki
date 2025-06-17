@@ -170,12 +170,18 @@ export const addSticker = createAsyncThunk(
       });
 
       const data = response.data;
+  
       if (data.error) {
         return rejectWithValue(data);
+      }else if (data.status ===409){
+        return rejectWithValue({
+          message: data?.message || "Sticker already exists",
+        });
       }
 
       return data;
     } catch (error) {
+      
       if (error?.response.data?.error) {
         return rejectWithValue({
           message: error?.response?.data?.error,
@@ -183,6 +189,10 @@ export const addSticker = createAsyncThunk(
       } else if (error?.response?.data?.message) {
         return rejectWithValue({
           message: error?.response?.data?.message,
+        });
+      }else if (error.response.data?.errors['img.0'][0]){
+        return rejectWithValue({
+          message: error?.response?.data?.errors['img.0'][0],
         });
       }
     }
