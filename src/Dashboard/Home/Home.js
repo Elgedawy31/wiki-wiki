@@ -26,7 +26,7 @@ export default function Home() {
         <div>
           <TopBar showSearch={false} />
           <div className="d-flex align-items-stretch  flex-wrap row-gap-3">
-            <Statics />
+            <Statics homeDetails={homeDetails} />
             {homeDetails?.active_users && (
               <Months
                 mainDetails={homeDetails}

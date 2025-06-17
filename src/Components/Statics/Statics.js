@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 
-export default function Statics() {
+export default function Statics({homeDetails}) {
   return (
     <div className="col-lg-5  col-12 position-relative z-1 " >
       <div className="bg-black-primary me-lg-3 me-md-2 py-md-4 py-2 px-md-4 px-2  text-white" style={{minHeight:'100%'}}>

@@ -2,20 +2,14 @@ import React from "react";
 import userImg from "../../../Assets/Performance/user.png";
 import userImg2 from "../../../Assets/Performance/user2.png";
 import CircularChart from "../../../Components/charts/CircualChart";
-function LiveDetails({ liveData }) {
 
+function LiveDetails({ liveData }) {
   console.log(liveData)
   
   // Get top streamers data
-  const topStreamers = liveData?.top_streamers_by_duration2 || [{
-            "id": 206,
-            "name": "WikiWiki",
-            "img": null,
-            "coins_sent": 0,
-            "gifts_sent": 10
-        },
-     
-      ];
+  const topStreamers = liveData?.top_streamers_by_duration|| [
+  
+  ];
   const topGifters = liveData?.top_gifters_by_coins || [];
   
   // Helper function to format duration (hours from backend)
@@ -27,21 +21,118 @@ function LiveDetails({ liveData }) {
   };
 
   // Helper function to get user avatar or first letter
-  const getUserAvatar = (user, defaultImg) => {
+  const getUserAvatar = (user, className = "user-avatar") => {
     if (user?.img) {
-      return <img className="first-img" src={user.img} alt={user.name} />;
+      return <img className={className} src={user.img} alt={user.name} style={{width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover'}} />;
     }
     if (user?.name) {
       return (
         <div 
-          className="first-img d-flex null-img "
-          
+          className={`${className} null-img `}
         >
           {user.name.charAt(0).toUpperCase()}
         </div>
       );
     }
-    return <img className="first-img" src={defaultImg} alt="" />;
+    return null;
+  };
+
+  // Helper function to render user layout based on number of users
+  const renderUserLayout = (users, type) => {
+    if (users.length === 0) return null;
+
+    if (users.length === 1) {
+      // Single user - center layout
+      return (
+        <div className="d-flex flex-column align-items-center justify-content-center text-white">
+          <div className="mb-3">
+            {getUserAvatar(users[0])}
+          </div>
+          <div className="text-center">
+            <h6 className="mb-1">{users[0].name}</h6>
+            <span>{type === 'streaming' ? formatDuration(users[0].live_duration_hours) : `${users[0].coins_sent} Coins`}</span>
+          </div>
+        </div>
+      );
+    }
+
+    if (users.length === 2) {
+      // Two users - side by side
+      return (
+        <div className="d-flex align-items-center justify-content-around text-white">
+          <div className="d-flex flex-column align-items-center">
+            <div className="mb-2">
+              {getUserAvatar(users[0])}
+            </div>
+            <div className="text-center">
+              <h6 className="mb-1">{users[0].name}</h6>
+              <span>{type === 'streaming' ? formatDuration(users[0].live_duration_hours) : `${users[0].coins_sent} Coins`}</span>
+            </div>
+          </div>
+          <div className="d-flex flex-column align-items-center">
+            <div className="mb-2">
+              {getUserAvatar(users[1])}
+            </div>
+            <div className="text-center">
+              <h6 className="mb-1">{users[1].name}</h6>
+              <span>{type === 'streaming' ? formatDuration(users[1].live_duration_hours) : `${users[1].coins_sent} Coins`}</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Three or more users - original layout with winner in center
+    return (
+      <>
+        <div className="users d-flex align-items-center justify-content-center gap-3">
+          {users[1] && (
+            <div className="user-details text-white text-center">
+              <div className="mb-2 d-flex justify-content-center">
+                {getUserAvatar(users[1])}
+              </div>
+              <h6 className="mb-1">{users[1].name}</h6>
+              <span>{type === 'streaming' ? formatDuration(users[1].live_duration_hours) : `${users[1].coins_sent} Coins`}</span>
+            </div>
+          )}
+          
+          <div className="user-details text-white text-center" style={{ flex: 1 }}>
+            <div className="mb-2 d-flex justify-content-center">
+              {getUserAvatar(users[0], "first-img")}
+            </div>
+            <h6 className="mb-1">{users[0].name}</h6>
+            <span>{type === 'streaming' ? formatDuration(users[0].live_duration_hours) : `${users[0].coins_sent} Coins`}</span>
+          </div>
+          
+          {users[2] && (
+            <div className="user-details text-white text-center">
+              <div className="mb-2 d-flex justify-content-center">
+                {getUserAvatar(users[2])}
+              </div>
+              <h6 className="mb-1">{users[2].name}</h6>
+              <span>{type === 'streaming' ? formatDuration(users[2].live_duration_hours) : `${users[2].coins_sent} Coins`}</span>
+            </div>
+          )}
+        </div>
+        
+        {/* Show additional users if more than 3 */}
+        {users.length > 3 && (
+          <div className="mt-3 d-flex flex-wrap justify-content-center gap-3">
+            {users.slice(3, 6).map((user, index) => (
+              <div key={user.id} className="d-flex align-items-center text-white">
+                <div className="me-2">
+                  {getUserAvatar(user)}
+                </div>
+                <div>
+                  <h6 className="mb-0 small">{user.name}</h6>
+                  <small>{type === 'streaming' ? formatDuration(user.live_duration_hours) : `${user.coins_sent} Coins`}</small>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </>
+    );
   };
 
   // Calculate chart percentages
@@ -58,33 +149,9 @@ function LiveDetails({ liveData }) {
           <h5 className="text-white">Top Users</h5>
           <span className="text-white mb-4">streaming</span>
           {topStreamers.length > 0 ? (
-            <>
-              <div className="users d-flex align-items-center justify-content-center gap-3">
-                {topStreamers[1] && (
-                  <div className="user-details text-white">
-                    <h6>{topStreamers[1].name}</h6>
-                    <span>{formatDuration(topStreamers[1].live_duration_hours)}</span>
-                  </div>
-                )}
-                <div className="users-images" style={{ flex: 1 }}>
-                  {topStreamers[0] && getUserAvatar(topStreamers[0], userImg)}
-                  {topStreamers[1] && getUserAvatar(topStreamers[1], userImg2)}
-                  {topStreamers[2] && getUserAvatar(topStreamers[2], userImg)}
-                </div>
-                {topStreamers[2] && (
-                  <div className="user-details text-white">
-                    <h6>{topStreamers[2].name}</h6>
-                    <span>{formatDuration(topStreamers[2].live_duration_hours)}</span>
-                  </div>
-                )}
-              </div>
-              {topStreamers[0] && (
-                <div className="user-details text-white mt-3">
-                  <h6>{topStreamers[0].name}</h6>
-                  <span>{formatDuration(topStreamers[0].live_duration_hours)}</span>
-                </div>
-              )}
-            </>
+            <div className="py-3">
+              {renderUserLayout(topStreamers, 'streaming')}
+            </div>
           ) : (
             <div className="text-white text-center py-4">
               <h6>No Streaming Data</h6>
@@ -97,33 +164,9 @@ function LiveDetails({ liveData }) {
           <h5 className="text-white">Top Users</h5>
           <span className="text-white mb-4">Coins</span>
           {topGifters.length > 0 ? (
-            <>
-              <div className="users d-flex align-items-center justify-content-center gap-3">
-                {topGifters[1] && (
-                  <div className="user-details text-white">
-                    <h6>{topGifters[1].name}</h6>
-                    <span>{topGifters[1].coins_sent} Coins</span>
-                  </div>
-                )}
-                <div className="users-images" style={{ flex: 1 }}>
-                  {topGifters[0] && getUserAvatar(topGifters[0], userImg)}
-                  {topGifters[1] && getUserAvatar(topGifters[1], userImg2)}
-                  {topGifters[2] && getUserAvatar(topGifters[2], userImg)}
-                </div>
-                {topGifters[2] && (
-                  <div className="user-details text-white">
-                    <h6>{topGifters[2].name}</h6>
-                    <span>{topGifters[2].coins_sent} Coins</span>
-                  </div>
-                )}
-              </div>
-              {topGifters[0] && (
-                <div className="user-details text-white mt-3">
-                  <h6>{topGifters[0].name}</h6>
-                  <span>{topGifters[0].coins_sent} Coins</span>
-                </div>
-              )}
-            </>
+            <div className="py-3">
+              {renderUserLayout(topGifters, 'coins')}
+            </div>
           ) : (
             <div className="text-white text-center py-4">
               <h6>No Coins Data</h6>
