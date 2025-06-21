@@ -283,14 +283,10 @@ function CollapseItem({ category }) {
                       ></img>
                     ) : (
                       <div
-                        style={{
-                          width: "56px",
-                          height: "56px",
-                          borderRadius: "50%",
-                          backgroundColor: "#d9d9d9",
-                        }}
-                        src={`${ImgsUrl}/${ele?.user.img}`}
-                      ></div>
+className="null-img"                       
+                      >
+                        {ele.user?.name?.charAt(0).toUpperCase()}
+                      </div>
                     )}
                     <h4 className="text-white m-0">
                       {ele?.user?.name || "Unknown"}
@@ -332,13 +328,10 @@ function CollapseItem({ category }) {
                 />
               ) : (
                 <div
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "50%",
-                    backgroundColor: "#d9d9d9",
-                  }}
-                ></div>
+                 className="null-img"
+                >
+                  {activeTarget?.user?.name?.charAt(0).toUpperCase()}
+                </div>
               )}
               <h6 className="text-white">
                 {activeTarget?.user?.name || "Unknown"}{" "}
@@ -437,13 +430,10 @@ function CollapseItem({ category }) {
               />
             ) : (
               <div
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  backgroundColor: "#d9d9d9",
-                }}
-              ></div>
+               className='null-img'
+              >
+                {activeTarget?.user?.name?.charAt(0).toUpperCase()}
+              </div>
             )}
             <h6 className="text-white">{activeTarget?.user?.name} </h6>
           </div>
