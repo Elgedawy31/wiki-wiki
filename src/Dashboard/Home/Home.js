@@ -36,12 +36,12 @@ export default function Home() {
             <div className="col-lg-5  col-12  "  data-aos="slide-right" data-aos-duration="800" data-aos-delay="400">
               <Statics homeDetails={homeDetails} />
             </div>
-            {homeDetails?.active_users && (
+            {homeDetails?.active_users_trend && (
               <div className="col-lg-7 col-12" data-aos="slide-left" data-aos-duration="800" data-aos-delay="600">
                 <Months
                   mainDetails={homeDetails}
-                  data={homeDetails?.active_users?.data}
-                  labels={homeDetails?.active_users?.labels}
+                  data={homeDetails?.active_users_trend?.data}
+                  labels={homeDetails?.active_users_trend?.labels}
                 />
               </div>
             )}

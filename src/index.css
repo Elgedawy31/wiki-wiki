@@ -228,5 +228,5 @@ input:focus {
 
 
 input::placeholder , textarea::placeholder {
-  color:#eee !important;
+  color:#777 !important;
 }

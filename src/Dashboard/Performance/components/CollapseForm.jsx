@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import UserAutocomplete from "../../../Components/UserAutocomplete";
 import userImg from "../../../Assets/Performance/user.png";
+import { ImgsUrl } from "../../../Api/Api";
 const CollapseForm = ({formData , setFormData}) => {
   // State for form fields
 
@@ -15,6 +17,33 @@ const CollapseForm = ({formData , setFormData}) => {
   const handleChange = (event) => {
     const { id, value } = event.target;
     setFormData({ ...formData, [id]: value });
+  };
+
+  // Handle user selection from autocomplete
+  const handleUserSelect = (selectedUser) => {
+    setFormData({ 
+      ...formData, 
+      selectedUser: selectedUser,
+      userName: selectedUser ? selectedUser.name : ''
+    });
+  };
+
+  // Get user avatar URL
+  const getUserAvatar = () => {
+    if (formData.selectedUser?.img) {
+      return formData.selectedUser.img.startsWith('http') 
+        ? formData.selectedUser.img 
+        : `${ImgsUrl}/${formData.selectedUser.img}`;
+    }
+    return userImg;
+  };
+
+  // Get user initials for placeholder
+  const getUserInitials = () => {
+    if (formData.selectedUser?.name) {
+      return formData.selectedUser.name.charAt(0).toUpperCase();
+    }
+    return 'U';
   };
 
   return (
@@ -34,21 +63,45 @@ const CollapseForm = ({formData , setFormData}) => {
           <Col>
             <Row className="d-flex align-items-center justify-content-center">
               <Col md={2}>
-                <img
-                  style={{ width: "60px", height: "60px" }}
-                  src={userImg}
-                  alt=""
-                ></img>
+                <div style={{ position: "relative", width: "60px", height: "60px" }}>
+                  {formData.selectedUser?.img ? (
+                    <img
+                      style={{ 
+                        width: "60px", 
+                        height: "60px", 
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                        border: "2px solid #fc155c"
+                      }}
+                      src={getUserAvatar()}
+                      alt={formData.selectedUser?.name || "User"}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                  ) : null}
+                  <div 
+                    className="null-img"
+                    style={{ 
+                      display: formData.selectedUser?.img ? 'none' : 'flex',
+                      width: "60px", 
+                      height: "60px",
+                      fontSize: "24px"
+                    }}
+                  >
+                    {getUserInitials()}
+                  </div>
+                </div>
               </Col>
               <Col>
-                <Form.Group className="mb-3" controlId="userName">
-                  <Form.Label className="text-white">userID</Form.Label>
-                  <Form.Control
-                    style={{ background: "#D9D9D9", height: "67px" }}
-                    type="text"
-                    placeholder="userID"
-                    value={formData.userName}
-                    onChange={handleChange}
+                <Form.Group className="mb-3">
+                  <Form.Label className="text-white">Select User</Form.Label>
+                  <UserAutocomplete
+                    value={formData.selectedUser}
+                    onChange={handleUserSelect}
+                    placeholder="Search and select a user..."
+                    className="custom-user-autocomplete"
                   />
                 </Form.Group>
               </Col>
