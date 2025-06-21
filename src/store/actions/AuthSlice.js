@@ -26,6 +26,12 @@ export const loginAction = createAsyncThunk(
       const data = response.data;
       if (data.error) {
         return rejectWithValue(data);
+      }else if (!data.is_admin) {
+      
+        return rejectWithValue({
+          message: "You are not authorized to access this page",
+        });
+
       }
 
       return data;
