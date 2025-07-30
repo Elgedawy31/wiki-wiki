@@ -38,7 +38,6 @@ export default function Ads() {
   return (
     <>
       <div data-aos="fade-down" data-aos-duration="800">
-        <TopBar setValue={setValue} value={value} setSearch={setSearch} />
       </div>
       <div>
         <div 

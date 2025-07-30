@@ -32,9 +32,6 @@ export default function BalanceUser() {
 
   return (
     <>
-      <div data-aos="fade-down" data-aos-duration="800">
-        <TopBar />
-      </div>
       {isLoading ? (
         <LoadingSpinner />
       ) : (

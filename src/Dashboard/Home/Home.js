@@ -24,9 +24,6 @@ export default function Home() {
         <LoadingSpinner />
       ) : (
         <div>
-          <div data-aos="fade-down" data-aos-duration="800">
-            <TopBar showSearch={false} />
-          </div>
           <div 
             className="d-flex align-items-stretch  flex-wrap row-gap-3"
             data-aos="fade-up" 

@@ -107,10 +107,6 @@ export default function UserPage() {
             />
           )}
 
-          <div data-aos="fade-down" data-aos-duration="800">
-            <TopBar />
-          </div>
-          
           <div className="user-page-container">
             {/* Header Section */}
             <div 
