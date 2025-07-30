@@ -1,20 +1,24 @@
 import { Button, Modal, Form } from "react-bootstrap";
 import "./System.css";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingSpinner from "../../Components/Loading/LoadingSpinner";
 import UniToast from "../../Components/UniToast/UniToast";
-import { getContent, reset, sendContentWarning } from "../../store/actions/ManagementSlice";
+import { getContent, reset, sendContentWarning, deleteContent } from "../../store/actions/ManagementSlice";
 export default function SystemReported() {
   const [showUser, setShowUser] = useState(0);
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [warningText, setWarningText] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteReason, setDeleteReason] = useState("");
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
+  const [showDeleteSuccessToast, setShowDeleteSuccessToast] = useState(false);
   
   const {id} = useParams()
-  const { contentDetails, error, loading, warningSent } = useSelector(
+  const navigate = useNavigate()
+  const { contentDetails, error, loading, warningSent, deleted } = useSelector(
     (state) => state.management
   );
   const dispatch = useDispatch()
@@ -38,6 +42,19 @@ export default function SystemReported() {
     }
   }, [error, showWarningModal]);
 
+  useEffect(() => {
+    if (deleted) {
+      setShowDeleteSuccessToast(true);
+      setShowDeleteModal(false);
+      setDeleteReason("");
+      dispatch(reset());
+      // Navigate back after a short delay to show success message
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
+  }, [deleted, dispatch, navigate]);
+
   const handleWarningSubmit = (e) => {
     e.preventDefault();
     if (warningText.trim()) {
@@ -51,6 +68,21 @@ export default function SystemReported() {
   const handleCloseModal = () => {
     setShowWarningModal(false);
     setWarningText("");
+  };
+
+  const handleDeleteSubmit = (e) => {
+    e.preventDefault();
+    if (deleteReason.trim()) {
+      dispatch(deleteContent({
+        id: contentDetails?.data?.id,
+        reason: deleteReason.trim()
+      }));
+    }
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setDeleteReason("");
   };
 
 
@@ -246,13 +278,18 @@ export default function SystemReported() {
               data-aos-duration="600"
               data-aos-delay="1000"
             >
-              <Button className="bg-delete text-white rounded py-3 col-3 border-0">
+              <Button 
+                className="bg-delete text-white rounded py-3 col-3 border-0"
+                onClick={() => setShowDeleteModal(true)}
+              >
+                <i className="fas fa-trash-alt me-2"></i>
                 Delete
               </Button>
               <Button 
                 className="bg-warning text-white rounded py-3 col-3 border-0"
                 onClick={() => setShowWarningModal(true)}
               >
+                <i className="fas fa-exclamation-triangle me-2"></i>
                 Warning
               </Button>
             </div>
@@ -410,6 +447,90 @@ export default function SystemReported() {
           title="Warning Failed"
           message={error}
           reset={() => setShowErrorToast(false)}
+        />
+      )}
+
+      {/* Delete Modal */}
+      <Modal 
+        show={showDeleteModal} 
+        onHide={handleCloseDeleteModal}
+        centered
+        backdrop="static"
+      >
+        <Modal.Header  style={{ backgroundColor: '#1a1a1a'}}>
+          <Modal.Title style={{ color: '#f8f9fa', fontWeight: 'bold' }}>
+            <i className="fas fa-exclamation-triangle text-danger me-2"></i>
+            Delete Content - Warning
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ backgroundColor: '#1a1a1a', color: '#f8f9fa' }}>
+          <Form onSubmit={handleDeleteSubmit}>
+            <Form.Group className="mb-4">
+              <Form.Label style={{ fontWeight: '600', color: '#ecf0f1', fontSize: '1.1rem' }}>
+                <i className="fas fa-edit me-2"></i>
+                Deletion Reason *
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                value={deleteReason}
+                onChange={(e) => setDeleteReason(e.target.value)}
+                placeholder="Please provide a detailed reason for deleting this content (e.g., violates community guidelines, inappropriate content, spam, etc.)"
+                required
+                style={{
+                  backgroundColor: '#2d2d2d',
+                  color: '#ecf0f1',
+                  border: '2px solid #495057',
+                  resize: 'vertical',
+                  fontSize: '0.95rem'
+                }}
+                className="form-control"
+              />
+            </Form.Group>
+
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <Button 
+                  variant="secondary" 
+                  onClick={handleCloseDeleteModal}
+                  className="me-3"
+                  style={{ minWidth: '100px', fontWeight: '600' }}
+                >
+                  <i className="fas fa-times me-2"></i>
+                  Cancel
+                </Button>
+                <Button 
+                  type="submit"
+                  variant="danger"
+                  disabled={!deleteReason.trim() || loading}
+                  style={{ minWidth: '120px', fontWeight: '600' }}
+                >
+                  {loading ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      Deleting...
+                    </>
+                  ) : (
+                    <>
+                      <i className="fas fa-trash-alt me-2"></i>
+                      Delete Content
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* Delete Success Toast */}
+      {showDeleteSuccessToast && (
+        <UniToast
+          open={showDeleteSuccessToast}
+          setOpen={setShowDeleteSuccessToast}
+          title="Content Deleted Successfully"
+          message="The content has been permanently deleted from the system. Redirecting back..."
+          reset={() => setShowDeleteSuccessToast(false)}
         />
       )}
     </div>

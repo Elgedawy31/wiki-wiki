@@ -3,12 +3,7 @@ import TopBar from "../../Components/TopBar/TopBar";
 import Facebook from "../../Assets/UserPage/Facebook.svg";
 import Instagram from "../../Assets/UserPage/Instagram.svg";
 import Twitter from "../../Assets/UserPage/Twitter.svg";
-import PinkStatic from "../../Assets/UserPage/PinkStatic.svg";
-import PurpleStatic from "../../Assets/UserPage/Purple.svg";
 import Tick from "../../Assets/UserPage/Tick.svg";
-import editIcon from "../../Assets/UserPage/edit.svg";
-import visaIcon from "../../Assets/UserPage/Visa.svg";
-import masterCardIcon from "../../Assets/UserPage/MasterCard.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {

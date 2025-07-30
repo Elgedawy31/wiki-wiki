@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 import "./Table.css";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import userAvatar from "../../Assets/UserPage/avatar.png";
 import { ImgsUrl } from "../../Api/Api";
